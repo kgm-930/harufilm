@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.example.todayfilm.data.SignupData
+import com.example.todayfilm.data.User
 import com.example.todayfilm.databinding.ActivitySignupBinding
 import com.example.todayfilm.retrofit.NetWorkClient.GetNetwork
 import retrofit2.Call
@@ -22,23 +23,22 @@ class SignupActivity : AppCompatActivity() {
             val pw = binding.SignpPw.text.toString()
             val pw2 = binding.SignpPw2.text.toString()
             if (pw==pw2) {
-                val call = GetNetwork.signUp(id, pw)
+                var user = User()
+                user.id = id
+                user.pw = pw
+                val call = GetNetwork.signUp(user)
                 call.enqueue(object : Callback<SignupData> {
                     override fun onResponse(call: Call<SignupData>, response: Response<SignupData>) {
                         val result:SignupData? = response.body()
                         println(result)
                         Log.d("결과","성공" + result?.id + result?.pw )
-
                     }
 
                     override fun onFailure(call: Call<SignupData>, t: Throwable) {
-                        Log.d("", "실패")
+                        Log.d("", "실패"+t.message.toString())
                     }
-
                 })
             }
-
         }
-
     }
 }
