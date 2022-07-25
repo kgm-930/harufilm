@@ -3,7 +3,6 @@ package com.example.todayfilm
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import com.example.todayfilm.data.SignupData
 import com.example.todayfilm.data.User
 import com.example.todayfilm.databinding.ActivitySignupBinding
