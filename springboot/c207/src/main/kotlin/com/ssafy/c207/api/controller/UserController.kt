@@ -25,12 +25,16 @@ class UserController(
 
         return true
     }
-
     @PostMapping()
-    fun setMember(@RequestBody user: User): ResponseEntity<*>? {
-        val user = userRepository.save(user)
+    fun setMember(@RequestBody data: User): Any {
+        val check = userRepository.findById(data.id)
 
-        return ResponseEntity.ok(user)
+        if (check.isEmpty){
+            val user = userRepository.save(data)
+
+            return true
+        }
+
+        return false
     }
 }
-
