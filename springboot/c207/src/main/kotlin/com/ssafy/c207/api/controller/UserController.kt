@@ -30,7 +30,7 @@ class UserController(
         val check = userRepository.findById(data.id)
 
         if (check.isEmpty){
-            val user = userRepository.save(data)
+            userRepository.save(data)
 
             return true
         }
