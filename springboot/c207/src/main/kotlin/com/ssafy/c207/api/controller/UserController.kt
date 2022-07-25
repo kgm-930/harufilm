@@ -32,7 +32,7 @@ class UserController(
         if (check.isEmpty){
             userRepository.save(data)
 
-            return true
+            return ResponseEntity.ok()
         }
 
         return false
