@@ -1,5 +1,6 @@
 package com.ssafy.c207.api.controller
 
+import com.ssafy.c207.api.dto.Response
 import com.ssafy.c207.api.dto.User
 import com.ssafy.c207.api.repository.UserRepository
 import org.springframework.http.ResponseEntity
@@ -25,16 +26,19 @@ class UserController(
 
         return true
     }
+
     @PostMapping()
     fun setMember(@RequestBody data: User): Any {
+        val response = Response()
+
         val check = userRepository.findById(data.id)
 
-        if (check.isEmpty){
+        if (check.isEmpty) {
             userRepository.save(data)
-
-            return ResponseEntity.ok()
+            response.result = true
+            response.message = "성공"
         }
 
-        return false
+        return response
     }
 }
