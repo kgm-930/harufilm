@@ -8,26 +8,31 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping()
 class UserController(
     val userRepository: UserRepository
 ) {
-    @GetMapping()
+    @PostMapping("/login")
     fun getMembers(@RequestBody data: User): Any {
+        val response = Response()
+
         val user = userRepository.findById(data.id)
 
         if (user.isEmpty) {
-            return false
+            return response
         } else {
             if (user.get().pw != data.pw) {
-                return false
+                return response
             }
         }
 
-        return true
+        response.result = true
+        response.message = "성공"
+
+        return response
     }
 
-    @PostMapping()
+    @PostMapping("/signup")
     fun setMember(@RequestBody data: User): Any {
         val response = Response()
 
