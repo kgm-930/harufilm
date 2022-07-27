@@ -8,7 +8,7 @@ import retrofit2.http.*
 
 interface NetWorkInterface {
 
-    @POST("user")
+    @POST("signup")
     fun signUp(
         @Body user: User
 //        @Field("id") id:String,
