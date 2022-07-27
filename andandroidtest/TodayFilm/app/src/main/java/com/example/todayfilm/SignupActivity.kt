@@ -46,6 +46,11 @@ class SignupActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                             }, 2000)
+                        }else{
+                            var dialog = AlertDialog.Builder(this@SignupActivity)
+                            dialog.setTitle("회원가입 실패")
+                            dialog.setMessage("회원가입에 실패하셨습니다. 다시 시도해 주세요")
+                            dialog.show()
                         }
                     }
 

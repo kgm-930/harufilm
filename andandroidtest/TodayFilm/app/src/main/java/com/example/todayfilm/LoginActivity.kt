@@ -1,7 +1,10 @@
 package com.example.todayfilm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.example.todayfilm.data.LoginData
 import com.example.todayfilm.data.SignupData
@@ -24,11 +27,21 @@ class LoginActivity : AppCompatActivity() {
             var user = User()
             user.id = LoginId
             user.pw = LoginPw
+
             val call = GetNetwork.login(user)
             call.enqueue(object : Callback<LoginData> {
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
                     val result: LoginData? = response.body()
                     Log.d("결과","성공" + result?.result)
+
+                    if (result?.message == "성공"){
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            finish()
+                        }, 500)
+                    }
                 }
 
                 override fun onFailure(call: Call<LoginData>, t: Throwable) {
