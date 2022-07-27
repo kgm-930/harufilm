@@ -49,7 +49,7 @@ class SignupActivity : AppCompatActivity() {
                         }else{
                             var dialog = AlertDialog.Builder(this@SignupActivity)
                             dialog.setTitle("회원가입 실패")
-                            dialog.setMessage("회원가입에 실패하셨습니다. 다시 시도해 주세요")
+                            dialog.setMessage("아이디가 중복 되었습니다. 새로운 아이디로 다시 가입해주세요")
                             dialog.show()
                         }
                     }
@@ -58,6 +58,11 @@ class SignupActivity : AppCompatActivity() {
                         Log.d("", "실패"+t.message.toString())
                     }
                 })
+            }else{
+                var dialog = AlertDialog.Builder(this@SignupActivity)
+                dialog.setTitle("회원가입 실패")
+                dialog.setMessage("비밀번호가 일치 하지 않습니다. 비밀번호를 확인해 주세요")
+                dialog.show()
             }
         }
     }
