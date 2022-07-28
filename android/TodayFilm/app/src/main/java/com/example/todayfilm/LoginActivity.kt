@@ -39,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
             call.enqueue(object : Callback<LoginData> {
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
                     val result: LoginData? = response.body()
-                    Log.d("결과","성공" + result?.result)
 
                     if (result?.message == "성공"){
                         Handler(Looper.getMainLooper()).postDelayed({
@@ -49,10 +48,7 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         }, 500)
                     }else{
-                        var dialog = AlertDialog.Builder(this@LoginActivity)
-                        dialog.setTitle("로그인 실패")
-                        dialog.setMessage("입력하신 정보가 잘못되었습니다. 다시 입력해 주세요")
-                        dialog.show()
+                        binding.loginIdErr.setText("ID가 존재하지 않거나 PW가 틀렸습니다.")
                     }
 
                 }

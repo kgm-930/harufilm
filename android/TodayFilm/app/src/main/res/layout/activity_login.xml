@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="7dp"
         android:paddingVertical="4dp"
-        android:text="@string/err_id_not_exists"
+        android:text=""
         android:textColor="@color/red"
         android:textSize="12sp"
         tools:ignore="RtlSymmetry" />
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="7dp"
         android:paddingVertical="4dp"
-        android:text="@string/err_pw_not_match"
+        android:text=""
         android:textColor="@color/red"
         android:textSize="12sp"
         tools:ignore="RtlSymmetry" />

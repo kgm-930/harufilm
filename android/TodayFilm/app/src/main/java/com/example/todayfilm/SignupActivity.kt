@@ -33,7 +33,11 @@ class SignupActivity : AppCompatActivity() {
             val id = binding.signupId.text.toString()
             val pw = binding.signupPw.text.toString()
             val pw2 = binding.signupPwCheck.text.toString()
-            if (pw==pw2) {
+
+            if((id.length==0)||(pw.length==0)||(pw2.length==0)){
+                binding.signupIdErr.setText("기입하지 않은 란이 있습니다.")
+            }
+            else if (pw==pw2) {
                 var user = User()
                 user.id = id
                 user.pw = pw
