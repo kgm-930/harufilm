@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="7dp"
         android:paddingVertical="4dp"
-        android:text="@string/err_id_already_exists"
+        android:text=""
         android:textColor="@color/red"
         android:textSize="12sp"
         tools:ignore="RtlSymmetry" />
@@ -62,7 +62,7 @@
         android:paddingStart="7dp"
         android:paddingVertical="4dp"
         android:text="@string/err_input_against_rule"
-        android:textColor="@color/red"
+        android:textColor="@color/black"
         android:textSize="12sp"
         tools:ignore="RtlSymmetry" />
 
@@ -82,12 +82,12 @@
         android:layout_height="wrap_content"
         android:paddingStart="7dp"
         android:paddingVertical="4dp"
-        android:text="@string/err_pw_not_match"
+        android:text=""
         android:textColor="@color/red"
         android:textSize="12sp"
         tools:ignore="RtlSymmetry" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup_btn"
         android:layout_width="150dp"
         android:layout_height="40dp"

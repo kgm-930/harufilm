@@ -34,7 +34,6 @@ class SignupActivity : AppCompatActivity() {
                 call.enqueue(object : Callback<SignupData> {
                     override fun onResponse(call: Call<SignupData>, response: Response<SignupData>) {
                         val result: SignupData? = response.body()
-                        Log.d("결과","성공" + result?.result )
                         if (result?.message == "성공") {
                             var dialog = AlertDialog.Builder(this@SignupActivity)
                             dialog.setTitle("회원가입 성공!")
@@ -48,10 +47,7 @@ class SignupActivity : AppCompatActivity() {
                                 finish()
                             }, 2000)
                         }else{
-                            var dialog = AlertDialog.Builder(this@SignupActivity)
-                            dialog.setTitle("회원가입 실패")
-                            dialog.setMessage("아이디가 중복 되었습니다. 새로운 아이디로 다시 가입해주세요")
-                            dialog.show()
+                            binding.signupIdErr.setText("이미 존재하는 아이디 입니다.")
                         }
                     }
 
@@ -60,10 +56,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                 })
             }else{
-                var dialog = AlertDialog.Builder(this@SignupActivity)
-                dialog.setTitle("회원가입 실패")
-                dialog.setMessage("비밀번호가 일치 하지 않습니다. 비밀번호를 확인해 주세요")
-                dialog.show()
+                binding.signupPwCheckErr.setText("비밀번호가 일치하지 않습니다.")
             }
         }
     }
