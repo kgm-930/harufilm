@@ -1,11 +1,70 @@
 package com.example.todayfilm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import com.example.todayfilm.data.LoginData
+import com.example.todayfilm.data.SignupData
+import com.example.todayfilm.data.User
+import com.example.todayfilm.databinding.ActivitySignupBinding
+import com.example.todayfilm.retrofit.NetWorkClient.GetNetwork
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupActivity : AppCompatActivity() {
+    val binding by lazy{ ActivitySignupBinding.inflate(layoutInflater)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        setContentView(binding.root)
+
+        binding.signupBtn.setOnClickListener {
+            val id = binding.signupId.text.toString()
+            val pw = binding.signupPw.text.toString()
+            val pw2 = binding.signupPwCheck.text.toString()
+            if (pw==pw2) {
+                var user = User()
+                user.id = id
+                user.pw = pw
+                val call = GetNetwork.signUp(user)
+                call.enqueue(object : Callback<SignupData> {
+                    override fun onResponse(call: Call<SignupData>, response: Response<SignupData>) {
+                        val result: SignupData? = response.body()
+                        Log.d("결과","성공" + result?.result )
+                        if (result?.message == "성공") {
+                            var dialog = AlertDialog.Builder(this@SignupActivity)
+                            dialog.setTitle("회원가입 성공!")
+                            dialog.setMessage("회원가입이 정상적으로 완료되었습니다.")
+                            dialog.show()
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this@SignupActivity, MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                startActivity(intent)
+                                finish()
+                            }, 2000)
+                        }else{
+                            var dialog = AlertDialog.Builder(this@SignupActivity)
+                            dialog.setTitle("회원가입 실패")
+                            dialog.setMessage("아이디가 중복 되었습니다. 새로운 아이디로 다시 가입해주세요")
+                            dialog.show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SignupData>, t: Throwable) {
+                        Log.d("", "실패"+t.message.toString())
+                    }
+                })
+            }else{
+                var dialog = AlertDialog.Builder(this@SignupActivity)
+                dialog.setTitle("회원가입 실패")
+                dialog.setMessage("비밀번호가 일치 하지 않습니다. 비밀번호를 확인해 주세요")
+                dialog.show()
+            }
+        }
     }
 }
