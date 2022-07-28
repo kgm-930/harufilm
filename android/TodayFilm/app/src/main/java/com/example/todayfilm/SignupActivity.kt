@@ -22,6 +22,13 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.signupToLogin.setOnClickListener {
+            val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+
         binding.signupBtn.setOnClickListener {
             val id = binding.signupId.text.toString()
             val pw = binding.signupPw.text.toString()
