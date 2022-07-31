@@ -12,31 +12,35 @@ import com.example.todayfilm.databinding.FragmentFilmsBinding
 import kotlinx.android.synthetic.main.fragment_films.*
 
 
-class FilmsFragment : Fragment() {
+class FilmsFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentFilmsBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-
-
-
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentFilmsBinding.inflate(inflater,container,false)
-        return inflater.inflate(R.layout.fragment_films, container, false)
+        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
+    }
 
-        go_settings.setOnClickListener{
-            val intent = Intent(requireContext(), SettingsActivity::class.java)
-            startActivity(intent)
+    private fun setOnClickListener() {
+        binding.goSettings.setOnClickListener(this)
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0?.id) {
+            R.id.go_settings -> {
+                val intent = Intent(activity, SettingsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
         }
-
     }
-
-
 }
 

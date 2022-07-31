@@ -3,16 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".FrameFragment"
     android:background="@color/brown_500"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"/>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="150"
@@ -20,21 +22,30 @@
         android:paddingVertical="2dp"
         android:gravity="center">
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image1_left"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_left"/>
+            android:src="@drawable/sprocket_holes_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image1_section"/>
         <FrameLayout
+            android:id="@+id/image1_section"
             android:layout_width="0dp"
-            android:layout_weight="280"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="H, 1:1.78"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image1_left"
+            app:layout_constraintEnd_toStartOf="@id/image1_right">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/photo_1_img"
+                android:id="@+id/image1_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_200"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_1_time"
+                android:id="@+id/image1_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
@@ -42,7 +53,7 @@
                 android:text="@string/example_time"
                 android:textColor="@color/black"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_1_place"
+                android:id="@+id/image1_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
@@ -51,12 +62,16 @@
                 android:textColor="@color/black"/>
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image1_right"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_right"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-    <androidx.appcompat.widget.LinearLayoutCompat
+            android:src="@drawable/sprocket_holes_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image1_section"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="150"
@@ -64,21 +79,30 @@
         android:paddingVertical="2dp"
         android:gravity="center">
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image2_left"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_left"/>
+            android:src="@drawable/sprocket_holes_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image2_section"/>
         <FrameLayout
+            android:id="@+id/image2_section"
             android:layout_width="0dp"
-            android:layout_weight="280"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="H, 1:1.78"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image2_left"
+            app:layout_constraintEnd_toStartOf="@id/image2_right">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/photo_2_img"
+                android:id="@+id/image2_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_200"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_2_time"
+                android:id="@+id/image2_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
@@ -86,7 +110,7 @@
                 android:text="@string/example_time"
                 android:textColor="@color/black"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_2_place"
+                android:id="@+id/image2_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
@@ -95,12 +119,16 @@
                 android:textColor="@color/black"/>
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image2_right"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_right"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-    <androidx.appcompat.widget.LinearLayoutCompat
+            android:src="@drawable/sprocket_holes_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image2_section"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="150"
@@ -108,21 +136,30 @@
         android:paddingVertical="2dp"
         android:gravity="center">
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image3_left"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_left"/>
+            android:src="@drawable/sprocket_holes_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image3_section"/>
         <FrameLayout
+            android:id="@+id/image3_section"
             android:layout_width="0dp"
-            android:layout_weight="280"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="H, 1:1.78"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image3_left"
+            app:layout_constraintEnd_toStartOf="@id/image3_right">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/photo_3_img"
+                android:id="@+id/image3_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_200"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_3_time"
+                android:id="@+id/image3_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
@@ -130,7 +167,7 @@
                 android:text="@string/example_time"
                 android:textColor="@color/black"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_3_place"
+                android:id="@+id/image3_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
@@ -139,12 +176,16 @@
                 android:textColor="@color/black"/>
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image3_right"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_right"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-    <androidx.appcompat.widget.LinearLayoutCompat
+            android:src="@drawable/sprocket_holes_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image3_section"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="150"
@@ -152,21 +193,30 @@
         android:paddingVertical="2dp"
         android:gravity="center">
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image4_left"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_left"/>
+            android:src="@drawable/sprocket_holes_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image4_section"/>
         <FrameLayout
+            android:id="@+id/image4_section"
             android:layout_width="0dp"
-            android:layout_weight="280"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="H, 1:1.78"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image4_left"
+            app:layout_constraintEnd_toStartOf="@id/image4_right">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/photo_4_img"
+                android:id="@+id/image4_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_200"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_4_time"
+                android:id="@+id/image4_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
@@ -174,7 +224,7 @@
                 android:text="@string/example_time"
                 android:textColor="@color/black"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/photo_4_place"
+                android:id="@+id/image4_place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
@@ -183,11 +233,15 @@
                 android:textColor="@color/black"/>
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image4_right"
             android:layout_width="0dp"
-            android:layout_weight="35"
             android:layout_height="match_parent"
-            android:src="@drawable/sprocket_holes_right"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:src="@drawable/sprocket_holes_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image4_section"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
