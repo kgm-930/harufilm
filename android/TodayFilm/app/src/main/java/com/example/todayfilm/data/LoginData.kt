@@ -1,6 +1,6 @@
 package com.example.todayfilm.data
 
-class SignupData {
+class LoginData {
     var result = ""
     var message = ""
 }

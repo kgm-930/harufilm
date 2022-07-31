@@ -9,11 +9,9 @@ import android.hardware.camera2.*
 import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.os.*
-import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity

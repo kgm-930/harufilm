@@ -11,10 +11,6 @@ interface NetWorkInterface {
     @POST("signup")
     fun signUp(
         @Body user: User
-//        @Field("id") id:String,
-//        @Field("pw") pw:String,
-//        @Part file: MultipartBody.Part
-
     ): Call<SignupData>
 
     @POST("login")
