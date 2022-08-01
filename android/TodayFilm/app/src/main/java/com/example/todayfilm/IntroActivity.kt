@@ -27,20 +27,11 @@ class IntroActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-        binding.introWithoutLogin.setOnClickListener {
-            clickableFalse()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finish()
-        }
     }
 
     private fun clickableFalse() {
         val binding = ActivityIntroBinding.inflate(layoutInflater)
         binding.introSignup.isClickable = false
         binding.introLogin.isClickable = false
-        binding.introWithoutLogin.isClickable = false
     }
 }

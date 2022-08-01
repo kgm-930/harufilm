@@ -1,69 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CoverActivity"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:background="@color/blue_200">
 
-<LinearLayout
-
-
-        android:layout_width="208dp"
-        android:layout_height="380dp"
-
-
-        android:gravity="bottom"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:orientation="vertical"
+        android:gravity="bottom|center_horizontal">
 
-
-        >
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/logo"
-            android:layout_gravity="center"
-            />
+            android:src="@drawable/logo"/>
 
-
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="@string/app_name_ko"
-            android:textColor="@color/white"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            />
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:text="@string/app_phrase"
             android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            />
+            android:textSize="18sp"/>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-    <TextView
-
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="@dimen/material_emphasis_medium"
         android:layout_height="0dp"
+        android:layout_weight="6" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="bottom|center"
+        android:layout_marginBottom="20dp"
         android:text="@string/app_footer"
         android:textSize="10sp"
         android:textColor="@color/white"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        android:layout_marginBottom="10dp"
-        />
+        tools:ignore="SmallSp" />
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

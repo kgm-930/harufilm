@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.example.todayfilm.data.SignupData
 import com.example.todayfilm.data.User
 import com.example.todayfilm.databinding.ActivitySignupBinding
 import com.example.todayfilm.retrofit.NetWorkClient.GetNetwork
+import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +42,16 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val spinner = binding.signupQuestions
+
+        val arrayAdapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.questions,
+            R.layout.spinner_item
+        )
+
+        spinner.adapter = arrayAdapter
+
         binding.signupToLogin.setOnClickListener {
             val intent = Intent(this@SignupActivity, LoginActivity::class.java)
             clickableFalse()
@@ -54,7 +66,7 @@ class SignupActivity : AppCompatActivity() {
             val pw2 = binding.signupPwCheck.text.toString()
 
             if ((id.length == 0) || (pw.length == 0) || (pw2.length == 0)) {
-                binding.signupIdErr.setText("기입하지 않은 란이 있습니다.")
+                binding.signupErr.setText("기입하지 않은 란이 있습니다.")
             } else if (pw == pw2) {
                 var user = User()
                 user.id = id
@@ -79,7 +91,7 @@ class SignupActivity : AppCompatActivity() {
                                 finish()
                             }, 2000)
                         } else {
-                            binding.signupIdErr.setText("이미 존재하는 아이디 입니다.")
+                            binding.signupErr.setText("이미 존재하는 아이디 입니다.")
                         }
                     }
 
@@ -88,7 +100,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                 })
             } else {
-                binding.signupPwCheckErr.setText("비밀번호가 일치하지 않습니다.")
+                binding.signupErr.setText("비밀번호가 일치하지 않습니다.")
             }
         }
     }

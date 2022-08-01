@@ -48,14 +48,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginBtn.setOnClickListener {
-            var LoginId = binding.loginId.text.toString()
-            var LoginPw = binding.loginPw.text.toString()
-            var user = User()
+            val LoginId = binding.loginId.text.toString()
+            val LoginPw = binding.loginPw.text.toString()
+            val user = User()
             user.id = LoginId
             user.pw = LoginPw
 
             if ((user.id.length == 0) || (user.pw.length == 0)) {
-                binding.loginIdErr.setText("기입하지 않은 란이 있습니다.")
+                binding.loginErr.setText("기입하지 않은 란이 있습니다.")
             } else {
                 val call = NetWorkClient.GetNetwork.login(user)
                 call.enqueue(object : Callback<LoginData> {
@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                                 finish()
                             }, 500)
                         } else {
-                            binding.loginIdErr.setText("ID가 존재하지 않거나 PW가 틀렸습니다.")
+                            binding.loginErr.setText("ID가 존재하지 않거나 PW가 틀렸습니다.")
                         }
 
                     }
