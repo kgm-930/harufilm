@@ -9,6 +9,7 @@ import android.hardware.camera2.*
 import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.os.*
+import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
@@ -23,6 +24,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class CameraActivity : AppCompatActivity() {
     private val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -150,12 +152,15 @@ class CameraActivity : AppCompatActivity() {
 
             for (dimension in videoDimensions) {
                 val ratio = dimension.width.toDouble() / dimension.height
-                if (ratio in 1.77..1.78) {
+                if (abs(ratio) == 1.5) {
                     width = dimension.width
                     height = dimension.height
                     break
                 }
             }
+
+            Log.d("너비", width.toString())
+            Log.d("높이", height.toString())
 
             // 카메라를 열기전에 카메라 권한이 있는지 확인한다
             if (ActivityCompat.checkSelfPermission(
@@ -223,7 +228,7 @@ class CameraActivity : AppCompatActivity() {
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)
         mediaRecorder.setOutputFile(file)
         mediaRecorder.setOrientationHint(ORIENTATIONS.get(rotation))
-        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
+        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P))
 
         mediaRecorder.prepare()
     }

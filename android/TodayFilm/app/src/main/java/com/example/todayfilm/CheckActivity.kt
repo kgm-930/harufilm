@@ -48,7 +48,7 @@ class CheckActivity : AppCompatActivity() {
         // 영상 길이 자르기
         Mp4Composer(srcPath, destPath)
             .rotation(Rotation.ROTATION_270)
-            .size(1920, 1080)
+            .size(720, 480)
             .fillMode(FillMode.PRESERVE_ASPECT_FIT)
             .trim(startTime, endTime)
             .listener(object : Mp4Composer.Listener {
