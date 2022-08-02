@@ -27,8 +27,8 @@ class SignupActivity : AppCompatActivity() {
             val pw2 = binding.SignpPw2.text.toString()
             if (pw==pw2) {
                 var user = User()
-                user.id = id
-                user.pw = pw
+                user.userid = id
+                user.userpassword = pw
                 val call = GetNetwork.signUp(user)
                 call.enqueue(object : Callback<SignupData> {
                     override fun onResponse(call: Call<SignupData>, response: Response<SignupData>) {

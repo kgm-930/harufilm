@@ -13,7 +13,7 @@ interface NetWorkInterface {
         @Body user: User
     ): Call<SignupData>
 
-    @POST("login")
+    @POST("api/account/signin")
     fun login(
         @Body user: User
     ): Call<LoginData>

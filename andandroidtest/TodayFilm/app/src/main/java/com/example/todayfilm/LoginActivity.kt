@@ -26,16 +26,17 @@ class LoginActivity : AppCompatActivity() {
             var LoginId = binding.loginId.text.toString()
             var LoginPw = binding.loginPw.text.toString()
             var user = User()
-            user.id = LoginId
-            user.pw = LoginPw
+            user.userid = LoginId
+            user.userpassword = LoginPw
 
             val call = GetNetwork.login(user)
             call.enqueue(object : Callback<LoginData> {
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
                     val result: LoginData? = response.body()
-                    Log.d("결과","성공" + result?.result)
 
-                    if (result?.message == "성공"){
+                    println(result)
+
+                    if (result?.message == "로그인 완료"){
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
