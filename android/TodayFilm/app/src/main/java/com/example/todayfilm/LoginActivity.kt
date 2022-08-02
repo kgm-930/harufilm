@@ -1,5 +1,6 @@
 package com.example.todayfilm
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -63,6 +64,9 @@ class LoginActivity : AppCompatActivity() {
 
                     if (result?.message == "로그인 완료"){
                         Log.d("test:", result?.token)
+                        MyPreference.write(this@LoginActivity, "userid", result?.userpid)
+                        MyPreference.write(this@LoginActivity, "usertoken", result?.token)
+                        MyPreference.write(this@LoginActivity, "userpassword", user.userpassword)
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
