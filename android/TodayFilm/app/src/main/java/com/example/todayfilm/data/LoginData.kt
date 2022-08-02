@@ -1,6 +1,7 @@
 package com.example.todayfilm.data
 
 class LoginData {
-    var result = ""
+    var userpid = ""
+    var token = ""
     var message = ""
 }

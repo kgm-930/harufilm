@@ -2,6 +2,7 @@ package com.example.todayfilm
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.todayfilm.databinding.ActivityMainBinding
 
@@ -15,7 +16,12 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+//        val userpid = MyPreference.read(this, "userid")
+//        val usertoken = MyPreference.read(this, "usertoken")
+//        val up = MyPreference.read(this, "userpassword")
+//        Log.d("test:", up)
+//        println(userpid)
+//        println(usertoken)
         // 처음에 보여줄 프래그먼트 지정
         setFragment(TAG_HOME, HomeFragment())
         binding.navBar.selectedItemId = R.id.homeFragment

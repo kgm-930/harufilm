@@ -66,25 +66,21 @@ class SignupActivity : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        binding.signupToLogin.setOnClickListener {
-            val intent = Intent(this@SignupActivity, LoginActivity::class.java)
-            clickableFalse()
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
-            finish()
-        }
-
         binding.signupBtn.setOnClickListener {
             val id = binding.signupId.text.toString()
             val pw = binding.signupPw.text.toString()
             val pw2 = binding.signupPwCheck.text.toString()
+            val nickname = binding.signupUsername.text.toString()
+            val answer = binding.signupAnswer.text.toString()
 
             if ((id.length == 0) || (pw.length == 0) || (pw2.length == 0)) {
                 binding.signupErr.setText("기입하지 않은 란이 있습니다.")
             } else if (pw == pw2) {
                 var user = User()
-                user.id = id
-                user.pw = pw
+                user.userid = id
+                user.userpassword = pw
+                user.usernickname = nickname
+                user.useranswer = answer
                 val call = GetNetwork.signUp(user)
                 call.enqueue(object : Callback<SignupData> {
                     override fun onResponse(
@@ -92,7 +88,7 @@ class SignupActivity : AppCompatActivity() {
                         response: Response<SignupData>
                     ) {
                         val result: SignupData? = response.body()
-                        if (result?.message == "성공") {
+                        if (result?.message == "계정 생성이 완료되었습니다.") {
                             var dialog = AlertDialog.Builder(this@SignupActivity)
                             dialog.setTitle("회원가입 성공!")
                             dialog.setMessage("회원가입이 정상적으로 완료되었습니다.")
