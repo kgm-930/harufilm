@@ -10,12 +10,12 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface NetWorkInterface {
-    @POST("signup")
+    @POST("api/account/signup")
     fun signUp(
         @Body user: User
     ): Call<SignupData>
 
-    @POST("login")
+    @POST("api/account/signin")
     fun login(
         @Body user: User
     ): Call<LoginData>

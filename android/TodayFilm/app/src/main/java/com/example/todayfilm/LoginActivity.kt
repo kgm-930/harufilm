@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todayfilm.data.LoginData
 import com.example.todayfilm.data.User
@@ -47,39 +48,42 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.loginBtn.setOnClickListener {
-            val LoginId = binding.loginId.text.toString()
-            val LoginPw = binding.loginPw.text.toString()
-            val user = User()
-            user.id = LoginId
-            user.pw = LoginPw
+        binding.loginBtn.setOnClickListener{
+            var LoginId = binding.loginId.text.toString()
+            var LoginPw = binding.loginPw.text.toString()
+            var user = User()
+            user.userid = LoginId
+            user.userpassword = LoginPw
 
-            if ((user.id.length == 0) || (user.pw.length == 0)) {
-                binding.loginErr.setText("기입하지 않은 란이 있습니다.")
-            } else {
-                val call = NetWorkClient.GetNetwork.login(user)
-                call.enqueue(object : Callback<LoginData> {
-                    override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
-                        val result: LoginData? = response.body()
+            val call = NetWorkClient.GetNetwork.login(user)
+            call.enqueue(object : Callback<LoginData> {
+                override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
+                    val result: LoginData? = response.body()
 
-                        if (result?.message == "성공") {
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                startActivity(intent)
-                                finish()
-                            }, 500)
-                        } else {
-                            binding.loginErr.setText("ID가 존재하지 않거나 PW가 틀렸습니다.")
-                        }
 
+                    if (result?.message == "로그인 완료"){
+                        Log.d("test:", result?.token)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            finish()
+                        }, 500)
+                    }else{
+                        var dialog = AlertDialog.Builder(this@LoginActivity)
+                        dialog.setTitle("로그인 실패")
+                        dialog.setMessage("입력하신 정보가 잘못되었습니다. 다시 입력해 주세요")
+                        dialog.show()
                     }
 
-                    override fun onFailure(call: Call<LoginData>, t: Throwable) {
-                        Log.d("", "실패" + t.message.toString())
-                    }
-                })
-            }
+                }
+
+                override fun onFailure(call: Call<LoginData>, t: Throwable) {
+                    Log.d("", "실패"+t.message.toString())
+                }
+            })
+
+
         }
     }
 
