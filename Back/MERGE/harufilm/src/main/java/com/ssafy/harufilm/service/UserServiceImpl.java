@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.harufilm.dto.account.SignupRequestDto;
 import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.repository.UserRepository;
 
@@ -29,5 +30,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getuserbyPid(int userpid) {
         return userRepository.findByUserpid(userpid).orElse(null);
+    }
+
+
+    @Transactional
+    @Override
+    public User userNewSave(SignupRequestDto signupRequestDto) {
+        User user = User.builder()
+                .userid(signupRequestDto.getUserid())
+                .userpassword(signupRequestDto.getUserpassword())
+                .roles("USER")
+                .build();
+
+        return userRepository.save(user);
     }
 }
