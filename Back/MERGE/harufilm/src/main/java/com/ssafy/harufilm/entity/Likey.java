@@ -1,9 +1,4 @@
 package com.ssafy.harufilm.entity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

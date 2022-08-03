@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,4 +24,12 @@ public class Subscribe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private int subidx;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(insertable =  false, updatable = false, name = "subfrom")
+    private int subfrom;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(insertable =  false, updatable = false, name = "subto")
+    private int subto;
 }

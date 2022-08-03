@@ -1,7 +1,5 @@
 package com.ssafy.harufilm.service.likey;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ssafy.harufilm.dto.likey.LikeyRequestDto;
@@ -25,11 +23,10 @@ public class LikeyServiceImpl implements LikeyService{
 
     @Override
     public void likeyDelete(LikeyRequestDto likeyRequestDto) {
-        Likey likey;
-
-        likey = likeyRepository.findByLikeyfromAndLikeyto(likeyRequestDto.getLikeyfrom(),likeyRequestDto.getLikeyfrom());
-        likeyRepository.delete(likey);
-        
+        Likey likey = likeyRepository.findByLikeyfromAndLikeyto(likeyRequestDto.getLikeyfrom(),likeyRequestDto.getLikeyfrom()).orElse(null);
+        if(likey!=null){
+            likeyRepository.delete(likey);
+        }
     }
     
 }
