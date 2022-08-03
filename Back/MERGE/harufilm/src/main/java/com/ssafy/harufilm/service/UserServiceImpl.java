@@ -36,9 +36,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User userNewSave(SignupRequestDto signupRequestDto) {
+        
+        String userimg = "/var/opt/upload/baseimg.jpg";
+        
         User user = User.builder()
                 .userid(signupRequestDto.getUserid())
                 .userpassword(signupRequestDto.getUserpassword())
+                .username(signupRequestDto.getUsername())
+                .userimg(userimg)
+                .userdesc("")
+                .userpwq(signupRequestDto.getUserpwq())
+                .userpwa(signupRequestDto.getUserpwa())
                 .roles("USER")
                 .build();
 

@@ -10,6 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,42 +25,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User {
-    
+public class Article {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
+    private int articleidx;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(insertable =  false, updatable = false, name = "userpid")
     private int userpid;
 
     @Column
-    private String userid;
+    private DateTimeFormat articlecreatedate;
 
     @Column
-    private String username;
+    private DateTimeFormat articleupdatedate;
 
-    @Column
-    private String userpassword;
-
-    @Column
-    private String userimg;
-
-    @Column
-    private String userdesc;
-    
-    @Column
-    private int userpwq;
-    
-    @Column
-    private String userpwa;
-
-    @Column(updatable = false, length = 10)
-    private String roles;
-
-    public List<String> getRoleList() {
-        if (this.roles.length() > 0) {
-            return Arrays.asList(this.roles.split(","));
-        }
-        return new ArrayList<>();
-
-    }
 }

@@ -16,4 +16,9 @@ public class SignupRequestDto {
 
     private String userpassword;
 
+    private String username;
+
+    private int userpwq;
+
+    private String userpwa;
 }
