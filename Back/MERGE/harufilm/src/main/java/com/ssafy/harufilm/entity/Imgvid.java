@@ -41,8 +41,8 @@ public class Imgvid {
     private LocalDateTime imgviddate;
 
     @Column
-    private String imgpath;
+    private String img;
 
     @Column
-    private String vidpath;
+    private String vid;
 }
