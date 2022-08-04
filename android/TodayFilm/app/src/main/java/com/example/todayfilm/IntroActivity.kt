@@ -11,7 +11,20 @@ class IntroActivity : AppCompatActivity() {
 
         val binding = ActivityIntroBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var logout = intent.getStringExtra("logout")
+        println(logout)
+        if (logout == "1"){
+            MyPreference.clear(this)
+        }
+        val usertoken = MyPreference.read(this, "usertoken")
 
+        if (usertoken != ""){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+
+        }
         binding.introSignup.setOnClickListener {
             clickableFalse()
             val intent = Intent(this, SignupActivity::class.java)
