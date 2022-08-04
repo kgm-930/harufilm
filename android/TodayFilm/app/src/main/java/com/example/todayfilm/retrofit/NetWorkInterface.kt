@@ -22,4 +22,9 @@ interface NetWorkInterface {
     fun singout(
         @Body deleteUser: DeleteAccountRequest
     ): Call<DeleteAccountResponse>
+
+    @POST("api/account/changepw")
+    fun changepw(
+        @Body changePw: ChangePwRequest
+    ): Call<ChangePwResponse>
 }
