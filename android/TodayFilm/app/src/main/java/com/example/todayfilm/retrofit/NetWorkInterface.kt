@@ -1,8 +1,6 @@
 package com.example.todayfilm.retrofit
 
-import com.example.todayfilm.data.LoginData
-import com.example.todayfilm.data.SignupData
-import com.example.todayfilm.data.User
+import com.example.todayfilm.data.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -19,4 +17,9 @@ interface NetWorkInterface {
     fun login(
         @Body user: User
     ): Call<LoginData>
+
+    @POST("api/account/signout")
+    fun singout(
+        @Body deleteUser: DeleteAccountRequest
+    ): Call<DeleteAccountResponse>
 }

@@ -3,33 +3,64 @@ package com.example.todayfilm
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import com.example.todayfilm.data.DeleteAccountRequest
+import com.example.todayfilm.data.DeleteAccountResponse
+
+
 import com.example.todayfilm.databinding.ActivityDeleteAccountBinding
+import com.example.todayfilm.retrofit.NetWorkClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DeleteAccountActivity : AppCompatActivity() {
-    val binding by lazy { ActivityDeleteAccountBinding.inflate(layoutInflater) }
-
+    val binding by lazy {ActivityDeleteAccountBinding.inflate(layoutInflater)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        var userpid = MyPreference.read(this, "userid")
+        var userpw = MyPreference.read(this, "userpassword")
 
-        binding.deleteAccountBtn.setOnClickListener {
-            val pw = binding.deleteAccountPw.text.toString()
-            val userpassword = MyPreference.read(this, "userpassword")
+        binding.deleteAccountBtn.setOnClickListener{
+            var checkpw = binding.deleteAccountPw.text.toString()
+            if (checkpw != userpw){
 
-            if (pw.isEmpty()) {
-                binding.deleteAccountErr.text = "기입하지 않은 란이 있습니다."
-            } else if (pw != userpassword) {
-                binding.deleteAccountErr.text = "비밀번호가 일치하지 않습니다."
-            } else {
-                // 서버로 요청 보내기
+                binding.deleteAccountErr.setText("비밀번호가 일치하지 않습니다.")
+            }else{
+                var deleteUser = DeleteAccountRequest()
+                deleteUser.userpid = userpid
+                deleteUser.userpw = userpw
 
-                // 응답 받으면 토스트 띄우고 intro 액티비티로 이동
-                Toast.makeText(this, "성공적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, IntroActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
+                val call = NetWorkClient.GetNetwork.singout(deleteUser)
+                call.enqueue(object : Callback<DeleteAccountResponse> {
+                    override fun onResponse(
+                        call: Call<DeleteAccountResponse>,
+                        response: Response<DeleteAccountResponse>
+                    ) {
+                        var dialog = AlertDialog.Builder(this@DeleteAccountActivity)
+                        dialog.setTitle("회원탈퇴")
+                        dialog.setMessage("회원탈퇴가 정상적으로 완료되었습니다.")
+                        dialog.show()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(this@DeleteAccountActivity, IntroActivity::class.java)
+                            intent.putExtra("logout", "1")
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                            finish()
+                        }, 2500)
+                    }
+
+                    override fun onFailure(call: Call<DeleteAccountResponse>, t: Throwable) {
+                        Log.d("", "실패" + t.message.toString())
+                    }
+                })
             }
         }
+
     }
 }
