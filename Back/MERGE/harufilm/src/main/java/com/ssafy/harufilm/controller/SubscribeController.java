@@ -3,7 +3,6 @@ package com.ssafy.harufilm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,10 +42,4 @@ public class SubscribeController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우 취소"));
     
     }
-
-    @GetMapping("/following")
-    public ResponseEntity<?> followingsub(@RequestBody String userpid){
-        return null;
-    }
-    
 }

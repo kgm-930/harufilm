@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +38,6 @@ public class Imgvid {
     private String imgvidlocation;
 
     @Column
-    @CreationTimestamp
     private LocalDateTime imgviddate;
 
     @Column

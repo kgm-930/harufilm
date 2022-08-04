@@ -1,5 +1,7 @@
 package com.ssafy.harufilm.dto.imgvid;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ImgvidRequestDto {
     
-    private String userid;
-    private String userpassword;
+    private int imgvidnumber;
+    private String imgvidlocation;
+    private LocalDateTime imgviddate;
+    private String articleimg;
+    private String articlevid;
 }

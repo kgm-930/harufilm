@@ -3,14 +3,18 @@ package com.ssafy.harufilm.service.subscribe;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.subscribe.SubscribeRequestDto;
-import com.ssafy.harufilm.dto.subscribe.SubscribeUserDto;
 import com.ssafy.harufilm.entity.Subscribe;
-import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.repository.UserRepository;
 import com.ssafy.harufilm.repository.subscribe.SubscribeRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class SubscribeServiceImpl implements SubscribeService{
 
     @Autowired
@@ -40,17 +44,21 @@ public class SubscribeServiceImpl implements SubscribeService{
     }
 
     @Override
-    public List<SubscribeUserDto> subscribeFollowing(int userpid) {
-        List<SubscribeUserDto> userlist;
-        User user;
-
-        subscribeRepository.findAllBySubto(userpid);
-        return null;
+    public List<SmallProfileResponseDto> followerList(int userpid) {
+        List<SmallProfileResponseDto> list = subscribeRepository.followList(userpid);
+        if(list!=null){
+            return list;
+        }
+        else return null;
     }
 
     @Override
-    public List<SubscribeUserDto> subscribeFollowed(int userpid) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<SmallProfileResponseDto> followList(int userpid) {
+        List<SmallProfileResponseDto> list = subscribeRepository.followerList(userpid);
+        if(list!=null){
+            return list;
+        }
+        else return null;
     }
+
 }

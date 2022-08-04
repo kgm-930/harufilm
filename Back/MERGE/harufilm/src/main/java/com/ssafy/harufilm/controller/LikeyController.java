@@ -19,7 +19,7 @@ public class LikeyController {
     
     @Autowired
     private LikeyService likeyService;
-
+    //좋아요 생성
     @PostMapping("")
     public ResponseEntity<?> setlikey(@RequestBody LikeyRequestDto likeyRequestDto){
         try{
@@ -30,7 +30,7 @@ public class LikeyController {
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요"));
     }
-
+    //좋아요 취소
     @DeleteMapping("")
     public ResponseEntity<?> deletelikey(@RequestBody LikeyRequestDto likeyRequestDto){
         try{
@@ -40,6 +40,5 @@ public class LikeyController {
             "Interanl Server Error, 좋아요 취소 실패"));
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요 취소"));
-    
     }
 }
