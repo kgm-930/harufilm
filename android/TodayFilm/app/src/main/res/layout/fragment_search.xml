@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,38 +8,31 @@
     android:background="@color/blue_200"
     tools:context=".SearchFragment">
 
-    <EditText
-        android:layout_marginTop="20dp"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="30dp"
-        android:paddingStart="10dp"
+        android:layout_height="50dp">
+        <EditText
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="30dp"
+            android:paddingStart="10dp"
+            android:hint="검색어를 입력하세요"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/searchback"
+            android:drawablePadding="10dp"
+            android:background="@color/white"
+            android:inputType="text" />
+    </LinearLayout>
 
-        android:hint="검색어를 입력하세요"
-        android:textStyle="bold"
-        android:drawableStart="@drawable/searchback"
-        android:drawablePadding="10dp"
-        android:background="@color/white"
-        android:inputType="text"
-        android:layout_marginBottom="12.5dp"
-
-        />
-
-    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        >
-
-
+        android:overScrollMode="never">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-
-
-            >
+            android:orientation="vertical">
 
             <!--            프로필검색-->
             <LinearLayout
@@ -71,7 +63,7 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/go_profile_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
@@ -108,17 +100,31 @@
                             android:layout_marginRight="10dp"
                             android:orientation="vertical">
 
-                            <ImageView
+                            <androidx.cardview.widget.CardView
+
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
+
+                                app:cardCornerRadius="105dp"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginStart="2dp"
-                                android:background="@drawable/bigthumb"
-                                android:clipToOutline="true"
 
                                 android:src="@drawable/poppy"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/profile_id"
 
-                                />
+                                >
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/poppy"
+
+                                    />
+
+
+                            </androidx.cardview.widget.CardView>
+
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -139,79 +145,124 @@
                             android:layout_marginRight="10dp"
                             android:orientation="vertical">
 
-                            <ImageView
+                            <androidx.cardview.widget.CardView
+
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
+
+                                app:cardCornerRadius="105dp"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_marginStart="2dp"
-                                android:background="@drawable/bigthumb"
-                                android:clipToOutline="true"
-
-                                android:src="@drawable/people"
-
-                                />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="7dp"
-                                android:text="이것은아이디이다.."
-                                android:textColor="@color/gray_500"
-                                android:textSize="8sp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginStart="2dp"
-                                android:background="@drawable/bigthumb"
-                                android:clipToOutline="true"
-
-                                android:src="@drawable/people"
-
-                                />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="7dp"
-                                android:text="이것은아이디이다.."
-                                android:textColor="@color/gray_500"
-                                android:textSize="8sp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="60dp"
-                                android:layout_height="60dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginStart="2dp"
-                                android:background="@drawable/bigthumb"
-                                android:clipToOutline="true"
 
                                 android:src="@drawable/poppy"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/profile_id"
 
-                                />
+                                >
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/people"
+
+                                    />
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="7dp"
+                                android:text="이것은아이디이다.."
+                                android:textColor="@color/gray_500"
+                                android:textSize="8sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+
+                                app:cardCornerRadius="105dp"
+                                android:layout_gravity="center_horizontal"
+
+                                android:src="@drawable/poppy"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/profile_id"
+
+                                >
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/people"
+
+                                    />
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="7dp"
+                                android:text="이것은아이디이다.."
+                                android:textColor="@color/gray_500"
+                                android:textSize="8sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/profile_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+
+                                app:cardCornerRadius="105dp"
+                                android:layout_gravity="center_horizontal"
+
+                                android:src="@drawable/poppy"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toTopOf="@id/profile_id"
+
+                                >
+                                <ImageView
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:src="@drawable/poppy"
+
+                                    />
+
+
+                            </androidx.cardview.widget.CardView>
+
 
                             <TextView
                                 android:layout_width="wrap_content"

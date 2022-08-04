@@ -1,6 +1,5 @@
 package com.example.todayfilm
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -41,6 +40,13 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.loginToFindPassword.setOnClickListener {
+            val intent = Intent(this@LoginActivity, FindPasswordActivity::class.java)
+            clickableFalse()
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
+
         binding.loginToSignup.setOnClickListener {
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             clickableFalse()
@@ -63,9 +69,9 @@ class LoginActivity : AppCompatActivity() {
 
 
                     if (result?.message == "로그인 완료"){
-                        Log.d("test:", result?.token)
-                        MyPreference.write(this@LoginActivity, "userid", result?.userpid)
-                        MyPreference.write(this@LoginActivity, "usertoken", result?.token)
+                        Log.d("test:", result.token)
+                        MyPreference.write(this@LoginActivity, "userid", result.userpid)
+                        MyPreference.write(this@LoginActivity, "usertoken", result.token)
                         MyPreference.write(this@LoginActivity, "userpassword", user.userpassword)
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -97,5 +103,6 @@ class LoginActivity : AppCompatActivity() {
         binding.loginToSignup.isClickable = false
         binding.loginId.isClickable = false
         binding.loginPw.isClickable = false
+        binding.loginToFindPassword.isClickable = false
     }
 }
