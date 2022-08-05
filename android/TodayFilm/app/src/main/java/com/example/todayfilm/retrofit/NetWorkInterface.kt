@@ -1,13 +1,8 @@
 package com.example.todayfilm.retrofit
 
-import com.example.todayfilm.data.LoginData
-import com.example.todayfilm.data.SignupData
-import com.example.todayfilm.data.User
+import com.example.todayfilm.data.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface NetWorkInterface {
     @POST("api/account/signup")
@@ -19,4 +14,19 @@ interface NetWorkInterface {
     fun login(
         @Body user: User
     ): Call<LoginData>
+
+    @POST("api/account/signout")
+    fun singout(
+        @Body deleteUser: DeleteAccountRequest
+    ): Call<DeleteAccountResponse>
+
+    @POST("api/account/changepw")
+    fun changepw(
+        @Body changePw: ChangePwRequest
+    ): Call<ChangePwResponse>
+
+    @GET("api/account/findpw")
+    fun findpw(
+        @Body findPw: FindPwRequest
+    ): Call<FindPwResponse>
 }

@@ -6,10 +6,7 @@
     <!-- 권한 설정 -->
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.microphone" />
-    <uses-feature android:name="android.hardware.location.gps" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission
@@ -30,6 +27,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TodayFilm"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
         <activity
             android:name=".FindPasswordActivity"
             android:screenOrientation="portrait"
@@ -58,10 +59,10 @@
              android:name=".CoverActivity"
             android:screenOrientation="portrait"
              android:exported="false" />
-        <activity
-            android:name=".IntroActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".IntroActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".DeleteAccountActivity"
             android:screenOrientation="portrait"
@@ -79,7 +80,7 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".IntroActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
