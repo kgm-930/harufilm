@@ -78,4 +78,26 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
     }
+
+    @Override
+    public List<Article> getmyArticle(int userpid) {
+        List<Article> list = 
+        articleRepository.findAllByUserpid(userpid);
+        
+        return list;
+    }
+
+    @Override
+    public List<Article> getFollowedArticleList(int userpid) {
+        List<Article> list = 
+        articleRepository.articleList(userpid);
+        
+        return list;
+    }
+
+    @Override
+    public Article findByArticleidx(int articleidx) {
+        Article article = articleRepository.findByArticleidx(articleidx).orElse(null);
+        return article;
+    }
 }

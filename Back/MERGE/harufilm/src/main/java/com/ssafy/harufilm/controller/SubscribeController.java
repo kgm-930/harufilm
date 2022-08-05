@@ -20,7 +20,7 @@ public class SubscribeController {
     @Autowired
     private SubscribeService subscribeService;
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> setsub(@RequestBody SubscribeRequestDto subscribeRequestDto){
         try{
             subscribeService.subscribeSave(subscribeRequestDto);
@@ -31,7 +31,7 @@ public class SubscribeController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우"));
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deletesub(@RequestBody SubscribeRequestDto subscribeRequestDto){
         try{
             subscribeService.subscribeDelete(subscribeRequestDto);
@@ -41,5 +41,27 @@ public class SubscribeController {
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우 취소"));
     
+    }
+
+    @PostMapping("/following")
+    public ResponseEntity<?> following(@RequestBody int userpid){
+        try{
+            subscribeService.followList(userpid);
+        }catch(Exception e){
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+            "Interanl Server Error, 팔로우 리스트 불러오기 실패"));
+        }
+        return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우 리스트 불러오기"));
+    }
+
+    @PostMapping("/followed")
+    public ResponseEntity<?> followed(@RequestBody int userpid){
+        try{
+            subscribeService.followerList(userpid);
+        }catch(Exception e){
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+            "Interanl Server Error, 팔로워 리스트 불러오기 실패"));
+        }
+        return ResponseEntity.status(200).body(MessageBody.of(true, "팔로워 리스트 불러오기"));
     }
 }

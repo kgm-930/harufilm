@@ -20,7 +20,7 @@ public class LikeyController {
     @Autowired
     private LikeyService likeyService;
     //좋아요 생성
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> setlikey(@RequestBody LikeyRequestDto likeyRequestDto){
         try{
             likeyService.likeySave(likeyRequestDto);
@@ -31,7 +31,7 @@ public class LikeyController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요"));
     }
     //좋아요 취소
-    @DeleteMapping("")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deletelikey(@RequestBody LikeyRequestDto likeyRequestDto){
         try{
             likeyService.likeyDelete(likeyRequestDto);
@@ -41,4 +41,6 @@ public class LikeyController {
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요 취소"));
     }
+
+
 }

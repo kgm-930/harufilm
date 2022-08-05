@@ -13,7 +13,7 @@ import com.ssafy.harufilm.entity.Article;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer>{
 
-    List<Article> findAllByUserpid(int userpid); //userpid가 작성한 글 리스트 반환
+    List<Article> findAllByUserpid(int userpid); //내가 작성한 글 리스트 반환
     
     @Query("select a from Article a where a.userpid = (select s.subto from Subscribe s where s.subfrom = :userpid )")
     List<Article> articleList(@Param("userpid") int userpid); // 내가 구독한 사람들의 글 리스트 반환
