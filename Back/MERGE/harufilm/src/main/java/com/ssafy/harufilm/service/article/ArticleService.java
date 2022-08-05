@@ -6,6 +6,6 @@ import com.ssafy.harufilm.entity.Article;
 public interface ArticleService {
     
     Article articleSave(ArticleRequestDto articleRequestDto); // 아티클 생성
-    void articleDelete(ArticleRequestDto articleRequestDto);// 아티클 삭제
+    void articleDelete(int articleidx);// 아티클 삭제
     
 }

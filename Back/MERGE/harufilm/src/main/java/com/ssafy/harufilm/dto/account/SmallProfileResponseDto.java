@@ -3,9 +3,11 @@ package com.ssafy.harufilm.dto.account;
 import lombok.Getter;
 import lombok.Setter;
 
+
+//팔로우리스트, 유저 검색에서 사용자에게 보여질 수준의 정보
 @Getter
 @Setter
-public class SmallProfileResponseDto {
+public class SmallProfileResponseDto { 
 
     private int userpid;
 

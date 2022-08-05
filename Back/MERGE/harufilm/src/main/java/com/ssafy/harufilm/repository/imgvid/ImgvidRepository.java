@@ -11,5 +11,7 @@ import com.ssafy.harufilm.entity.Imgvid;
 public interface ImgvidRepository extends JpaRepository<Imgvid, Integer>{
 
     Optional<Imgvid> findByArticleidxAndImgvidnumber(int articleidx, int imgvidnumber);
+
+    void deleteAllByArticleidx(int articleidx);
     
 }

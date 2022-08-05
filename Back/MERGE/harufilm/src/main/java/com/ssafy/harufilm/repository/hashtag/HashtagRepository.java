@@ -10,5 +10,9 @@ import com.ssafy.harufilm.entity.Hashtag;
 @Repository
 public interface HashtagRepository extends JpaRepository<Hashtag, Integer>{
     Optional<Hashtag> findByHashtagname(String hashname);
+
+    void findAllByArticleidx(int articleidx);
+
+    void deleteAllByArticleidx(int articleidx);
     
 }

@@ -63,6 +63,7 @@ public class ArticleServiceImpl implements ArticleService{
             }
             Hashtag ht;
             ht = Hashtag.builder()
+            .hashidx(h.getHashidx())
             .articleidx(savedArticle.getArticleidx())
             .build();
             hashtagRepository.save(ht);
@@ -91,9 +92,14 @@ public class ArticleServiceImpl implements ArticleService{
     }
 
     @Override
-    public void articleDelete(ArticleRequestDto articleRequestDto) {
-        // TODO Auto-generated method stub
+    public void articleDelete(int articleidx) {
+        Article article = articleRepository.findByArticleidx(articleidx).orElse(null);
+
+        if(article!=null){
+            hashtagRepository.deleteAllByArticleidx(article.getArticleidx()); //해시태그리스트에서 삭제
+            imgvidRepository.deleteAllByArticleidx(article.getArticleidx()); //이미지비디오리스트에서 삭제
+            //서버에 올라갔던 파일 삭제 추가해야 함
+        }
         
     }
-    
 }
