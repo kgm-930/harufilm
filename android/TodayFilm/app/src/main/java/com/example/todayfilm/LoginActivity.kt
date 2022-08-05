@@ -68,7 +68,9 @@ class LoginActivity : AppCompatActivity() {
 
                     if (result?.message == "로그인 완료"){
                         Log.d("test:", result.token)
-                        MyPreference.write(this@LoginActivity, "userid", result.userpid)
+                        MyPreference.write(this@LoginActivity, "userpid", result.userpid)
+                        MyPreference.write(this@LoginActivity, "userid", LoginId)
+
                         MyPreference.write(this@LoginActivity, "usertoken", result.token)
                         MyPreference.write(this@LoginActivity, "userpassword", user.userpassword)
                         Toast.makeText(this@LoginActivity, "성공적으로 로그인되었습니다.", Toast.LENGTH_SHORT).show()
