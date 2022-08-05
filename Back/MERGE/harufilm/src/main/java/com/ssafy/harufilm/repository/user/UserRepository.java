@@ -1,4 +1,4 @@
-package com.ssafy.harufilm.repository;
+package com.ssafy.harufilm.repository.user;
 
 import java.util.Optional;
 
@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByUserid(String userid);
 
-    Optional<User> findByUserpid(int userpid);
+    User findByUserpid(int userpid);
 
 }

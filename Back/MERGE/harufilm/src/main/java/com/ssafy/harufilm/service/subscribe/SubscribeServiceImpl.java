@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.subscribe.SubscribeRequestDto;
 import com.ssafy.harufilm.entity.Subscribe;
-import com.ssafy.harufilm.repository.UserRepository;
 import com.ssafy.harufilm.repository.subscribe.SubscribeRepository;
+import com.ssafy.harufilm.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SubscribeServiceImpl implements SubscribeService{
+public class SubscribeServiceImpl implements SubscribeService {
 
     @Autowired
     UserRepository userRepository;
@@ -26,19 +26,19 @@ public class SubscribeServiceImpl implements SubscribeService{
     @Override
     public Subscribe subscribeSave(SubscribeRequestDto subscribeRequestDto) {
         Subscribe sub = Subscribe.builder()
-            .subfrom(subscribeRequestDto.getSubfrom())
-            .subto(subscribeRequestDto.getSubto())
-            .build();
+                .subfrom(subscribeRequestDto.getSubfrom())
+                .subto(subscribeRequestDto.getSubto())
+                .build();
 
-            return subscribeRepository.save(sub);
+        return subscribeRepository.save(sub);
     }
 
     @Override
     public void subscribeDelete(SubscribeRequestDto subscribeRequestDto) {
         Subscribe sub = subscribeRepository.findBySubfromAndSubto(
-            subscribeRequestDto.getSubfrom(),
-            subscribeRequestDto.getSubto());
-        if(sub!=null){
+                subscribeRequestDto.getSubfrom(),
+                subscribeRequestDto.getSubto());
+        if (sub != null) {
             subscribeRepository.delete(sub);
         }
     }
@@ -46,19 +46,19 @@ public class SubscribeServiceImpl implements SubscribeService{
     @Override
     public List<SmallProfileResponseDto> followerList(int userpid) {
         List<SmallProfileResponseDto> list = subscribeRepository.followList(userpid);
-        if(list!=null){
+        if (list != null) {
             return list;
-        }
-        else return null;
+        } else
+            return null;
     }
 
     @Override
     public List<SmallProfileResponseDto> followList(int userpid) {
         List<SmallProfileResponseDto> list = subscribeRepository.followerList(userpid);
-        if(list!=null){
+        if (list != null) {
             return list;
-        }
-        else return null;
+        } else
+            return null;
     }
 
 }

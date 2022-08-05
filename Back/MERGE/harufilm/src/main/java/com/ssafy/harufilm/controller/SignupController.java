@@ -12,7 +12,7 @@ import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.account.SignupRequestDto;
 import com.ssafy.harufilm.entity.User;
-import com.ssafy.harufilm.service.UserService;
+import com.ssafy.harufilm.service.user.UserService;
 
 @RestController
 @RequestMapping("/api/account")

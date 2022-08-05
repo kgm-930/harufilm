@@ -1,7 +1,8 @@
 package com.ssafy.harufilm.jwt;
 
 import com.ssafy.harufilm.entity.User;
-import com.ssafy.harufilm.repository.UserRepository;
+import com.ssafy.harufilm.repository.user.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +20,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
         User user = userRepository.findByUserid(userid).orElse(null);
-        if(user != null){
+        if (user != null) {
             CustomUserDetails userDetails = new CustomUserDetails(user);
             return userDetails;
         }
         return null;
-        
+
     }
 }

@@ -13,7 +13,7 @@ import com.ssafy.harufilm.dto.account.SigninRequestDto;
 import com.ssafy.harufilm.dto.account.SigninResponseDto;
 import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.jwt.JwtTokenProvider;
-import com.ssafy.harufilm.service.UserService;
+import com.ssafy.harufilm.service.user.UserService;
 
 @RestController
 @RequestMapping("/api/account")
