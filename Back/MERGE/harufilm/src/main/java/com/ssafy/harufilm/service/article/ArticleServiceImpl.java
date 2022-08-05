@@ -41,6 +41,7 @@ public class ArticleServiceImpl implements ArticleService{
         Article article = Article.builder()
         .articlethumbnail(articleRequestDto.getArticlethumbnail())
         .articleshare(articleRequestDto.getArticlethumbnail())
+        .userpid(articleRequestDto.getUserpid())
         .build();
 
         Article savedArticle = articleRepository.save(article);

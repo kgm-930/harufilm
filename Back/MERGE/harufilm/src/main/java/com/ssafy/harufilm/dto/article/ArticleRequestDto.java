@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ArticleRequestDto {
     
-    String userpid; // 아티클 작성 유저
+    int userpid; // 아티클 작성 유저
     
     int articlethumbnail; //아티클 썸네일
 
