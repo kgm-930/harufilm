@@ -29,6 +29,8 @@ class CompleteActivity : AppCompatActivity() {
         MyPreference.writeInt(this, "mainImage", 0)
 
         binding.completeBtn.setOnClickListener {
+            val hashtags = binding.completeHashtag.insertTag
+
             mainImage = MyPreference.readInt(this, "mainImage")
 
             if (mainImage == 0) {
