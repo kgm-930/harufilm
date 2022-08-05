@@ -1,9 +1,11 @@
 package com.example.todayfilm
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -22,6 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 앱 최초 실행일 경우, 내부 저장소에 imgcount, isComplete, imgvids 변수 초기화
+        val sp = getSharedPreferences("isFirst", Activity.MODE_PRIVATE)
+        val first = sp.getBoolean("isFirst", false)
+        if (!first) {
+            val editor = sp.edit()
+            editor.putBoolean("isFirst", true)
+            editor.apply()
+
+            MyPreference.writeInt(this, "imgcount", 0)
+            MyPreference.writeInt(this, "isComplete", 0)
+            MyPreference.write(this, "imgvids", "")
+        }
 
         // 처음에 보여줄 프래그먼트 지정
         setFragment(TAG_HOME, HomeFragment())
