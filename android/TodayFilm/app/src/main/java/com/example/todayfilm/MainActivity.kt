@@ -3,10 +3,6 @@ package com.example.todayfilm
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.todayfilm.databinding.ActivityMainBinding
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 처음에 보여줄 프래그먼트 지정
-        setFragment(TAG_HOME, HomeFragment())
+        setFragment(TAG_HOME, FilmFragment())
         binding.navBar.selectedItemId = R.id.homeFragment
 
         // 네비 항목 클릭 시 프래그먼트 변경
@@ -113,7 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     fun changeFragment(index: Int){
         when(index){
-
             1 -> {
                 supportFragmentManager
                     .beginTransaction()
@@ -125,16 +120,12 @@ class MainActivity : AppCompatActivity() {
                     .beginTransaction()
                     .replace(R.id.fragment_content_main, ProfileListFragment())
                     .addToBackStack(null).commit()
-
-
+            }
         }
     }
-}
+    
     fun clearBackStack() {
         val fragmentManager: FragmentManager = supportFragmentManager
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
-
-
-
 }
