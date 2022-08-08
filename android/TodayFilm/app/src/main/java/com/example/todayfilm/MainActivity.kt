@@ -1,16 +1,22 @@
 package com.example.todayfilm
 
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.todayfilm.databinding.ActivityMainBinding
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     val TAG_FEED = "feed_fragment"
@@ -44,6 +50,27 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(object : OnCompleteListener<String?> {
+                fun onSuccess(token: String?) {
+                    if (token != null) {
+                        Log.d("MessageToken", token)
+                    }
+                }
+
+                override fun onComplete(@NonNull task: Task<String?>) {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "토큰 생성 실패", task.getException())
+                        return
+                    }
+                    // 새로운 토큰 생성 성공 시
+                    val token: String? = task.getResult()
+                    if (token != null) {
+                        Log.d("MessageToken", token)
+                    }
+                }
+            })
     }
 
     override fun onResume() {
