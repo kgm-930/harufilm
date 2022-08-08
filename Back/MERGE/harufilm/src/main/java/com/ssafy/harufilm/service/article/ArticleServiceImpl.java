@@ -202,4 +202,10 @@ public class ArticleServiceImpl implements ArticleService {
     //     Article article = articleRepository.findByArticleidx(articleidx).orElse(null);
     //     return article;
     // }
+
+    @Override
+    public List<Article> getarticlelistbykeyword(String keyword) {
+        List<Article> articlelist = articleRepository.findByHashnameItContainsKeyword(keyword);
+        return articlelist;
+    }
 }
