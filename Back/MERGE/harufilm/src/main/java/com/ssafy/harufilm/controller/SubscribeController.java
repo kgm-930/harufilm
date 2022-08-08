@@ -31,7 +31,7 @@ public class SubscribeController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우"));
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<?> deletesub(@RequestBody SubscribeRequestDto subscribeRequestDto){
         try{
             subscribeService.subscribeDelete(subscribeRequestDto);

@@ -24,7 +24,7 @@ public class PasswordController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/findpw")
+    @PostMapping("/findpw")
     public ResponseEntity<?> pwqchk(@RequestBody String userid, int Q, String A) {
         User user = new User();
         try {

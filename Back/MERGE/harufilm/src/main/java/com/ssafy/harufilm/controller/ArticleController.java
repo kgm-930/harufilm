@@ -39,7 +39,7 @@ public class ArticleController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "글 저장 성공"));
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<?> deleteArticle(@RequestBody int articleidx){
         try{
             articleService.articleDelete(articleidx);
@@ -50,7 +50,7 @@ public class ArticleController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "글 삭제 성공"));
     }
 
-    @GetMapping("/mylist") //일단 article정보 모두 가져오는 걸로
+    @PostMapping("/mylist") //일단 article정보 모두 가져오는 걸로
     public ResponseEntity<?> mylist(@RequestBody ArticleRequestDto articleRequestDto){
 
         List<Article> articles;
@@ -63,7 +63,7 @@ public class ArticleController {
         return ResponseEntity.status(200).body(articles);
     }
 
-        @GetMapping("/list")
+        @PostMapping("/list")
     public ResponseEntity<?> list(@RequestBody ArticleRequestDto articleRequestDto){
         List<Article> articles;
         try{

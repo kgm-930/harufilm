@@ -31,7 +31,7 @@ public class LikeyController {
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요"));
     }
     //좋아요 취소
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<?> deletelikey(@RequestBody LikeyRequestDto likeyRequestDto){
         try{
             likeyService.likeyDelete(likeyRequestDto);

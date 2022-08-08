@@ -28,7 +28,7 @@ public class ProfileController {
     private UserService userService;
 
     // 프로필 조회시 요청
-    @GetMapping("/join")
+    @PostMapping("/join")
     public ResponseEntity<?> getProfile(@RequestBody ProfileRequestDto profileRequestDto) throws SQLException {
 
         User user = new User();
