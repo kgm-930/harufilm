@@ -29,16 +29,16 @@ public class Article {
     @Column(columnDefinition = "INT UNSIGNED")
     private int articleidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "userpid")
+    //@ManyToOne(targetEntity = User.class)
+    //@JoinColumn(insertable =  false, updatable = false, name = "userpid")
+    @Column
     private int userpid;
 
     @Column
     private int articlethumbnail;
 
     @Column
-    @CreationTimestamp
-    private LocalDateTime articlecreatedate;
+    private String articlecreatedate;
 
     @Column
     private int articleshare;

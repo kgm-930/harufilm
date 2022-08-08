@@ -2,6 +2,8 @@ package com.ssafy.harufilm.dto.article;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.harufilm.dto.hash.HashRequestDto;
 
 import lombok.AllArgsConstructor;
@@ -19,8 +21,10 @@ public class ArticleRequestDto {
 
     int articlethumbnail; // 아티클 썸네일
 
-    int articleshare;// 아티클 공유 범위
+    private List<MultipartFile> imgdata;
 
-    List<HashRequestDto> hashlist;// 해시태그 리스트
+    private List<MultipartFile> videodata;
+
+  //  List<HashRequestDto> hashlist; // 해시태그 리스트
 
 }
