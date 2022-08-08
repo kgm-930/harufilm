@@ -49,6 +49,9 @@ public class User {
     @Column
     private String userpwa;
 
+    @Column
+    private String userfcm;
+
     @Column(updatable = false, length = 10)
     private String roles;
 
