@@ -1,16 +1,21 @@
 package com.example.todayfilm
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todayfilm.data.LoginData
 import com.example.todayfilm.data.User
 import com.example.todayfilm.databinding.ActivityLoginBinding
 import com.example.todayfilm.retrofit.NetWorkClient
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,7 +75,25 @@ class LoginActivity : AppCompatActivity() {
                         Log.d("test:", result.token)
                         MyPreference.write(this@LoginActivity, "userpid", result.userpid)
                         MyPreference.write(this@LoginActivity, "userid", LoginId)
-
+                        //*********************************************************
+                        //FCM 관련
+                        //MyPreference.write(this@LoginActivity, "userfcm","FCM토큰")
+                        FirebaseMessaging.getInstance().token
+                            .addOnCompleteListener(object : OnCompleteListener<String?> {
+                                override fun onComplete(@NonNull task: Task<String?>) {
+                                    if (!task.isSuccessful()) {
+                                        Log.w(ContentValues.TAG, "토큰 생성 실패", task.getException())
+                                        return
+                                    }
+                                    // 새로운 토큰 생성 성공 시
+                                    val token: String? = task.getResult()
+                                    if (token != null) {
+                                        MyPreference.write(this@LoginActivity, "userfcm",token)
+                                    }
+                                }
+                            })
+                        //
+                        //*********************************************************
                         MyPreference.write(this@LoginActivity, "usertoken", result.token)
                         MyPreference.write(this@LoginActivity, "userpassword", user.userpassword)
                         Toast.makeText(this@LoginActivity, "성공적으로 로그인되었습니다.", Toast.LENGTH_SHORT).show()

@@ -51,26 +51,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener(object : OnCompleteListener<String?> {
-                fun onSuccess(token: String?) {
-                    if (token != null) {
-                        Log.d("MessageToken", token)
-                    }
-                }
 
-                override fun onComplete(@NonNull task: Task<String?>) {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "토큰 생성 실패", task.getException())
-                        return
-                    }
-                    // 새로운 토큰 생성 성공 시
-                    val token: String? = task.getResult()
-                    if (token != null) {
-                        Log.d("MessageToken", token)
-                    }
-                }
-            })
     }
 
     override fun onResume() {
