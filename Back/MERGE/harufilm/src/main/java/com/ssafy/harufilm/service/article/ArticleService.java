@@ -16,4 +16,6 @@ public interface ArticleService {
     List<Article> getFollowedArticleList(int userpid);
 
     // Article findByArticleidx(int articleidx);
+
+    public List<Article> getarticlelistbykeyword(String keyword);
 }
