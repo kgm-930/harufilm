@@ -19,6 +19,7 @@ import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.service.article.ArticleService;
 
 
+
 @RestController
 @RequestMapping("/api/article")
 public class ArticleController {

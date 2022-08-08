@@ -2,6 +2,8 @@ package com.ssafy.harufilm.service.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.harufilm.dto.account.SignupRequestDto;
+import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.profile.ModifyRequestDto;
 import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.repository.user.UserRepository;
@@ -93,5 +96,21 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+    }
+
+    @Override
+    public List<SmallProfileResponseDto> getuserlistbykeyword(String keyword) {
+        List<User> userlist = userRepository.findByUsernameContaining(keyword);
+        List<SmallProfileResponseDto> usersplist = new ArrayList<>();
+
+        for(int i = 0; i < userlist.size(); i++){
+            SmallProfileResponseDto spDto = new SmallProfileResponseDto();
+            spDto.setUserid(userlist.get(i).getUserid());
+            spDto.setUsername(userlist.get(i).getUsername());
+            spDto.setUserimg(userlist.get(i).getUserimg());
+            spDto.setUserpid(userlist.get(i).getUserpid());
+            usersplist.add(spDto);
+        }        
+        return usersplist;
     }
 }

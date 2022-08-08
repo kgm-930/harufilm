@@ -119,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         Article article = Article.builder()
                 .articlethumbnail(articleRequestDto.getArticlethumbnail())
-                .articleshare(0)
+                .articleshare(articleRequestDto.getArticlethumbnail())
                 .userpid(articleRequestDto.getUserpid())
                 .articlecreatedate(now)
                 .build();
