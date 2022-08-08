@@ -1,5 +1,9 @@
 package com.ssafy.harufilm.controller;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
+import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.service.article.ArticleService;
+
 
 
 @RestController

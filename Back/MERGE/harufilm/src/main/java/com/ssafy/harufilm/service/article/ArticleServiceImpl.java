@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article articleSave(ArticleRequestDto articleRequestDto) {
         Article article = Article.builder()
                 .articlethumbnail(articleRequestDto.getArticlethumbnail())
-                .articleshare(articleRequestDto.getArticlethumbnail())
+                .articleshare(articleRequestDto.getArticleshare())
                 .userpid(articleRequestDto.getUserpid())
                 .build();
 
@@ -43,6 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<HashRequestDto> hashlist = articleRequestDto.getHashlist();
 
+        if(hashlist.size()!=0){
         for (int i = 0; i < hashlist.size(); i++) {
             String hashname = hashlist.get(i).getHashname();
 
@@ -63,6 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .build();
             hashtagRepository.save(ht);
         }
+    }
 
         return savedArticle;
     }
@@ -99,5 +101,11 @@ public class ArticleServiceImpl implements ArticleService {
     public Article findByArticleidx(int articleidx) {
         Article article = articleRepository.findByArticleidx(articleidx).orElse(null);
         return article;
+    }
+
+    @Override
+    public List<Article> getarticlelistbykeyword(String keyword) {
+        List<Article> articlelist = articleRepository.findByHashnameItContainsKeyword(keyword);
+        return articlelist;
     }
 }

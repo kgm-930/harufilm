@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +33,7 @@ public class Article {
     private int articleidx;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "userpid")
+    @JoinColumn(name = "userpid")
     private int userpid;
 
     @Column
