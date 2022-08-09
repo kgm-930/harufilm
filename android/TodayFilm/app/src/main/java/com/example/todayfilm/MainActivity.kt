@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
     }
 
     fun setFragment(tag: String, fragment: Fragment) {
