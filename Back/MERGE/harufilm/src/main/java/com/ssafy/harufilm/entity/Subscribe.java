@@ -19,17 +19,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Subscribe {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private int subidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "subfrom")
+    // @ManyToOne(targetEntity = User.class)
+    // @JoinColumn(insertable = false, updatable = false, name = "subfrom")
+    @Column
     private int subfrom;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "subto")
+    // @ManyToOne(targetEntity = User.class)
+    // @JoinColumn(insertable = false, updatable = false, name = "subto")
+    @Column
     private int subto;
 }
