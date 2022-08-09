@@ -1,11 +1,9 @@
 package com.example.todayfilm
 
-import CustomDialogFragment
+
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -14,7 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.PopupMenu
@@ -22,14 +19,18 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.todayfilm.databinding.FragmentFilmBinding
 import kotlinx.android.synthetic.main.fragment_film.*
 import java.io.*
 import java.util.*
 
 
-class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickListener{
+class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClickListener{
     lateinit var binding: FragmentFilmBinding
+    var article_userpid: String? = null
+    var articlecreatedate: String? = null
+    var articleidx: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +38,9 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFilmBinding.inflate(inflater, container, false)
+
+        articleidx = arguments?.getString("articleidx")
+
         return binding.root
     }
 
@@ -47,24 +51,22 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
     }
 
     private fun setOnClickListener() {
-
-        binding.menu.setOnClickListener(this)
+        binding.filmMenu.setOnClickListener(this)
+        binding.filmPlayBtn.setOnClickListener(this)
     }
-
-
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.menu -> { showPopup(binding.menu)
-
-
-
-
+            R.id.film_menu -> {
+                showPopup(binding.filmMenu)
+            }
+            R.id.film_play_btn -> {
+                val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+                sharedViewModel.setLiveText((articlecreatedate + article_userpid) ?: "")
             }
         }
     }
     private fun showPopup(v: View) {
-
         val popup = PopupMenu(context,v,  Gravity.TOP, 0, R.style.popup) // PopupMenu 객체 선언
         popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
         popup.setOnMenuItemClickListener(this)
@@ -76,13 +78,10 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
         val normaldialog = NormalDialogFragment()
         val duration = Toast.LENGTH_SHORT
 
-
-
         when (p0?.itemId) { // 메뉴 아이템에 따라 동작 다르게 하기
             R.id.delete -> {
                 val btn= arrayOf("네","아니오")
                 normaldialog.arguments = bundleOf(
-
                     "bodyContext" to "삭제하면 복구되지 않습니다",
                     "bodyTitle" to "정말 삭제하시겠습니까?",
                     "btnData" to btn
@@ -101,43 +100,21 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
                         Toast.makeText(context, "삭제가 취소되었습니다.", duration).show()
                     }
                 })
-
-
             }
 
             R.id.share -> {
-
+                val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+                sharedViewModel.setArticleIdx(articleidx ?: "")
                 dialog.show((activity as MainActivity).supportFragmentManager, "CustomDialog")
-
             }
 
             R.id.shareFile -> {
 
-
-
-
                 val bitmap = getBitmap(fragment_content_film)
-
-                // bitmap
 
                 val path :Uri = getImageUri(context,bitmap)
 
-//                requireActivity().grantUriPermission("com.example.todayfilm",path,Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//                val resInfoList: List<ResolveInfo> = requireActivity().getPackageManager()
-//                    .queryIntentActivities(requireActivity().intent, PackageManager.MATCH_DEFAULT_ONLY)
-//
-//                for (resolveInfo in resInfoList) {
-//                    val packageName = resolveInfo.activityInfo.packageName
-//                    requireActivity().grantUriPermission(
-//                        packageName,
-//                        path,
-//                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                    )
-//                }
 
-                Log.d("주소",path.toString())
-
-                // uri
 
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -151,13 +128,11 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
 
 
 
-
             }
 
             R.id.save -> {
                 val btn= arrayOf("네","아니오")
                 normaldialog.arguments = bundleOf(
-
                     "bodyTitle" to "정말 저장하시겠습니까?",
                     "bodyContext" to "프레임이 갤러리에 저장됩니다.",
                     "btnData" to btn
@@ -168,13 +143,10 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
                     override fun onButton1Clicked() {
 
 
-
                         val bitmap = getBitmap(fragment_content_film)
 
-
-
                         var fos: OutputStream? = null
-                        var title = "이것은 당시 날짜이다."
+                        val title = "이것은 당시 날짜이다."
                         // 3
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             // 4
@@ -200,43 +172,20 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
                         }
 
                         fos?.use {
-
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
                             Toast.makeText(context, "저장이 완료되었습니다.", duration).show()
                         }
-
-
-
-
-
-
-
-
-
                     }
 
                     override fun onButton2Clicked() {
                         //확인버튼을 눌렀을 때 처리할 곳
                         Toast.makeText(context, "저장이 취소되었습니다.", duration).show()
-
-
-
                     }
                 })
                 normaldialog.show((activity as MainActivity).supportFragmentManager, "CustomDialog")
-
-
             }
-
-
-
-
-
-
-            }
-
-
-            return p0 != null
+        }
+        return p0 != null
     }
 
     fun getImageUri(inContext: Context?, inImage: Bitmap): Uri {
@@ -273,22 +222,12 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
             // 스트림 사용후 닫아줍니다.
             out.close()
         } catch (e: FileNotFoundException) {
-            Log.d("excepton1","1")
+
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
-            Log.d("exceptiom2","2")
+
         }
-
-
-//
-//        val path = tempFile
-
-//        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//
-//
-//
-
 
 
         val uri = FileProvider.getUriForFile(requireActivity(),"com.example.todayfilm.Fileprovider",tempFile)
@@ -297,35 +236,20 @@ class FilmFragment : Fragment(), View.OnClickListener,PopupMenu.OnMenuItemClickL
         return uri
 
 
-
-
-
-//
-//
-//        val path = MediaStore.Images.Media.insertImage(inContext?.getContentResolver(), inImage, "Title" + " - " + Calendar.getInstance().getTime(), null)
-
-
-//        return Uri.parse(path)
     }
 
     fun getBitmap(fragment: FrameLayout): Bitmap{
-
         val bitmap = Bitmap.createBitmap(fragment.getWidth(), fragment.getHeight(), Bitmap.Config.ARGB_8888);
         val canvas = Canvas(bitmap);
         val bgDrawable = fragment.getBackground();
         if (bgDrawable != null) {
             bgDrawable.draw(canvas);
         } else {
-
             canvas.drawColor(Color.WHITE);
         }
         fragment.draw(canvas);
 
         return bitmap
     }
-
-
-
-
 
 }

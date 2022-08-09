@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -44,6 +45,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:21.1.0'
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -80,4 +84,18 @@ dependencies {
 
     // 해시태그 입력 texteditview 라이브러리
     implementation project(path: ':hashtagedittextview')
+
+    // WorkManager 라이브러리
+    def work_version = "2.7.1"
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+
+    // Gilde 라이브러리
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // CircleImageView 라이브러리
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // ViewModel 사용을 위한 라이브러리
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.example.todayfilm.databinding.FragmentProfileBinding
 
 
@@ -60,6 +61,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         if (userdesc != ""){
             binding.profileDescription.setText(userdesc)
         }
+
+        val imgview = binding.profileImageFile
+        Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/profileimg/baseimg.png").into(imgview)
+
         setOnClickListener()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,10 +75,15 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private fun setOnClickListener() {
         binding.profileToSettings.setOnClickListener(this)
         binding.profileBtn.setOnClickListener(this)
+        binding.profileFilmImage1.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
+            R.id.profile_film_image_1 -> {
+                (activity as MainActivity).changeFragment(3)
+            }
+
             R.id.profile_to_settings -> {
                 val intent = Intent(activity, SettingsActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
