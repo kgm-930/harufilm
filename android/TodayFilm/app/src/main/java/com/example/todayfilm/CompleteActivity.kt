@@ -73,7 +73,6 @@ class CompleteActivity : AppCompatActivity() {
             val date = MyPreference.read(this, "date")
 
             thumbnail = MyPreference.readInt(this, "articlethumbnail")
-            val imgnumber = MyPreference.readInt(this, "imgnumber")
 
             if (thumbnail == 0) {
                 Toast.makeText(this, "대표 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
@@ -81,10 +80,11 @@ class CompleteActivity : AppCompatActivity() {
                 Toast.makeText(this, "해시태그가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 // 서버로 데이터 전송
+                val imgcount = MyPreference.readInt(this, "imgcount")
+
                 // 이미지 데이터
                 val images = ArrayList<MultipartBody.Part>()
-
-                for (index in 1..imgnumber) {
+                for (index in 1..imgcount) {
                     val image = File(this.getExternalFilesDir(null), "${index}.png")
                     val body = RequestBody.create(MediaType.parse("image/*"), image)
                     images.add(MultipartBody.Part.createFormData("imgdata", image.name, body))
@@ -92,84 +92,90 @@ class CompleteActivity : AppCompatActivity() {
 
                 // 비디오 데이터
                 val videos = ArrayList<MultipartBody.Part>()
-
-                for (index in 1..imgnumber) {
+                for (index in 1..imgcount) {
                     val video = File(this.getExternalFilesDir(null), "${index}.mp4")
                     val body = RequestBody.create(MediaType.parse("video/*"), video)
                     videos.add(MultipartBody.Part.createFormData("videodata", video.name, body))
                 }
 
+                // 게시글 작성자
                 val pid = MyPreference.read(this, "userpid")
-                val articlethumbnail = RequestBody.create(MediaType.parse("text/plain"), thumbnail.toString())
                 val userpid = RequestBody.create(MediaType.parse("text/plain"), pid)
 
-                // 전송
-                val call = NetWorkClient.GetNetwork.createarticle(images, videos, userpid, articlethumbnail)
-                call.enqueue(object : Callback<FindPwResponse> {
-                    override fun onResponse(call: Call<FindPwResponse>, response: Response<FindPwResponse>) {
-                        // 오늘 필름을 저장했다면 내부 저장소에 필름 완성했다는 정보 남기기
-                        if (today == date) {
-                            MyPreference.writeInt(applicationContext, "isComplete", 1)
-                        } else {
-                            // 어제 필름을 저장했다면 내부 저장소에 date 갱신
-                            MyPreference.write(applicationContext, "date", today)
-                        }
+                // 미리보기에 사용될 썸네일 이미지 번호
+                val articlethumbnail = RequestBody.create(MediaType.parse("text/plain"), thumbnail.toString())
 
-                        if(complete_save.isChecked){
-                            val duration = Toast.LENGTH_SHORT
-                            val bitmap = Bitmap.createBitmap(fragment_content_complete.getWidth(), fragment_content_complete.getHeight(), (Bitmap.Config.ARGB_8888));
-                            val canvas = Canvas(bitmap);
-                            val bgDrawable = fragment_content_complete.getBackground();
-                            if (bgDrawable != null) {
-                                bgDrawable.draw(canvas);
-                            } else {
-                                canvas.drawColor(Color.WHITE);
-                            }
-                            fragment_content_complete.draw(canvas);
+                // 공개 여부
+                val share = binding.completeShowGroup.checkedRadioButtonId
+                Log.d("공개여부 확인", share.toString())
 
-                            var fos: OutputStream? = null
-                            val title = "이것은 당시 날짜이다."
-                            // 3
-                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                // 4
-                                baseContext?.contentResolver?.also { resolver ->
-
-                                    // 5
-                                    val contentValues = ContentValues().apply {
-                                        put(MediaStore.MediaColumns.DISPLAY_NAME, "$title.png")
-                                        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-                                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                                    }
-
-                                    // 6
-                                    val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-
-                                    // 7
-                                    fos = imageUri?.let { resolver.openOutputStream(it) }
-                                }
-                            } else {
-                                val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                                val image = File(imagesDir, "$title.png")
-                                fos = FileOutputStream(image)
-                            }
-
-                            fos?.use {
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                                Toast.makeText(baseContext, "성공적으로 저장되었습니다..", duration).show()
-                            }
-                        }
-
-                        // 응답 받은 후 토스트 띄우고 main 액티비티로 이동
-                        Toast.makeText(applicationContext, "성공적으로 기록되었습니다.", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(applicationContext, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-                    }
-
-                    override fun onFailure(call: Call<FindPwResponse>, t: Throwable) {
-                        Toast.makeText(applicationContext, "전송에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    }
-                })
+//                // 전송
+//                val call = NetWorkClient.GetNetwork.createarticle(images, videos, userpid, articlethumbnail)
+//                call.enqueue(object : Callback<FindPwResponse> {
+//                    override fun onResponse(call: Call<FindPwResponse>, response: Response<FindPwResponse>) {
+//                        // 오늘 필름을 저장했다면 내부 저장소에 필름 완성했다는 정보 남기기
+//                        if (today == date) {
+//                            MyPreference.writeInt(applicationContext, "isComplete", 1)
+//                        } else {
+//                            // 어제 필름을 저장했다면 내부 저장소에 date 갱신
+//                            MyPreference.write(applicationContext, "date", today)
+//                        }
+//
+//                        if(complete_save.isChecked){
+//                            val duration = Toast.LENGTH_SHORT
+//                            val bitmap = Bitmap.createBitmap(fragment_content_complete.getWidth(), fragment_content_complete.getHeight(), (Bitmap.Config.ARGB_8888));
+//                            val canvas = Canvas(bitmap);
+//                            val bgDrawable = fragment_content_complete.getBackground();
+//                            if (bgDrawable != null) {
+//                                bgDrawable.draw(canvas);
+//                            } else {
+//                                canvas.drawColor(Color.WHITE);
+//                            }
+//                            fragment_content_complete.draw(canvas);
+//
+//                            var fos: OutputStream? = null
+//                            val title = "이것은 당시 날짜이다."
+//                            // 3
+//                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                                // 4
+//                                baseContext?.contentResolver?.also { resolver ->
+//
+//                                    // 5
+//                                    val contentValues = ContentValues().apply {
+//                                        put(MediaStore.MediaColumns.DISPLAY_NAME, "$title.png")
+//                                        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+//                                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+//                                    }
+//
+//                                    // 6
+//                                    val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+//
+//                                    // 7
+//                                    fos = imageUri?.let { resolver.openOutputStream(it) }
+//                                }
+//                            } else {
+//                                val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+//                                val image = File(imagesDir, "$title.png")
+//                                fos = FileOutputStream(image)
+//                            }
+//
+//                            fos?.use {
+//                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+//                                Toast.makeText(baseContext, "성공적으로 저장되었습니다..", duration).show()
+//                            }
+//                        }
+//
+//                        // 응답 받은 후 토스트 띄우고 main 액티비티로 이동
+//                        Toast.makeText(applicationContext, "성공적으로 기록되었습니다.", Toast.LENGTH_SHORT).show()
+//                        val intent = Intent(applicationContext, MainActivity::class.java)
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                        startActivity(intent)
+//                    }
+//
+//                    override fun onFailure(call: Call<FindPwResponse>, t: Throwable) {
+//                        Toast.makeText(applicationContext, "전송에 실패했습니다.", Toast.LENGTH_SHORT).show()
+//                    }
+//                })
             }
         }
     }
