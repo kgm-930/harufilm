@@ -25,11 +25,7 @@ public class Subscribe {
     @Column(columnDefinition = "INT UNSIGNED")
     private int subidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "subfrom")
     private int subfrom;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "subto")
     private int subto;
 }

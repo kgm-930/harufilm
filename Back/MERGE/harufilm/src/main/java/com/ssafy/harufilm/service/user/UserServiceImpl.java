@@ -113,4 +113,17 @@ public class UserServiceImpl implements UserService {
         }        
         return usersplist;
     }
+
+    @Override
+    public void modifypassword(String userid, String enuserpassword) {
+        System.out.println(2);
+        User user = userRepository.findByUserid(userid).orElse(null);
+        System.out.println(user);
+        if(user!=null){
+            System.out.println(2);
+            user.setUserpassword(enuserpassword);
+            userRepository.save(user);
+            System.out.println(2);
+        }
+    }
 }

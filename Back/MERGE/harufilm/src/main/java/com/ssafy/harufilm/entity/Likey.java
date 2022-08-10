@@ -25,11 +25,7 @@ public class Likey {
     @Column(columnDefinition = "INT UNSIGNED")
     private int likeyidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "likeyfrom")
     private int likeyfrom;
 
-    @ManyToOne(targetEntity = Article.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "likeyto")
     private int likeyto;
 }

@@ -20,4 +20,6 @@ public interface UserService {
 
     List<SmallProfileResponseDto> getuserlistbykeyword(String keyword);
 
+    void modifypassword(String userid, String enuserpassword);
+
 }

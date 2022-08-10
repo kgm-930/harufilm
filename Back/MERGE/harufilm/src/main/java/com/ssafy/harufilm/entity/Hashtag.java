@@ -24,11 +24,7 @@ public class Hashtag {
     @Column(columnDefinition = "INT UNSIGNED")
     private int hashtagidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "hashidx")
     private int hashidx;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(insertable =  false, updatable = false, name = "articleidx")
     private int articleidx;
 }
