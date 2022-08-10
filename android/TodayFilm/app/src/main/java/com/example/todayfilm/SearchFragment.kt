@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.todayfilm.data.SearchUser
 import com.example.todayfilm.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment(),View.OnClickListener {
@@ -23,6 +24,22 @@ class SearchFragment : Fragment(),View.OnClickListener {
         setOnclickListner()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 검색 수행
+
+        // 검색 결과로 받는 사용자 리스트를 userdatas 변수에 넣음
+        val userdatas = ArrayList<SearchUser>()
+        initUserRecycler(userdatas)
+    }
+
+    private fun initUserRecycler(userdatas: ArrayList<SearchUser>) {
+        val userAdapter = SearchUserAdapter(requireActivity())
+        binding.searchResultUser.adapter = userAdapter
+
+        userAdapter.datas = userdatas
+    }
+
     private fun setOnclickListner(){
         binding.goProfileList.setOnClickListener(this)
     }
@@ -35,8 +52,6 @@ class SearchFragment : Fragment(),View.OnClickListener {
             }
         }
     }
-
-
 }
 
 
