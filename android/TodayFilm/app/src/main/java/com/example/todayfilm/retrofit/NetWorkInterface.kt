@@ -32,9 +32,13 @@ interface NetWorkInterface {
         @Body findPw: FindPwRequest
     ): Call<FindPwResponse>
 
-    @POST("api/account/changeuserdetail")
+    @Multipart
+    @POST("api/profile/modify")
     fun changeuserdetail(
-        @Body changeUserDetail: ChangeUserDetailRequest
+        @Part userimg: MultipartBody.Part,
+        @Part("userpid") userpid: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("userdesc") userdesc: RequestBody,
     ): Call<ChangeUserDetailResponse>
 
     @Multipart
