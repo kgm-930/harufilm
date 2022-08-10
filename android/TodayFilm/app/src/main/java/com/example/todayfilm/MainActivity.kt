@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    fun changeFragment(index: Int){
+    fun changeFragment(index: Int, data: String?=null){
         when(index){
             1 -> {
                 moveFragment(SearchFragment())
@@ -151,6 +151,16 @@ class MainActivity : AppCompatActivity() {
 
             3-> {
                 moveFragment(FilmFragment())
+            }
+
+            4 -> {
+                if (data != null) {
+                    val fragment = ProfileFragment()
+                    val bundle = Bundle()
+                    bundle.putString("search_userpid", data)
+                    fragment.arguments = bundle
+                    moveFragment(fragment)
+                }
             }
         }
     }

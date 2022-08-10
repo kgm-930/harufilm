@@ -1,6 +1,8 @@
 package com.example.todayfilm.data
 
 class SearchUser {
-    var userimg: String = ""
-    var userid: String = ""
+    val userpid = 0
+    val username = ""
+    val userimg = ""
+    val userid = ""
 }

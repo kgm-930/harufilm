@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.todayfilm.databinding.FragmentProfileBinding
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class ProfileFragment : Fragment(), View.OnClickListener {
     lateinit var binding: FragmentProfileBinding
@@ -24,6 +25,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater,container,false)
+
+        val search_userpid = arguments?.getString("search_userpid")
 
         binding.profileId.text = userid
 

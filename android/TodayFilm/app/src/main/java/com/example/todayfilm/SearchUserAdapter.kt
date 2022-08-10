@@ -34,6 +34,20 @@ class SearchUserAdapter(private val context: Context) : RecyclerView.Adapter<Sea
         fun bind(item: SearchUser) {
             userid.text = item.userid
             Glide.with(itemView).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/profile/" + item.userimg).into(userimg)
+
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it, item.userpid.toString())
+            }
         }
+    }
+
+    interface ItemClickListener {
+        fun onClick(view: View, userpid: String)
+    }
+
+    private lateinit var itemClickListener: ItemClickListener
+
+    fun setItemClickListener(itemClickListener: ItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 }
