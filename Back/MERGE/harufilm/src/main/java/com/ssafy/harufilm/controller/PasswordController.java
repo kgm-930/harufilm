@@ -38,7 +38,10 @@ public class PasswordController {
         if (user == null) {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "없는 아이디"));
         }
-        if(user.getUserpwq() == findpwDto.getQ() && user.getUserpwa() == findpwDto.getA()){
+        System.out.println(user.getUserpwq() + ":" + findpwDto.getUserpwq());
+        System.out.println(user.getUserpwa() + ":" + findpwDto.getUserpwa());
+        
+        if((user.getUserpwq() == findpwDto.getUserpwq())&& (user.getUserpwa().equals(findpwDto.getUserpwa()))){
         return ResponseEntity.status(200).body(MessageBody.of(true, "비밀 번호 질문 일치"));
     }
         return ResponseEntity.status(200).body(MessageBody.of(false, "비밀 번호 질문 불일치"));

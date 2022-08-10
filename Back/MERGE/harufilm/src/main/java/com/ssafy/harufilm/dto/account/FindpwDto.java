@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FindpwDto {
     String userid;
-    int Q;
-    String A;
+    int userpwq;
+    String userpwa;
 }
