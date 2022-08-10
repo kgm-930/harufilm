@@ -55,4 +55,25 @@ interface NetWorkInterface {
     fun changearticleshare(
         @Body changeArticleShare: ChangeArticleShareRequest
     ): Call<ChangeUserDetailResponse>
+
+
+////////////////////////////////////////////////
+
+    @POST("api/profile/join")
+    fun getprofile(
+        @Body getProfile: GetProfile
+
+    ): Call<CompleteProfile>
+
+
+    @POST("api/article/showarticle")
+    fun showarticle(
+        @Body getArticle : GetArticle
+
+    ): Call<List<ShowProfile>>
+
+
+
 }
+
+

@@ -11,10 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
-import com.example.todayfilm.data.CompleteProfile
-import com.example.todayfilm.data.FindPwResponse
-import com.example.todayfilm.data.GetProfile
-import com.example.todayfilm.data.User
+import com.example.todayfilm.data.*
 import com.example.todayfilm.databinding.FragmentProfileBinding
 import com.example.todayfilm.retrofit.NetWorkClient
 import com.google.android.gms.common.internal.service.Common.API
@@ -74,6 +71,26 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
     override fun onResume() {
         super.onResume()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         userid = MyPreference.read(requireContext(), "userid")
         username = MyPreference.read(requireContext(), "username")
         userdesc = MyPreference.read(requireContext(), "userdesc")
@@ -81,33 +98,16 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
 
 
-
-
-
-        if (username != ""){
-            binding.profileUsername.setText(username)
-        }
-        if (userdesc != ""){
-            binding.profileDescription.setText(userdesc)
-        }
-
-
-
-
-
-
-
-
-
-
-
         if (isMyProfile) {
-            val profile = GetProfile()
             val pid = MyPreference.read(requireContext(), "userpid")
-            profile.userpid = pid.toString()
+            Log.d("ㅇ?",pid)
 
+            val profile = GetProfile()
+            profile.userpid = pid
 
             val call = NetWorkClient.GetNetwork.getprofile(profile)
+
+            //1
             call.enqueue(object : Callback<CompleteProfile>{
 
                 override fun onResponse(
@@ -115,34 +115,61 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     response: Response<CompleteProfile>
                 ) {
                     Log.d("체크3",response.body()?.userimg.toString())
+                    Log.d("체크3",response.body()?.username.toString())
+                    Log.d("체크3",response.body()?.userdesc.toString())
+
                     val imgview = binding.profileImageFile
-                    Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/profileimg/"+response.body()?.userimg).into(imgview)
+                    Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/profile/"+response.body()?.userimg.toString()).into(imgview)
+                    // img
+                    binding.profileUsername.setText(response.body()?.username.toString())
+                    binding.profileDescription.setText(response.body()?.userdesc.toString())
 
-
-
-
-
-
-
-
-
-
-
+                    // id , desc
+                    //3
                 }
-
-
                 override fun onFailure(call: Call<CompleteProfile>, t: Throwable) {
 
+                } } )
+
+
+
+            val article = GetArticle()
+            Log.d("ㅇ",pid)
+            article.userpid = pid
+            article.search_userpid = pid
+
+            val callArticle = NetWorkClient.GetNetwork.showarticle(article)
+
+            callArticle.enqueue( object : Callback<List<ShowProfile>>{
+
+                override fun onResponse(
+                    call: Call<List<ShowProfile>>,
+                    response: Response<List<ShowProfile>>
+                ) {
+
+                    val count = response.body()
+
+
+                    val articleview = binding.profileFilmImage1
+                    Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/"+ pid +
+                            "/" + response.body()!!.get(0).articlecreatedate + "/" + response.body()!!.get(0).articlethumbnail +".png").into(articleview)
+
+                    binding.calen.setText(response.body()!!.get(0).articlecreatedate.toString())
 
 
                 }
 
+                override fun onFailure(call: Call<List<ShowProfile>>, t: Throwable) {
+
+
+                }
+
+            })
 
 
 
 
-            }
-            )
+
 
 
 
@@ -153,7 +180,17 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/profileimg/baseimg.png").into(imgview)
             // 본인 프로필이 아니라면 팔로우 중인지 확인
 
+            if (username != ""){
+                binding.profileUsername.setText(username)
+            }
+            if (userdesc != ""){
+                binding.profileDescription.setText(userdesc)
+            }
+
         }
+
+
+
 
 
 
@@ -210,5 +247,5 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 }
             }
         }
-    }
+    }}
 ////////////////////////////////////////////
