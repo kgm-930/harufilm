@@ -55,7 +55,8 @@ public class SignupController {
             // TODO: handle exception
         }
 
-        FcmController.FCMMessaging("a","a","a");
+        // to : 받을 기기의 fcm토큰,   title : 푸시 제목,  message : 푸시 내용
+        FcmController.FCMMessaging("a","회원 가입 완료","계정 생성이 완료되었습니다.");
         return ResponseEntity.status(200).body(MessageBody.of(true, "계정 생성이 완료되었습니다."));
     }
 }
