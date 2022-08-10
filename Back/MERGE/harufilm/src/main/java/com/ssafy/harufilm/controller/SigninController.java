@@ -51,6 +51,7 @@ public class SigninController {
         }
         String token = jwtTokenProvider.createToken((signinRequestDto.getUserid()));
 
+        FcmController.FCMMessaging("a","로그인 완료","로그인이 완료되었습니다.");
         return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token));
 
     }
