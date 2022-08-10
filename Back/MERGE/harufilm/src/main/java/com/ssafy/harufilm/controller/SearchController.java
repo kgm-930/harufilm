@@ -13,6 +13,7 @@ import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.account.UserSearchResponseDto;
 import com.ssafy.harufilm.dto.article.ArticleSearchResponseDto;
+import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.service.article.ArticleService;
 import com.ssafy.harufilm.service.user.UserService;
@@ -31,10 +32,10 @@ public class SearchController {
     ArticleService articleService;
 
     @PostMapping("/user")
-    public ResponseEntity<?> searchUserByKeyword(@RequestBody String keyword){
+    public ResponseEntity<?> searchUserByKeyword(@RequestBody KeywordDto keyword){
         List<SmallProfileResponseDto> userlist;
         try{
-            userlist = userService.getuserlistbykeyword(keyword);
+            userlist = userService.getuserlistbykeyword(keyword.getKeyword());
         }catch(Exception e){
             return ResponseEntity.status(200).body(MessageBody.of(true, "글 불러오기 성공"));
     
@@ -43,10 +44,10 @@ public class SearchController {
     }
 
     @PostMapping("/hash")
-    public ResponseEntity<?> searchArticleBysearchHashByKeyword(@RequestBody String keyword){
+    public ResponseEntity<?> searchArticleBysearchHashByKeyword(@RequestBody KeywordDto keyword){
         List<Article> articlelist;
         try{
-            articlelist = articleService.getarticlelistbykeyword(keyword);
+            articlelist = articleService.getarticlelistbykeyword(keyword.getKeyword());
         }catch(Exception e){
             return ResponseEntity.status(200).body(MessageBody.of(true, "글 불러오기 성공"));
     
