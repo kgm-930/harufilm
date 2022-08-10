@@ -60,6 +60,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // changeprofile에서 왔다면 Profile Fragment 띄우기
+        val parent = intent.getStringExtra("parent")
+        if (parent == "changeprofile") {
+            changeFragment(4, MyPreference.read(this, "userpid"))
+        }
 
         // reset 알림을 받고 왔거나, 내부 저장소의 date가 오늘 날짜와 다르면 다이얼로그 띄우기
         fromResetNotification = intent.getBooleanExtra("fromResetNotification", false)
@@ -154,12 +159,18 @@ class MainActivity : AppCompatActivity() {
                 moveFragment(SearchFragment())
             }
 
-            2-> {
+            2 -> {
                 moveFragment(ProfileListFragment())
             }
 
-            3-> {
-                moveFragment(FilmFragment())
+            3 -> {
+                if (data != null) {
+                    val fragment = FilmFragment()
+                    val bundle = Bundle()
+                    bundle.putString("articleidx", data)
+                    fragment.arguments = bundle
+                    moveFragment(fragment)
+                }
             }
 
             4 -> {

@@ -60,7 +60,7 @@ class SearchFragment : Fragment(),View.OnClickListener {
         search.keyword = keyword
 
         // 사용자 검색
-        val call = NetWorkClient.GetNetwork.search(search)
+        val call = NetWorkClient.GetNetwork.searchuser(search)
         call.enqueue(object : Callback<SearchUserResponse> {
             override fun onResponse(call: Call<SearchUserResponse>, response: Response<SearchUserResponse>) {
                 val result: SearchUserResponse? = response.body()
