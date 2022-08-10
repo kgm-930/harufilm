@@ -57,8 +57,6 @@ interface NetWorkInterface {
     ): Call<ChangeUserDetailResponse>
 
 
-////////////////////////////////////////////////
-
     @POST("api/profile/join")
     fun getprofile(
         @Body getProfile: GetProfile
@@ -74,6 +72,10 @@ interface NetWorkInterface {
 
 
 
-}
 
+    @POST("api/search/user")
+    fun search(
+        @Body search: SearchRequest
+    ): Call<SearchResponse>
+}
 
