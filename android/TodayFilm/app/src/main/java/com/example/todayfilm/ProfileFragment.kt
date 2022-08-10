@@ -28,8 +28,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         val search_userpid = arguments?.getString("search_userpid")
 
-        binding.profileId.text = userid
-
         return binding.root
     }
 

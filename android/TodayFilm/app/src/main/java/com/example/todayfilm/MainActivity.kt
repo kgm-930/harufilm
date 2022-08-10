@@ -35,18 +35,27 @@ class MainActivity : AppCompatActivity() {
         // 네비 항목 클릭 시 프래그먼트 변경
         binding.navBar.setOnItemSelectedListener { item ->
             when(item.itemId) {
-                R.id.feedFragment ->{ clearBackStack()
-                    setFragment(TAG_FEED, FeedFragment())}
-                R.id.homeFragment -> { clearBackStack()
-                    setFragment(TAG_HOME, HomeFragment())}
-                R.id.profileFragment -> { clearBackStack()
-                    setFragment(TAG_PROFILE, ProfileFragment())}
+                R.id.feedFragment -> {
+                    clearBackStack()
+                    setFragment(TAG_FEED, FeedFragment())
+                }
+
+                R.id.homeFragment -> {
+                    clearBackStack()
+                    setFragment(TAG_HOME, HomeFragment())
+                }
+
+                R.id.profileFragment -> {
+                    clearBackStack()
+                    val fragment = ProfileFragment()
+                    val bundle = Bundle()
+                    bundle.putString("search_userpid", MyPreference.read(this, "userpid"))
+                    fragment.arguments = bundle
+                    setFragment(TAG_PROFILE, fragment)
+                }
             }
             true
         }
-
-
-
     }
 
     override fun onResume() {
