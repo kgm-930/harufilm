@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.MediaController
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daasuu.mp4compose.FillMode
 import com.daasuu.mp4compose.Rotation
@@ -86,12 +87,14 @@ class CheckActivity : AppCompatActivity() {
 
                 override fun onCanceled() {
                     File(srcPath).delete()
-                    Log.d(TAG, "onCanceled")
+                    loadingDialog.dismiss()
+                    Toast.makeText(this@CheckActivity, "오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onFailed(exception: Exception) {
                     File(srcPath).delete()
-                    Log.e(TAG, "onFailed()", exception)
+                    loadingDialog.dismiss()
+                    Toast.makeText(this@CheckActivity, "오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 }
             })
             .start()
@@ -114,10 +117,7 @@ class CheckActivity : AppCompatActivity() {
 
         // 확인 버튼
         binding.cameraOk.setOnClickListener {
-            this.window?.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-
+            binding.cameraOk.isClickable = false
             loadingDialog.show()
 
             // 내부 저장소에 저장된 사진 정보 확인

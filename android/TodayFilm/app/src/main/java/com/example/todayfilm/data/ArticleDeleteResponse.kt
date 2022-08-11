@@ -1,6 +1,6 @@
 package com.example.todayfilm.data
 
-class noRseponse {
-    var success : Boolean = true
+class ArticleDeleteResponse {
     var message = ""
+    var success = ""
 }

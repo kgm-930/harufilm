@@ -67,7 +67,7 @@ class FrameFragment : Fragment(), View.OnClickListener {
                 tempArray.addAll(gson.fromJson(prev, groupListType))
             }
 
-            imgcount = tempArray.size
+            imgcount = MyPreference.readInt(requireActivity(), "imgcount")
 
             // 데이터 바인딩
             if (imgcount > 0) {
@@ -78,7 +78,6 @@ class FrameFragment : Fragment(), View.OnClickListener {
             }
             if (imgcount > 2) {
                 binding.imgvid3 = tempArray[2]
-
             }
             if (imgcount > 3) {
                 binding.imgvid4 = tempArray[3]
@@ -102,12 +101,12 @@ class FrameFragment : Fragment(), View.OnClickListener {
                         binding.imgvid4 = tempArray[1]
                     }
 
-                     3 -> {
-                         binding.imgvid1 = tempArray[0]
-                         binding.imgvid2 = tempArray[1]
-                         binding.imgvid3 = tempArray[2]
-                         binding.imgvid4 = tempArray[0]
-                     }
+                    3 -> {
+                        binding.imgvid1 = tempArray[0]
+                        binding.imgvid2 = tempArray[1]
+                        binding.imgvid3 = tempArray[2]
+                        binding.imgvid4 = tempArray[0]
+                    }
                 }
             }
 
@@ -120,9 +119,9 @@ class FrameFragment : Fragment(), View.OnClickListener {
             val imgview2 = binding.image2Photo
             Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${article_userpid}/${articlecreatedate}/2.png").into(imgview2)
             val imgview3 = binding.image3Photo
-            Glide.with(requireActivity()).load("http://i7c307.p.ssafy.io:8080/harufilm/upload/article/${article_userpid}/${articlecreatedate}/3.png").into(imgview3)
+            Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${article_userpid}/${articlecreatedate}/3.png").into(imgview3)
             val imgview4 = binding.image4Photo
-            Glide.with(requireActivity()).load("http://i7c407.p.ssafy.io:8080/harufilm/upload/article/${article_userpid}/${articlecreatedate}/4.png").into(imgview4)
+            Glide.with(requireActivity()).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${article_userpid}/${articlecreatedate}/4.png").into(imgview4)
 
             val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
             val temp = LocalDate.parse(articlecreatedate, formatter)

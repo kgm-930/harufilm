@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -58,6 +59,7 @@ class CompleteActivity : AppCompatActivity() {
         binding.completeBtn.setOnClickListener {
             val hashtags = binding.completeHashtag.insertTag
             var isHashtagsOK = true
+            var hashstring = ""
 
             // 해시태그 유효성 검사
             if (hashtags.size < 0 || hashtags.size > 4) {
@@ -67,8 +69,12 @@ class CompleteActivity : AppCompatActivity() {
                 if (hashtag.length < 0 || hashtag.length > 32) {
                     isHashtagsOK = false
                     break
+                } else {
+                    hashstring += ",$hashtag"
                 }
             }
+
+            hashstring = hashstring.substring(1)
 
             // 오늘 날짜 확인
             val today = SimpleDateFormat("yyyy/MM/dd (E)", Locale.KOREA)
@@ -129,8 +135,11 @@ class CompleteActivity : AppCompatActivity() {
                 // 공개 여부
                 val articleshare = RequestBody.create(MediaType.parse("text/plain"), share.toString())
 
+                // 해시태그
+                val hashlist = RequestBody.create(MediaType.parse("text/plain"), hashstring)
+
                 // 전송
-                val call = NetWorkClient.GetNetwork.createarticle(images, videos, userpid, articlethumbnail, articleshare)
+                val call = NetWorkClient.GetNetwork.createarticle(images, videos, userpid, articlethumbnail, articleshare, hashlist)
                 call.enqueue(object : Callback<FindPwResponse> {
 
                     override fun onResponse(call: Call<FindPwResponse>, response: Response<FindPwResponse>) {

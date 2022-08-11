@@ -1,6 +1,5 @@
 package com.example.todayfilm
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -68,85 +67,101 @@ class LoginActivity : AppCompatActivity() {
 
             val LoginId = binding.loginId.text.toString()
             val LoginPw = binding.loginPw.text.toString()
+
             val user = User()
             user.userid = LoginId
             user.userpassword = LoginPw
 
-            val call = NetWorkClient.GetNetwork.login(user)
-            call.enqueue(object : Callback<LoginData> {
-                override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
-                    val result: LoginData? = response.body()
+            FirebaseMessaging.getInstance().token
+                .addOnCompleteListener(object : OnCompleteListener<String?> {
+                    override fun onComplete(@NonNull task: Task<String?>) {
+                        // 새로운 토큰 생성 성공 시
+                        user.userfcmtoken = task.getResult();
+                        val call = NetWorkClient.GetNetwork.login(user)
 
-                    if (result?.message == "로그인 완료"){
-                        Log.d("test:", result.token)
-                        MyPreference.write(this@LoginActivity, "userpid", result.userpid)
-                        MyPreference.write(this@LoginActivity, "userid", LoginId)
-                        //*********************************************************
-                        //FCM 관련
-                        //MyPreference.write(this@LoginActivity, "userfcm","FCM토큰")
-                        FirebaseMessaging.getInstance().token
-                            .addOnCompleteListener(object : OnCompleteListener<String?> {
-                                override fun onComplete(@NonNull task: Task<String?>) {
-                                    if (!task.isSuccessful()) {
-                                        Log.w(ContentValues.TAG, "토큰 생성 실패", task.getException())
-                                        return
+                        call.enqueue(object : Callback<LoginData> {
+                            override fun onResponse(
+                                call: Call<LoginData>,
+                                response: Response<LoginData>
+                            ) {
+                                val result: LoginData? = response.body()
+
+                                if (result?.message == "로그인 완료") {
+                                    Log.d("test:", result.token)
+                                    MyPreference.write(
+                                        this@LoginActivity,
+                                        "userpid",
+                                        result.userpid
+                                    )
+                                    MyPreference.write(this@LoginActivity, "userid", LoginId)
+                                    MyPreference.write(
+                                        this@LoginActivity,
+                                        "usertoken",
+                                        result.token
+                                    )
+                                    MyPreference.write(
+                                        this@LoginActivity,
+                                        "userpassword",
+                                        user.userpassword
+                                    )
+
+                                    // 앱 최초 로그인일 경우에 실행되는 작업
+                                    // 내부 저장소에 imgcount, isComplete, imgvids 변수 초기화 및 preference 기본값 지정
+                                    val sp = getSharedPreferences("my_sp_storage", MODE_PRIVATE)
+                                    val settingsSP =
+                                        PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
+                                    val first = sp.getBoolean("isFirst", false)
+                                    if (!first) {
+                                        val editor = sp.edit()
+                                        editor.putBoolean("isFirst", true)
+                                        editor.apply()
+
+                                        val date = SimpleDateFormat("yyyy/MM/dd (E)", Locale.KOREA)
+                                            .format(System.currentTimeMillis())
+
+                                        MyPreference.writeInt(this@LoginActivity, "imgcount", 0)
+                                        MyPreference.writeInt(this@LoginActivity, "isComplete", 0)
+                                        MyPreference.write(this@LoginActivity, "imgvids", "")
+                                        MyPreference.write(this@LoginActivity, "date", date)
+
+                                        val settingsEditor = settingsSP.edit()
+                                        settingsEditor.putBoolean("empty", true)
+                                        settingsEditor.putBoolean("follow", true)
+                                        settingsEditor.putBoolean("like", true)
+                                        settingsEditor.putBoolean("new", true)
+                                        settingsEditor.putBoolean("repeat", true)
+                                        settingsEditor.putBoolean("shake", true)
+                                        settingsEditor.apply()
                                     }
-                                    // 새로운 토큰 생성 성공 시
-                                    val token: String? = task.getResult()
-                                    if (token != null) {
-                                        MyPreference.write(this@LoginActivity, "userfcm",token)
-                                    }
+
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "성공적으로 로그인되었습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                    loadingDialog.dismiss()
+
+                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    loadingDialog.dismiss()
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "로그인에 실패했습니다.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
-                            })
-                        //
-                        //*********************************************************
-                        MyPreference.write(this@LoginActivity, "usertoken", result.token)
-                        MyPreference.write(this@LoginActivity, "userpassword", user.userpassword)
+                            }
 
-                        // 앱 최초 로그인일 경우에 실행되는 작업
-                        // 내부 저장소에 imgcount, isComplete, imgvids 변수 초기화 및 preference 기본값 지정
-                        val sp = getSharedPreferences("my_sp_storage", MODE_PRIVATE)
-                        val settingsSP = PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
-                        val first = sp.getBoolean("isFirst", false)
-                        if (!first) {
-                            val editor = sp.edit()
-                            editor.putBoolean("isFirst", true)
-                            editor.apply()
-
-                            val date = SimpleDateFormat("yyyy/MM/dd (E)", Locale.KOREA)
-                                .format(System.currentTimeMillis())
-
-                            MyPreference.writeInt(this@LoginActivity, "imgcount", 0)
-                            MyPreference.writeInt(this@LoginActivity, "isComplete", 0)
-                            MyPreference.write(this@LoginActivity, "imgvids", "")
-                            MyPreference.write(this@LoginActivity, "date", date)
-
-                            val settingsEditor = settingsSP.edit()
-                            settingsEditor.putBoolean("empty", true)
-                            settingsEditor.putBoolean("follow", true)
-                            settingsEditor.putBoolean("like", true)
-                            settingsEditor.putBoolean("new", true)
-                            settingsEditor.putBoolean("repeat", true)
-                            settingsEditor.putBoolean("shake", true)
-                            settingsEditor.apply()
-                        }
-                        Toast.makeText(this@LoginActivity, "성공적으로 로그인되었습니다.", Toast.LENGTH_SHORT).show()
-                        loadingDialog.dismiss()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-                        finish()
-                    }else{
-                        loadingDialog.dismiss()
-
-                        Toast.makeText(this@LoginActivity, "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            override fun onFailure(call: Call<LoginData>, t: Throwable) {
+                                Log.d("", "실패" + t.message.toString())
+                            }
+                        })
                     }
-                }
-
-                override fun onFailure(call: Call<LoginData>, t: Throwable) {
-                    Log.d("", "실패"+t.message.toString())
-                }
-            })
+                })
         }
     }
 

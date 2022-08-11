@@ -57,7 +57,8 @@ interface NetWorkInterface {
         @Part videodata: List<MultipartBody.Part?>,
         @Part("userpid") userpid: RequestBody,
         @Part("articlethumbnail") articlethumbnail: RequestBody,
-        @Part("articleshare") articleshare: RequestBody
+        @Part("articleshare") articleshare: RequestBody,
+        @Part("hashlist") hashlist: RequestBody
     ): Call<FindPwResponse>
 
     @POST("api/article/sharecontrol")
@@ -99,5 +100,15 @@ interface NetWorkInterface {
     fun followsearch(
         @Body follow: FollowRequest
     ): Call<FollowBoolean>
+
+    @POST("api/article/delete")
+    fun articledelete(
+        @Body articledelete: ArticleDeleteRequest
+    ): Call<ArticleDeleteResponse>
+
+    @POST("api/subscribe/followed")
+    fun followed(
+        @Body getProfile: GetProfile
+    ):Call<List<FollowProfile>>
 }
 
