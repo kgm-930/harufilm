@@ -61,4 +61,14 @@ public class SubscribeServiceImpl implements SubscribeService {
             return null;
     }
 
+    @Override
+    public Boolean followBoolean(int subfrom, int subto) {
+        Subscribe sub = subscribeRepository.findBySubfromAndSubto(subfrom, subto);
+        if(sub!=null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

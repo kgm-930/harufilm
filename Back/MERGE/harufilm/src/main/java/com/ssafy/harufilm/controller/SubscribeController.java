@@ -1,5 +1,7 @@
 package com.ssafy.harufilm.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,7 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
+import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
+import com.ssafy.harufilm.dto.subscribe.SubScribeDetailRequestDto;
+import com.ssafy.harufilm.dto.subscribe.SubscribableDto;
+import com.ssafy.harufilm.dto.subscribe.SubscribableResponseDto;
 import com.ssafy.harufilm.dto.subscribe.SubscribeRequestDto;
+import com.ssafy.harufilm.dto.subscribe.SubscribeUserDto;
+import com.ssafy.harufilm.dto.subscribe.SubscribeUserlistResponseDto;
 import com.ssafy.harufilm.service.subscribe.SubscribeService;
 
 @RestController
@@ -44,24 +52,39 @@ public class SubscribeController {
     }
 
     @PostMapping("/following")
-    public ResponseEntity<?> following(@RequestBody int userpid){
+    public ResponseEntity<?> following(@RequestBody SubScribeDetailRequestDto subscribeDetailRequestDto){
+        List<SmallProfileResponseDto> list;
         try{
-            subscribeService.followList(userpid);
+            list = subscribeService.followList(subscribeDetailRequestDto.getUserpid());
         }catch(Exception e){
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
             "Interanl Server Error, 팔로우 리스트 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(MessageBody.of(true, "팔로우 리스트 불러오기"));
+        return ResponseEntity.status(200).body(SubscribeUserlistResponseDto.of(list));
     }
 
     @PostMapping("/followed")
-    public ResponseEntity<?> followed(@RequestBody int userpid){
+    public ResponseEntity<?> followed(@RequestBody SubScribeDetailRequestDto subscribeDetailRequestDto){
+        List<SmallProfileResponseDto> list;
+        
         try{
-            subscribeService.followerList(userpid);
+            list = subscribeService.followerList(subscribeDetailRequestDto.getUserpid());
         }catch(Exception e){
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
             "Interanl Server Error, 팔로워 리스트 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(MessageBody.of(true, "팔로워 리스트 불러오기"));
+        return ResponseEntity.status(200).body(SubscribeUserlistResponseDto.of(list));
+    }
+
+    @PostMapping("/follow")
+    public ResponseEntity<?> follow (@RequestBody SubscribableDto subscribableDto){
+        boolean followBoolean;
+        try{
+            followBoolean = subscribeService.followBoolean(subscribableDto.getSubfrom(), subscribableDto.getSubto());
+        }catch(Exception e){
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+            "Interanl Server Error, 팔로잉 여부 불러오기 실패"));
+        }
+        return ResponseEntity.status(200).body(SubscribableResponseDto.of(followBoolean));
     }
 }
