@@ -1,5 +1,6 @@
 package com.ssafy.harufilm.repository.likey;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,9 @@ public interface LikeyRepository extends JpaRepository<Likey, Integer>{
 
     @Query("select count(l) from Likey l where l.likeyto = :likeyto")
     Long articleLikeyCount(@Param("likeyto") int likeyto);
+
+    List<Likey> findByLikeyfrom(int likeyfrom);
+
+    List<Likey> findByLikeyto(int likeyto);
 
 }

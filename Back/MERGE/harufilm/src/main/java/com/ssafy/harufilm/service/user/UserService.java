@@ -22,4 +22,6 @@ public interface UserService {
 
     void modifypassword(String userid, String enuserpassword);
 
+    void signdown(User user);
+
 }
