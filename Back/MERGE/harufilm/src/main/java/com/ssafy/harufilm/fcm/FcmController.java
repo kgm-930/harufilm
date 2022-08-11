@@ -10,7 +10,7 @@ public class FcmController {
 
          JSONObject body = new JSONObject();
 
-         body.put("to","fGOW6LdaQaC4eVq6JkIga4:APA91bGLC91PFm1OvztwiumnzH3Y76fd9eEUWAqK5QPxb5ea5tu0F5fa91lGOayFg6XAUKzN9BoUCnmBXyNkFJsXfV5k04DLdlJokmb3ms7rBeT3s7Px9WdbVbN8oMWCkMjKA-UWipTD");
+         body.put("to",to);
          body.put("priority","high");
 
          JSONObject notification = new JSONObject();
