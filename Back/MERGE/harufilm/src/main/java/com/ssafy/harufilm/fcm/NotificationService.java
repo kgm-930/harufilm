@@ -12,7 +12,7 @@ public class NotificationService {
     private static final String SERVER_KEY = "AAAAz80bO58:APA91bG4vUfEncUUiDU845j0KzNd3VnPXbHLiKhAlsGIGaGG9WHAhVlZJyIbgfbMuqca-09-mHKBsMzvI5XvfOA3vx1oQeveNbme1B2qjc-1SX2gQC8xKKGDUHUdoi9BEutiEgEGlMAg";
     private static final String API_URL = "https://fcm.googleapis.com/fcm/send";
 
-    public static void send(HttpEntity<String> entity){
+    public static CompletableFuture<String> send(HttpEntity<String> entity){
         RestTemplate restTemplate = new RestTemplate();
 
         ArrayList<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
@@ -20,6 +20,8 @@ public class NotificationService {
         interceptors.add(new HeaderRequestInterceptor("Content-Type","application/json; charset=utf-8"));
         restTemplate.setInterceptors(interceptors);
 
-        restTemplate.postForObject(API_URL,entity,String.class);
+        String response = restTemplate.postForObject(API_URL,entity,String.class);
+
+        return CompletableFuture.completedFuture(response);
     }
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class FcmController {
-    public static void FCMMessaging(String to, String title, String message) throws JSONException {
+    public static ResponseEntity<String> FCMMessaging(String to, String title, String message) throws JSONException {
         JSONObject body = new JSONObject();
         JSONObject notification = new JSONObject();
         JSONObject data = new JSONObject();
@@ -36,8 +36,20 @@ public class FcmController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(String.valueOf(body),headers);
-        NotificationService.send(request);
-        //CompletableFuture<String> pushNotification;
-        //CompletableFuture.allOf(pushNotification).join();
+
+        CompletableFuture<String> pushNotification = NotificationService.send(request);
+        CompletableFuture.allOf(pushNotification).join();
+
+        try {
+            String response = pushNotification.get();
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>("ERROR", HttpStatus.BAD_REQUEST);
     }
 }
