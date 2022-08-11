@@ -59,4 +59,6 @@ public class User {
         return new ArrayList<>();
 
     }
+    @Column
+    private String userfcmtoken;
 }

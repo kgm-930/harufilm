@@ -36,6 +36,7 @@ public class SigninController {
 
         try {
             user = userService.getuserbyId(signinRequestDto.getUserid());
+
         } catch (Exception e) {
 
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
@@ -50,7 +51,9 @@ public class SigninController {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "아이디 또는 비밀번호가 입력이 잘못 되었습니다."));
         }
         String token = jwtTokenProvider.createToken((signinRequestDto.getUserid()));
-        FcmController.FCMMessaging("a","로그인 완료","안녕하세요!");
+    
+        userService.setuserfcmtoken(user.getUserpid(), signinRequestDto.getUserfcmtoken());
+        FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(),"로그인 완료","안녕하세요!");
         return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token));
 
     }

@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class SigninRequestDto {
     private String userid;
     private String userpassword;
+    private String userfcmtoken;
 }

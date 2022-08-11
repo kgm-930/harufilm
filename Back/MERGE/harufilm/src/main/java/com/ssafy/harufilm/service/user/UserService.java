@@ -24,4 +24,8 @@ public interface UserService {
 
     void signdown(User user);
 
+    void setuserfcmtoken(int userpid,String userfcmtoken);
+
+    String getuserfcmtoken(int userpid);
+
 }
