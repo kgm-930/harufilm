@@ -28,4 +28,6 @@ public interface ArticleService {
 
     List<String> getHash(int articleidx);
 
+    boolean getLikeystatus(int userpid, int articleidx);
+
 }

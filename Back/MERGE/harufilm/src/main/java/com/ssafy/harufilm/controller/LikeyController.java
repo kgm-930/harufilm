@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
+import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
 import com.ssafy.harufilm.dto.likey.LikeyRequestDto;
 import com.ssafy.harufilm.service.likey.LikeyService;
  
@@ -41,6 +42,5 @@ public class LikeyController {
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "좋아요 취소"));
     }
-
-
+    
 }

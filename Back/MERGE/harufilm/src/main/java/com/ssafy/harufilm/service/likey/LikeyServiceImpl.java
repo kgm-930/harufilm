@@ -33,5 +33,7 @@ public class LikeyServiceImpl implements LikeyService{
             likeyRepository.delete(likey);
         }
     }
+
+
     
 }

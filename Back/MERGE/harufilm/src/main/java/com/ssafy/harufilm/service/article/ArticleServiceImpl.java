@@ -292,4 +292,13 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return hashnamelist;
     }
+    
+    @Override
+    public boolean getLikeystatus(int userpid, int articleidx) {
+        Likey likey = likeyRepository.findByLikeyfromAndLikeyto(userpid, articleidx).orElse(null);
+        if(likey==null){
+            return false;
+        }
+        return true;
+    }
 }
