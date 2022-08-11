@@ -42,6 +42,15 @@ interface NetWorkInterface {
     ): Call<ChangeUserDetailResponse>
 
     @Multipart
+    @POST("api/profile/modify")
+    fun changeuserdetail2(
+
+        @Part("userpid") userpid: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("userdesc") userdesc: RequestBody,
+    ): Call<ChangeUserDetailResponse>
+
+    @Multipart
     @POST("api/article/create")
     fun createarticle(
         @Part imgdata: List<MultipartBody.Part?>,
@@ -85,4 +94,10 @@ interface NetWorkInterface {
     fun showsubarticle(
         @Body getProfile: GetProfile
     ): Call<List<ArticleResponse>>
+
+    @POST("api/subscribe/follow")
+    fun followsearch(
+        @Body follow: FollowRequest
+    ): Call<FollowBoolean>
 }
+
