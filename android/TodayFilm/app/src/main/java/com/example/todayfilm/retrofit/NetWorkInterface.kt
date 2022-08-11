@@ -83,4 +83,10 @@ interface NetWorkInterface {
     fun createfollow(
         @Body follow: FollowRequest
     ): Call<noRseponse>
+
+    @POST("api/subscribe/follow")
+    fun followsearch(
+        @Body follow: FollowRequest
+    ): Call<FollowBoolean>
 }
+
