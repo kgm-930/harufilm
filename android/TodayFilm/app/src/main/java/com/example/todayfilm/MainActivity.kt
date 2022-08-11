@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -33,14 +34,8 @@ class MainActivity : AppCompatActivity() {
         val isComplete = MyPreference.readInt(this, "isComplete")
 
         // 처음에 보여줄 프래그먼트 지정
-        if (isComplete == 0) {
-            // 미완성 상태면 Home
-            setFragment(TAG_HOME, HomeFragment())
-            binding.navBar.selectedItemId = R.id.homeFragment
-        } else {
-            // 완성 상태면 Film
-        }
-
+        setFragment(TAG_HOME, HomeFragment())
+        binding.navBar.selectedItemId = R.id.homeFragment
 
         // 네비 항목 클릭 시 프래그먼트 변경
         binding.navBar.setOnItemSelectedListener { item ->
@@ -221,7 +216,6 @@ class MainActivity : AppCompatActivity() {
                     bundle.putString("articlecreatedate", data1)
                     bundle.putString("article_userpid", data2)
                     bundle.putString("likey", data3)
-                    Log.d("확인", data3.toString())
                     fragment.arguments = bundle
                     moveFragment(fragment)
                 }

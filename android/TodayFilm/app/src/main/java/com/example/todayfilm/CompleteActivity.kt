@@ -33,6 +33,9 @@ import java.util.*
 class CompleteActivity : AppCompatActivity() {
     private var thumbnail = 0
 
+    // 로딩 화면
+    private lateinit var loadingDialog: LoadingDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityCompleteBinding.inflate(layoutInflater)
@@ -94,6 +97,9 @@ class CompleteActivity : AppCompatActivity() {
             } else if (!isHashtagsOK) {
                 Toast.makeText(this, "해시태그가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
             } else {
+                loadingDialog = LoadingDialog(this)
+                loadingDialog.show()
+
                 // 서버로 데이터 전송
                 val imgcount = MyPreference.readInt(this, "imgcount")
 
@@ -178,6 +184,9 @@ class CompleteActivity : AppCompatActivity() {
                             MyPreference.write(applicationContext, "date", today)
                         }
 
+                        // 로딩 화면 끝
+                        loadingDialog.dismiss()
+
                         // 응답 받은 후 토스트 띄우고 main 액티비티로 이동
                         Toast.makeText(applicationContext, "성공적으로 기록되었습니다.", Toast.LENGTH_SHORT).show()
                         val intent = Intent(applicationContext, MainActivity::class.java)
@@ -186,6 +195,9 @@ class CompleteActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<FindPwResponse>, t: Throwable) {
+                        // 로딩 화면 끝
+                        loadingDialog.dismiss()
+
                         Toast.makeText(applicationContext, "전송에 실패했습니다.", Toast.LENGTH_SHORT).show()
                     }
                 })

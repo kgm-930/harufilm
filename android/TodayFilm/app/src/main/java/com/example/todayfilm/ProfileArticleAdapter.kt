@@ -34,6 +34,7 @@ class ProfileArticleAdapter(private val context: Context) : RecyclerView.Adapter
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val likes: TextView = itemView.findViewById(R.id.recycler_profile_article_likes)
         private val articlecreatedate: TextView = itemView.findViewById(R.id.recycler_profile_article_date)
         private val articlethumbnail: ImageView = itemView.findViewById(R.id.recycler_profile_article_image)
 
@@ -44,6 +45,7 @@ class ProfileArticleAdapter(private val context: Context) : RecyclerView.Adapter
             val changed = temp.format(DateTimeFormatter.ofPattern("yyyy/MM/dd (E)"))
 
             articlecreatedate.text = changed
+            likes.text = item.likey
             Glide.with(itemView).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${item.article.userpid}/${item.article.articlecreatedate}/${item.article.articlethumbnail}.png").into(articlethumbnail)
 
             itemView.setOnClickListener {

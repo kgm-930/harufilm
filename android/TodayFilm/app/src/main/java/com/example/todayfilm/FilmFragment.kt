@@ -53,8 +53,6 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         likey = arguments?.getString("likey")
         userpid = MyPreference.read(requireActivity(), "userpid")
 
-        Log.d("확인", likey.toString())
-
         binding.filmLikey.text = likey
 
         return binding.root
