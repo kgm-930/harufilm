@@ -78,6 +78,7 @@ public class ArticleController {
                 ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
                 temp.setArticle(articles.get(i));
                 temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
+                temp.setHash(articleService.getHash(articles.get(i).getArticleidx()));
                 list.add(temp);
             }
         } catch (Exception e) {
@@ -90,8 +91,16 @@ public class ArticleController {
     @PostMapping("/showsubarticle")
     public ResponseEntity<?> list(@RequestBody ArticleRequestDto articleRequestDto) {
         List<Article> articles;
+        List<ArticleDetailResponseDto> list = new ArrayList<>();
         try {
             articles = articleService.getFollowedArticleList(articleRequestDto.getUserpid());
+            for(int i = 0; i < articles.size(); i++){
+                ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
+                temp.setArticle(articles.get(i));
+                temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
+                temp.setHash(articleService.getHash(articles.get(i).getArticleidx()));
+                list.add(temp);
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Interanl Server Error, 글 목록 불러오기 실패"));
@@ -103,13 +112,15 @@ public class ArticleController {
     public ResponseEntity<?> getArticle(@RequestBody ArticleDetailRequestDto articleDetailRequestDto){
     Article article;
     int likey;
+    List<String> hash = new ArrayList<>();
         try{
         article = articleService.findByArticleidx(articleDetailRequestDto.getArticleidx());
         likey = articleService.getLikey(articleDetailRequestDto.getArticleidx());
+        hash = articleService.getHash(articleDetailRequestDto.getArticleidx());
     }catch(Exception e){
     return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
     "Interanl Server Error, 글 불러오기 실패"));
     }
-    return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey));
+    return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey, hash));
     }
 }

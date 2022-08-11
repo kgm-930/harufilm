@@ -1,5 +1,6 @@
 package com.ssafy.harufilm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,9 @@ public class SubscribeController {
         List<SmallProfileResponseDto> list;
         try{
             list = subscribeService.followList(subscribeDetailRequestDto.getUserpid());
+            if(list == null){
+                list = new ArrayList<SmallProfileResponseDto>();
+            }
         }catch(Exception e){
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
             "Interanl Server Error, 팔로우 리스트 불러오기 실패"));
@@ -69,6 +73,9 @@ public class SubscribeController {
         
         try{
             list = subscribeService.followerList(subscribeDetailRequestDto.getUserpid());
+            if(list == null){
+                list = new ArrayList<SmallProfileResponseDto>();
+            }
         }catch(Exception e){
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
             "Interanl Server Error, 팔로워 리스트 불러오기 실패"));
