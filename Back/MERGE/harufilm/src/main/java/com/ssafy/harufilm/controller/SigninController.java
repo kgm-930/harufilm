@@ -40,7 +40,7 @@ public class SigninController {
         } catch (Exception e) {
 
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error,로그인 실패"));
+                    "Internal Server Error,로그인 실패"));
         }
         if (user == null) {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "아이디 또는 비밀번호가 입력이 잘못 되었습니다."));
