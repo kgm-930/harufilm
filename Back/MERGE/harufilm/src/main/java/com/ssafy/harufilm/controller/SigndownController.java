@@ -32,7 +32,7 @@ public class SigndownController {
            user = userService.getuserbyPid(signdownRequestDto.getUserpid());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error 회원 탈퇴 실패"));
+                    "Interanl Server Error 회원 탈퇴 실패 ^O^"));
         }
 
         if (!passwordencoder.matches(signdownRequestDto.getUserpassword(), user.getUserpassword())) {
@@ -46,7 +46,7 @@ public class SigndownController {
                 return ResponseEntity.status(200).body(MessageBody.of(true, "회원 탈퇴가 완료 되었습니다. 잘가라 배.신.자"));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                "Interanl Server Error 회원 탈퇴 실패"));
+                "Interanl Server Error 회원 탈퇴 실패 ^O^"));
             }
 
          
