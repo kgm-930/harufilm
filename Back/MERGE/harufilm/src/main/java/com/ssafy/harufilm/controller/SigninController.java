@@ -1,6 +1,8 @@
 package com.ssafy.harufilm.controller;
 
+import com.ssafy.harufilm.fcm.FcmController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +31,7 @@ public class SigninController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> userCheckAndSendToken(@RequestBody SigninRequestDto signinRequestDto) {
+    public ResponseEntity<?> userCheckAndSendToken(@RequestBody SigninRequestDto signinRequestDto) throws Exception {
         User user = new User();
 
         try {
@@ -48,6 +50,7 @@ public class SigninController {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "아이디 또는 비밀번호가 입력이 잘못 되었습니다."));
         }
         String token = jwtTokenProvider.createToken((signinRequestDto.getUserid()));
+        FcmController.FCMMessaging("a","로그인 완료","안녕하세요!");
         return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token));
 
     }

@@ -6,6 +6,11 @@ server:
       enabled: true
       force: true
 
+project:
+  properties:
+    firebase-create-scoped: "https://www.googleapis.com/auth/firebase.messaging"
+    firebase-multicast-message-size: 500
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
