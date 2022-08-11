@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,6 +180,7 @@ public class ArticleServiceImpl implements ArticleService {
 
             if (folder.exists()) {
                 try {
+                    FileUtils.cleanDirectory(folder);
                     folder.delete();
                 } catch (Exception e) {
                     e.getStackTrace();
