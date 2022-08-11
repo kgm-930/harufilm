@@ -6,4 +6,5 @@ class User {
     var username : String = ""
     var userpwq : Int = 0
     var userpwa : String = ""
+    var userfcmtoken : String? = ""
 }
