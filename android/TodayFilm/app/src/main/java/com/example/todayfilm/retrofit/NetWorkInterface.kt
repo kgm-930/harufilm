@@ -17,17 +17,22 @@ interface NetWorkInterface {
         @Body user: User
     ): Call<LoginData>
 
-    @POST("api/account/signout")
-    fun singout(
+    @POST("api/account/signdown")
+    fun signdown(
         @Body deleteUser: DeleteAccountRequest
     ): Call<DeleteAccountResponse>
+
+    @POST("api/account/signout")
+    fun signout(
+        @Body logoutUser: LogoutRequest
+    ): Call<LogoutResponse>
 
     @POST("api/account/changepw")
     fun changepw(
         @Body changePw: ChangePwRequest
     ): Call<ChangePwResponse>
 
-    @GET("api/account/findpw")
+    @POST("api/account/findpw")
     fun findpw(
         @Body findPw: FindPwRequest
     ): Call<FindPwResponse>
@@ -110,5 +115,7 @@ interface NetWorkInterface {
     fun followed(
         @Body getProfile: GetProfile
     ):Call<List<FollowProfile>>
+
+
 }
 

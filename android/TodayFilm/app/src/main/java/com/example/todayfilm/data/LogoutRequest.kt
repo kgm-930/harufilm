@@ -1,6 +1,5 @@
 package com.example.todayfilm.data
 
-class DeleteAccountRequest {
+class LogoutRequest {
     var userpid = 0
-    var userpassword = ""
 }
