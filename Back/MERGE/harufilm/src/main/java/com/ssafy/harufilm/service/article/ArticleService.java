@@ -26,4 +26,6 @@ public interface ArticleService {
 
     int getLikey(int articleidx);
 
+    List<String> getHash(int articleidx);
+
 }

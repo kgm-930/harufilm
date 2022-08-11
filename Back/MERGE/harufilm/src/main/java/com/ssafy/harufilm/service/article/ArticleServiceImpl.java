@@ -275,4 +275,19 @@ public class ArticleServiceImpl implements ArticleService {
         int likei = Integer.parseInt(likey.toString());
         return likei;
     }
+
+    @Override
+    public List<String> getHash(int articleidx) {
+        List<Hashtag> hashtaglist = hashtagRepository.findByArticleidx(articleidx);
+        List<String> hashnamelist = new ArrayList<>();
+        for(int i = 0 ; i < hashtaglist.size(); i++){
+            int hashidx = hashtaglist.get(i).getHashidx();
+            Hash hash = hashRepository.findByHashidx(hashidx).orElse(null);
+            if(hash!=null){
+                String hashname = hash.getHashname();
+                hashnamelist.add(hashname);
+            }
+        }
+        return hashnamelist;
+    }
 }

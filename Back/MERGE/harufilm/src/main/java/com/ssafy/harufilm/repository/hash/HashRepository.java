@@ -10,5 +10,6 @@ import com.ssafy.harufilm.entity.Hash;
 @Repository
 public interface HashRepository extends JpaRepository<Hash, Integer>{
     Optional<Hash> findByHashname(String hashname);
-    
+
+    Optional<Hash> findByHashidx(int hashidx);
 }
