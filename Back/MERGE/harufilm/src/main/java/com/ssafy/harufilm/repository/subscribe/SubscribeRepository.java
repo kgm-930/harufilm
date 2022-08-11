@@ -14,10 +14,10 @@ import com.ssafy.harufilm.entity.User;
 @Repository
 public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
     
-    @Query("select u from User u where u.userpid = ( select s.subto from Subscribe s where s.subfrom = :userpid)")
+    @Query("select u from User u where u.userpid in ( select s.subto from Subscribe s where s.subfrom = :userpid)")
     List<User> followList(@Param("userpid") int userpid); 
     
-    @Query("select u from User u where u.userpid = ( select s.subfrom from Subscribe s where s.subto = :userpid)")
+    @Query("select u from User u where u.userpid in ( select s.subfrom from Subscribe s where s.subto = :userpid)")
     List<User> followerList(@Param("userpid") int userpid);
     
     <Optional>Subscribe findBySubfromAndSubto(int subfrom, int subto);

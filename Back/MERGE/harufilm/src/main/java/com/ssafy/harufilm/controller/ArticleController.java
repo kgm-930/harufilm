@@ -17,6 +17,7 @@ import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.article.ArticleDetailRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleDetailResponseDto;
+import com.ssafy.harufilm.dto.article.ArticleLikeyStatusRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
@@ -29,6 +30,7 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
+
 
     @PostMapping("/create")
     public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) {
@@ -123,4 +125,15 @@ public class ArticleController {
     }
     return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey, hash));
     }
+
+    @PostMapping("/likey")
+    public ResponseEntity<?> getArticle(@RequestBody ArticleLikeyStatusRequestDto articleLikeyStatusRequestDto){
+        boolean likeystatus;
+        try{
+            likeystatus = articleService.getLikeystatus(articleLikeyStatusRequestDto.getUserpid(), articleLikeyStatusRequestDto.getArticleidx());
+        }catch(Exception e){
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500,false,"좋아요 여부 가져오기 실패"));
+        }
+        return ResponseEntity.status(200).body(MessageBody.of(likeystatus, "좋아요 여부 출력"));
+    } 
 }
