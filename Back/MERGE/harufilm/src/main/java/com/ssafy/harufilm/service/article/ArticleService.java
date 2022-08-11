@@ -18,10 +18,12 @@ public interface ArticleService {
 
     List<Article> getFollowedArticleList(int userpid);
 
-    // Article findByArticleidx(int articleidx);
+    Article findByArticleidx(int articleidx);
 
     List<Article> getarticlelistbykeyword(String keyword);
 
     void SetShare(ArticleShareRequestDto articleShareRequestDto);
+
+    int getLikey(int articleidx);
 
 }

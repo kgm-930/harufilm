@@ -20,10 +20,12 @@ import com.ssafy.harufilm.dto.hash.HashRequestDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.entity.Hash;
 import com.ssafy.harufilm.entity.Hashtag;
+import com.ssafy.harufilm.entity.Likey;
 import com.ssafy.harufilm.entity.Subscribe;
 import com.ssafy.harufilm.repository.article.ArticleRepository;
 import com.ssafy.harufilm.repository.hash.HashRepository;
 import com.ssafy.harufilm.repository.hashtag.HashtagRepository;
+import com.ssafy.harufilm.repository.likey.LikeyRepository;
 import com.ssafy.harufilm.repository.subscribe.SubscribeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     SubscribeRepository subscribeRepository;
+
+    @Autowired
+    LikeyRepository likeyRepository;
 
     @Override
     public Article articleSave(ArticleRequestDto articleRequestDto) throws IllegalStateException, IOException {
@@ -239,13 +244,6 @@ public class ArticleServiceImpl implements ArticleService {
         return list;
     }
 
-    // @Override
-    // public Article findByArticleidx(int articleidx) {
-    // Article article =
-    // articleRepository.findByArticleidx(articleidx).orElse(null);
-    // return article;
-    // }
-
     @Override
     public List<Article> getarticlelistbykeyword(String keyword) {
         List<Article> articlelist = articleRepository.findByHashnameItContainsKeyword(keyword);
@@ -259,5 +257,18 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleRepository.findByArticleidx(articleShareRequestDto.getArticleidx()).orElse(null);
         article.setArticleshare(articleShareRequestDto.getSharenum());
         articleRepository.save(article);
+    }
+
+    @Override
+    public Article findByArticleidx(int articleidx) {
+        Article article = articleRepository.findByArticleidx(articleidx).orElse(null);
+        return article;
+    }
+
+    @Override
+    public int getLikey(int articleidx) {
+        Long likey = likeyRepository.articleLikeyCount(articleidx);
+        int likei = Integer.parseInt(likey.toString());
+        return likei;
     }
 }

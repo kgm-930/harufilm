@@ -1,5 +1,6 @@
 package com.ssafy.harufilm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
+import com.ssafy.harufilm.dto.article.ArticleDetailRequestDto;
+import com.ssafy.harufilm.dto.article.ArticleDetailResponseDto;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
@@ -68,13 +71,20 @@ public class ArticleController {
     public ResponseEntity<?> showarticle(@RequestBody ArticleShowRequestDto articleShowRequestDto) {
 
         List<Article> articles;
+        List<ArticleDetailResponseDto> list = new ArrayList<>();
         try {
             articles = articleService.getArticle(articleShowRequestDto);
+            for(int i = 0; i < articles.size(); i++){
+                ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
+                temp.setArticle(articles.get(i));
+                temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
+                list.add(temp);
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Interanl Server Error, 글 목록 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(articles);
+        return ResponseEntity.status(200).body(list);
     }
 
     @PostMapping("/showsubarticle")
@@ -89,14 +99,17 @@ public class ArticleController {
         return ResponseEntity.status(200).body(articles);
     }
 
-    // @GetMapping("/getarticle")
-    // public ResponseEntity<?> getArticle(@RequestBody int articleidx){
-    // try{
-    // articleService.findByArticleidx(articleidx);
-    // }catch(Exception e){
-    // return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-    // "Interanl Server Error, 글 불러오기 실패"));
-    // }
-    // return ResponseEntity.status(200).body(MessageBody.of(true, "글 불러오기 성공"));
-    // }
+    @PostMapping("/getarticle")
+    public ResponseEntity<?> getArticle(@RequestBody ArticleDetailRequestDto articleDetailRequestDto){
+    Article article;
+    int likey;
+        try{
+        article = articleService.findByArticleidx(articleDetailRequestDto.getArticleidx());
+        likey = articleService.getLikey(articleDetailRequestDto.getArticleidx());
+    }catch(Exception e){
+    return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+    "Interanl Server Error, 글 불러오기 실패"));
+    }
+    return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey));
+    }
 }
