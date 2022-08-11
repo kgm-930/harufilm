@@ -8,7 +8,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,31 +139,32 @@ public class ArticleServiceImpl implements ArticleService {
 
         Article savedArticle = articleRepository.save(article);
 
-        // 아티클 저장
+        String hashlist = articleRequestDto.getHashlist();
+        String[] list = hashlist.split(",");
+        List<String> alist = new ArrayList<>();
+        
+        for(int i =0 ; i<list.length; i++){
+            alist.add(list[i]);
+        }
 
-        // List<HashRequestDto> hashlist = articleRequestDto.getHashlist();
-
-        // for (int i = 0; i < hashlist.size(); i++) {
-        // String hashname = hashlist.get(i).getHashname();
-
-        // Hash h;
-        // h = hashRepository.findByHashname(hashname).orElse(null);
-
-        // if (h == null) {
-        // h = Hash.builder()
-        // .hashname(hashname)
-        // .build();
-
-        // hashRepository.save(h);
-        // }
-        // Hashtag ht;
-        // ht = Hashtag.builder()
-        // .hashidx(h.getHashidx())
-        // .articleidx(savedArticle.getArticleidx())
-        // .build();
-        // hashtagRepository.save(ht);
-        // }
-
+        Iterator<String> iter = alist.iterator();
+        while(iter.hasNext()){
+            String hashname = iter.next();
+            Hash h;
+            h = hashRepository.findByHashname(hashname).orElse(null);
+            if (h == null) {
+                h = Hash.builder()
+                        .hashname(hashname)
+                        .build();
+                hashRepository.save(h);
+            }
+            Hashtag ht;
+            ht = Hashtag.builder()
+                    .hashidx(h.getHashidx())
+                    .articleidx(savedArticle.getArticleidx())
+                    .build();
+            hashtagRepository.save(ht);
+        }
         return savedArticle;
     }
 

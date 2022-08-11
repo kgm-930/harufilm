@@ -25,6 +25,6 @@ public class ArticleRequestDto {
 
     private List<MultipartFile> videodata;
 
-  //  List<HashRequestDto> hashlist; // 해시태그 리스트
+    String hashlist; // 해시태그 리스트
 
 }
