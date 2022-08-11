@@ -263,4 +263,14 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         return userRepository.findByUserpid(userpid).getUserfcmtoken();
     }
+
+    @Override
+    public void deletefcmtoken(int userpid) {
+
+        User user = userRepository.findByUserpid(userpid);
+        user.setUserfcmtoken(null);
+        userRepository.save(user);
+        // TODO Auto-generated method stub
+        
+    }
 }

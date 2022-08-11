@@ -28,4 +28,6 @@ public interface UserService {
 
     String getuserfcmtoken(int userpid);
 
+    void deletefcmtoken(int userpid);
+
 }
