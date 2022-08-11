@@ -5,16 +5,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.ssafy.harufilm.dto.account.SignupRequestDto;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.profile.ModifyRequestDto;
+import com.ssafy.harufilm.entity.Article;
+import com.ssafy.harufilm.entity.Hashtag;
+import com.ssafy.harufilm.entity.Likey;
+import com.ssafy.harufilm.entity.Subscribe;
 import com.ssafy.harufilm.entity.User;
+import com.ssafy.harufilm.repository.article.ArticleRepository;
+import com.ssafy.harufilm.repository.hash.HashRepository;
+import com.ssafy.harufilm.repository.hashtag.HashtagRepository;
+import com.ssafy.harufilm.repository.likey.LikeyRepository;
+import com.ssafy.harufilm.repository.subscribe.SubscribeRepository;
 import com.ssafy.harufilm.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +36,22 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Autowired
+    private SubscribeRepository subscribeRepository;
+
+    @Autowired
+    private LikeyRepository likeyRepository;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
+    @Autowired
+    private HashtagRepository hashtagRepository;
+
+    @Autowired
+    private HashRepository hashRepository;
 
     @Override
     public User getuserbyId(String userid) {
@@ -127,5 +154,97 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             System.out.println(2);
         }
+    }
+
+    @Override
+    public void signdown(User user) {
+        // TODO Auto-generated method stub
+
+        //1. 프로필 파일 삭제
+        String imgpath = "/var/opt/upload/profile/";
+        String curimg = user.getUserimg();
+        if(!curimg.equals("baseimg.png"))
+        {
+            File curfile = new File(imgpath + curimg);
+                try {
+                    curfile.delete();
+                } catch (Exception e) {
+                }
+        }
+        //2. 게시글 파일 삭제
+        String path = "/var/opt/upload/article/" + user.getUserpid();
+        File folder = new File(path);
+
+        if (folder.exists()) {
+            try {
+                FileUtils.cleanDirectory(folder);
+                if(folder.isDirectory())folder.delete();
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+
+        //3. 구독기록 삭제
+        List<Subscribe> subfromlist = subscribeRepository.findBySubfrom(user.getUserpid());
+
+        List<Subscribe> subtolist = subscribeRepository.findBySubto(user.getUserpid());
+
+        for(int i=0;i<subfromlist.size();++i)
+        {
+            int subidx = subfromlist.get(i).getSubidx();
+            subscribeRepository.deleteById(subidx);
+        }
+        for(int i=0;i<subtolist.size();++i)
+        {
+            int subidx = subtolist.get(i).getSubidx();
+            subscribeRepository.deleteById(subidx);
+        }
+
+        //4. 좋아요 기록 삭제
+        List<Likey> likeyfromlist = likeyRepository.findByLikeyfrom(user.getUserpid()); //내가 좋아요한 기록 삭제
+        
+        for(int i=0;i<likeyfromlist.size();++i)
+        {
+            int likeyidx = likeyfromlist.get(i).getLikeyidx();
+            likeyRepository.deleteById(likeyidx);
+        }
+
+       List<Article> articlelist = articleRepository.findAllByUserpid(user.getUserpid());
+
+
+       for(int i=0;i<articlelist.size();++i)
+       {
+            int articleidx = articlelist.get(i).getArticleidx();
+
+            // 내 게시글에 대한 좋아요 기록 삭제
+            List<Likey> likeytolist = likeyRepository.findByLikeyto(articleidx);
+            for(int j=0;j<likeytolist.size();++j)
+            {
+                int likeyidx = likeytolist.get(j).getLikeyidx();
+                likeyRepository.deleteById(likeyidx);
+            }
+
+            //5. 해시태그 삭제
+            //[articleidx] -> Hashtag -> [hashidx] -> Hash 접근
+            List<Hashtag> hashtaglist = hashtagRepository.findByArticleidx(articleidx);
+            for(int htag=0;htag<hashtaglist.size();++htag)
+            {
+                int hashtagidx = hashtaglist.get(htag).getHashtagidx();
+                int hashidx = hashtaglist.get(htag).getHashidx();
+
+                hashRepository.deleteById(hashidx);
+                hashtagRepository.deleteById(hashtagidx);
+            }
+
+            //6. 게시글 삭제
+            articleRepository.deleteById(articleidx);
+
+       }
+
+
+       //7. 유저 삭제
+       userRepository.deleteById(user.getUserpid());
+
+        
     }
 }

@@ -20,5 +20,7 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Integer>{
     void findAllByArticleidx(int articleidx);
 
     void deleteAllByArticleidx(int articleidx);
+
+    List<Hashtag> findByArticleidx(int articleidx);
     
 }

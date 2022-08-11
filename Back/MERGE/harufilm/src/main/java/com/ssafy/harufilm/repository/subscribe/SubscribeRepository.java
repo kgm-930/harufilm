@@ -19,4 +19,8 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
     List<SmallProfileResponseDto> followerList(int userpid);
     
     <Optional>Subscribe findBySubfromAndSubto(int subfrom, int subto);
+
+    List<Subscribe> findBySubfrom(int subfrom);
+
+    List<Subscribe> findBySubto(int subto);
 }
