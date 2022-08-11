@@ -35,7 +35,7 @@ public class SignupController {
         } catch (Exception e) {
 
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error,계정 생성 실패"));
+                    "Internal Server Error,계정 생성 실패"));
         }
 
         if (user != null)// 만약 null이 아닐경우 이미 있는 아이디
@@ -51,7 +51,7 @@ public class SignupController {
             userService.userNewSave(signupRequestDto);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error,계정 생성 실패"));
+                    "Internal Server Error,계정 생성 실패"));
             // TODO: handle exception
         }
 
