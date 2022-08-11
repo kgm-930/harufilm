@@ -84,14 +84,10 @@ class LoginActivity : AppCompatActivity() {
                         FirebaseMessaging.getInstance().token
                             .addOnCompleteListener(object : OnCompleteListener<String?> {
                                 override fun onComplete(@NonNull task: Task<String?>) {
-                                    if (!task.isSuccessful()) {
-                                        Log.w(ContentValues.TAG, "토큰 생성 실패", task.getException())
-                                        return
-                                    }
                                     // 새로운 토큰 생성 성공 시
                                     val token: String? = task.getResult()
                                     if (token != null) {
-                                        MyPreference.write(this@LoginActivity, "userfcm",token)
+                                        MyPreference.write(this@LoginActivity, "userfcmtoken",token)
                                     }
                                 }
                             })
