@@ -110,6 +110,10 @@ class SearchFragment : Fragment() {
             override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String) {
                 (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hashstring)
             }
+
+            override fun onClick(view: View, userpid: String) {
+                (activity as MainActivity).changeFragment(4, userpid)
+            }
         })
 
         articleAdapter.datas = articledatas
