@@ -323,4 +323,39 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return true;
     }
+
+    @Override
+    public boolean getTodayarticle(int userpid) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date time = new Date();
+
+        String now = format.format(time);
+
+        // userpid폴더가 있는지 검사한다.
+        String path = "/var/opt/upload/article/" + userpid;
+        File folder = new File(path);
+
+        if (!folder.exists()) {
+            try {
+                return false;
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+
+        // 해당userpid폴더에 오늘날짜가 있는지 검사한다.
+        path = "/var/opt/upload/article/" + userpid + "/" + now;
+        folder = new File(path);
+
+        if (!folder.exists()) {
+            try {
+                return false;
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        // TODO Auto-generated method stub
+        return true;
+    }
 }
