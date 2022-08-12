@@ -25,25 +25,39 @@ open class FCMService : FirebaseMessagingService() {
         val title: String? = remoteMessage.data["title"]
         val message: String? = remoteMessage.data["message"]
 
-        if (title != null) {
-            if ((title.compareTo("좋아요를 받았어요!") == 0) && !(PreferenceManager.getDefaultSharedPreferences(
-                    applicationContext
-                ).getBoolean("like", true))
-            ) {
-                check = false
-            } else if ((title.compareTo("로그인 완료! ^0^") == 0) && !(PreferenceManager.getDefaultSharedPreferences(
-                    applicationContext
-                ).getBoolean("new", true))
-            ) {
-                check = false
-            } else if ((title.compareTo("팔로워가 늘었어요!") == 0) && !(PreferenceManager.getDefaultSharedPreferences(
-                    applicationContext
-                ).getBoolean("follow", true))
-            ) {
-                check = false
+        if (!PreferenceManager.getDefaultSharedPreferences(
+                applicationContext
+            ).getBoolean("like", true)
+        ) {
+            if (title != null) {
+                if (title.compareTo("좋아요를 받았어요!") == 0) {
+                    check = false
+                }
             }
         }
-       
+
+        if (!PreferenceManager.getDefaultSharedPreferences(
+                applicationContext
+            ).getBoolean("new", true)
+        ) {
+            if (title != null) {
+                if (title.compareTo("로그인 완료! ^0^") == 0) {
+                    check = false
+                }
+            }
+        }
+
+        if (!PreferenceManager.getDefaultSharedPreferences(
+                applicationContext
+            ).getBoolean("follow", true)
+        ) {
+            if (title != null) {
+                if (title.compareTo("팔로워가 늘었어요!") == 0) {
+                    check = false
+                }
+            }
+        }
+
         if (check) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 val notificationManager: NotificationManager =
