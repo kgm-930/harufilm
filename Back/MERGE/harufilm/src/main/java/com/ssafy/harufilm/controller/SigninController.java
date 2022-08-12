@@ -19,6 +19,7 @@ import com.ssafy.harufilm.dto.account.SigninRequestDto;
 import com.ssafy.harufilm.dto.account.SigninResponseDto;
 import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.jwt.JwtTokenProvider;
+import com.ssafy.harufilm.service.article.ArticleService;
 import com.ssafy.harufilm.service.user.UserService;
 
 @RestController
@@ -33,6 +34,9 @@ public class SigninController {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private ArticleService articleService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> userCheckAndSendToken(@RequestBody SigninRequestDto signinRequestDto) throws Exception {
@@ -55,7 +59,7 @@ public class SigninController {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "아이디 또는 비밀번호가 입력이 잘못 되었습니다."));
         }
         String token = jwtTokenProvider.createToken((signinRequestDto.getUserid()));
-    
+
         userService.setuserfcmtoken(user.getUserpid(), signinRequestDto.getUserfcmtoken());
 
         List<String> messagelist = new ArrayList<String>();
@@ -64,10 +68,11 @@ public class SigninController {
         messagelist.add("햄버거 먹고싶다. 치킨 먹고싶다.");
         messagelist.add("랄로 유튜브 구독 좋아요 부탁드릴게요");
         messagelist.add("응애 나 애기 개발자 개발 해.줘");
-        int idx =(int)(Math.random() * (messagelist.size()-1));
+        int idx = (int) (Math.random() * (messagelist.size() - 1));
 
-        FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(),"로그인 완료! ^0^",messagelist.get(idx));
-        return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token));
+        FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(), "로그인 완료! ^0^", messagelist.get(idx));
+        return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token,
+                articleService.getTodayarticle(user.getUserpid())));
 
     }
 }
