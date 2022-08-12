@@ -127,9 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<SmallProfileResponseDto> getuserlistbykeyword(String keyword) {
-        System.out.println(keyword);
         List<User> userlist = userRepository.findByUsernameContaining(keyword);
-        System.out.println(userlist);
         List<SmallProfileResponseDto> usersplist = new ArrayList<>();
 
         for(int i = 0; i < userlist.size(); i++){
