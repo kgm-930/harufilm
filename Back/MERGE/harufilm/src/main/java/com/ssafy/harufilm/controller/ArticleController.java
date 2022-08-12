@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
@@ -34,9 +35,12 @@ public class ArticleController {
     @PostMapping("/create")
     public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) {
 
-        System.out.println(articleRequestDto.getUserpid());
         try {
-            articleService.articleSave(articleRequestDto);
+
+            boolean check = articleService.articleSave(articleRequestDto);
+            if (!check)
+                return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+                        "이미지 or 비디오 파일이 부족해용 T^T"));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 글 저장 실패"));

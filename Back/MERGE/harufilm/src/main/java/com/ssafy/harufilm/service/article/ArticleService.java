@@ -10,7 +10,7 @@ import com.ssafy.harufilm.entity.Article;
 
 public interface ArticleService {
 
-    Article articleSave(ArticleRequestDto articleRequestDto) throws IllegalStateException, IOException; // 아티클 생성
+    boolean articleSave(ArticleRequestDto articleRequestDto) throws IllegalStateException, IOException; // 아티클 생성
 
     void articleDelete(int articleidx);// 아티클 삭제
 
