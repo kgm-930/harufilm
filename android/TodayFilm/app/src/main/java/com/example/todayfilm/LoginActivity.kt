@@ -86,16 +86,12 @@ class LoginActivity : AppCompatActivity() {
                             ) {
                                 val result: LoginData? = response.body()
 
-                                if (result?.message == "로그인 완료") {
+                                if (result != null) {
                                     MyPreference.write(this@LoginActivity, "userpid", result.userpid)
                                     MyPreference.write(this@LoginActivity, "usertoken", result.token)
                                     MyPreference.write(this@LoginActivity, "userid", loginId)
                                     MyPreference.write(this@LoginActivity, "userpassword", loginPw)
-
-                                    if (result.articlecheck != "-1") {
-                                        MyPreference.writeInt(this@LoginActivity, "isComplete", 1)
-                                        MyPreference.write(this@LoginActivity, "todayarticle", result.articlecheck)
-                                    }
+                                    MyPreference.write(this@LoginActivity, "todayarticleidx", result.todayarticleidx)
 
                                     // 앱 최초 로그인일 경우에 실행되는 작업
                                     // 내부 저장소에 imgcount, isComplete, imgvids 변수 초기화 및 preference 기본값 지정
@@ -126,10 +122,15 @@ class LoginActivity : AppCompatActivity() {
                                         settingsEditor.apply()
                                     }
 
+                                    if (result.todayarticleidx != "-1") {
+                                        MyPreference.writeInt(this@LoginActivity, "isComplete", 1)
+                                    }
+
+                                    loadingDialog.dismiss()
+
                                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                     startActivity(intent)
-                                    loadingDialog.dismiss()
                                     finish()
                                 } else {
                                     loadingDialog.dismiss()

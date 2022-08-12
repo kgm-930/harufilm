@@ -277,7 +277,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         callFollowUser.enqueue(object : Callback<FollowList>{
             override fun onResponse(call: Call<FollowList>, response: Response<FollowList>) {
                 followNumber = response.body()?.list!!.size
-                binding.profileFollowingCnt.text = followNumber.toString()
+                binding.profileFollowerCnt.text = followNumber.toString()
             }
 
             override fun onFailure(call: Call<FollowList>, t: Throwable) {
@@ -294,7 +294,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         callFollowingUser.enqueue(object : Callback<FollowList>{
             override fun onResponse(call: Call<FollowList>, response: Response<FollowList>) {
                 followedNumber = response.body()?.list!!.size
-                binding.profileFollowerCnt.text = followedNumber.toString()
+                binding.profileFollowingCnt.text = followedNumber.toString()
             }
 
             override fun onFailure(call: Call<FollowList>, t: Throwable) {
