@@ -1,6 +1,7 @@
 package com.ssafy.harufilm.controller;
 
 import com.ssafy.harufilm.fcm.FcmController;
+import com.ssafy.harufilm.service.article.ArticleService;
 import com.ssafy.harufilm.service.user.UserService;
 import com.ssafy.harufilm.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,15 @@ public class LikeyController {
     @Autowired
     private LikeyService likeyService;
 
+    @Autowired
+    private ArticleService articleService;
+
     //좋아요 생성
     @PostMapping("/create")
     public ResponseEntity<?> setlikey(@RequestBody LikeyRequestDto likeyRequestDto) {
         try {
             likeyService.likeySave(likeyRequestDto);
-            FcmController.FCMMessaging(userService.getuserfcmtoken(likeyRequestDto.getLikeyto()), "좋아요를 받았어요!", userService.getuserbyPid(likeyRequestDto.getLikeyfrom()).getUsername() + "님이 좋아요를 하셨습니다♡");
+            FcmController.FCMMessaging(userService.getuserfcmtoken(articleService.findByArticleidx(likeyRequestDto.getLikeyto()).getUserpid()), "좋아요를 받았어요!", userService.getuserbyPid(likeyRequestDto.getLikeyfrom()).getUsername() + "님이 좋아요를 하셨습니다♡");
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 좋아요 실패"));
