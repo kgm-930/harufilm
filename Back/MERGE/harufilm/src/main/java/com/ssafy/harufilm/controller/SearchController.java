@@ -62,7 +62,7 @@ public class SearchController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 목록 불러오기 실패"));
+                    "Internal Server Error, 글 목록 불러오기 실패"));
         }
         return ResponseEntity.status(200).body(list);
     }

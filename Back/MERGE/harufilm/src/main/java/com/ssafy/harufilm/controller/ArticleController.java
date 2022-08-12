@@ -39,7 +39,7 @@ public class ArticleController {
             articleService.articleSave(articleRequestDto);
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 저장 실패"));
+                    "Internal Server Error, 글 저장 실패"));
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "글 저장 성공"));
     }
@@ -50,7 +50,7 @@ public class ArticleController {
             articleService.articleDelete(articleShareRequestDto.getArticleidx());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 삭제 실패"));
+                    "Internal Server Error, 글 삭제 실패"));
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "글 삭제 성공"));
     }
@@ -62,7 +62,7 @@ public class ArticleController {
 
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error,공유 설정 실패"));
+                    "Internal Server Error,공유 설정 실패"));
             // TODO: handle exception
         }
         return ResponseEntity.status(200).body(MessageBody.of(true, "공유 설정 완료"));
@@ -84,7 +84,7 @@ public class ArticleController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 목록 불러오기 실패"));
+                    "Internal Server Error, 글 목록 불러오기 실패"));
         }
         return ResponseEntity.status(200).body(list);
     }
@@ -104,7 +104,7 @@ public class ArticleController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 목록 불러오기 실패"));
+                    "Internal Server Error, 글 목록 불러오기 실패"));
         }
         return ResponseEntity.status(200).body(list);
     }
@@ -120,7 +120,7 @@ public class ArticleController {
             hash = articleService.getHash(articleDetailRequestDto.getArticleidx());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 글 불러오기 실패"));
+                    "Internal Server Error, 글 불러오기 실패"));
         }
         return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey, hash));
     }

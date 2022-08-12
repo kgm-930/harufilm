@@ -33,7 +33,7 @@ public class PasswordController {
             user = userService.getuserbyId(findpwDto.getUserid());
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                    "Interanl Server Error, 서버 에러."));
+                    "Internal Server Error, 서버 에러."));
         }
         if (user == null) {
             return ResponseEntity.status(400).body(ErrorResponseBody.of(400, false, "없는 아이디"));
