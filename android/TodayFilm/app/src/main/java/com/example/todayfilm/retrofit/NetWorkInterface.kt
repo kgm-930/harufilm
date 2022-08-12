@@ -49,7 +49,6 @@ interface NetWorkInterface {
     @Multipart
     @POST("api/profile/modify")
     fun changeuserdetail2(
-
         @Part("userpid") userpid: RequestBody,
         @Part("username") username: RequestBody,
         @Part("userdesc") userdesc: RequestBody,
@@ -142,7 +141,6 @@ interface NetWorkInterface {
         @Body likecreate : LikeRequest
 
     ): Call<noRseponse>
-
 
     //좋아요 취소
     @POST("api/likey/delete")
