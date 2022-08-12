@@ -143,13 +143,13 @@ public class ArticleServiceImpl implements ArticleService {
         String hashlist = articleRequestDto.getHashlist();
         String[] list = hashlist.split(",");
         List<String> alist = new ArrayList<>();
-        
-        for(int i =0 ; i<list.length; i++){
+
+        for (int i = 0; i < list.length; i++) {
             alist.add(list[i]);
         }
 
         Iterator<String> iter = alist.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             String hashname = iter.next();
             Hash h;
             h = hashRepository.findByHashname(hashname).orElse(null);
@@ -238,16 +238,26 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> getFollowedArticleList(int userpid) {
-        List<Article> list = articleRepository.articleList(userpid);
+
+        // 내가 구독한 유저들 저장
+        List<Subscribe> sublist = subscribeRepository.findBySubfrom(userpid);
+
+        List<Article> articlelist = new ArrayList<Article>();
+
+        for (int i = 0; i < sublist.size(); ++i) {
+
+            List<Article> list = articleRepository.findAllByUserpid(sublist.get(i).getSubto());
+            articlelist.addAll(list);
+        }
 
         // 비공개 요소 삭제
-        for (Iterator<Article> it = list.iterator(); it.hasNext();) {
+        for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
             Article value = it.next();
             if (value.getArticleshare() == 2)
                 it.remove();
         }
 
-        return list;
+        return articlelist;
     }
 
     @Override
@@ -282,21 +292,21 @@ public class ArticleServiceImpl implements ArticleService {
     public List<String> getHash(int articleidx) {
         List<Hashtag> hashtaglist = hashtagRepository.findByArticleidx(articleidx);
         List<String> hashnamelist = new ArrayList<>();
-        for(int i = 0 ; i < hashtaglist.size(); i++){
+        for (int i = 0; i < hashtaglist.size(); i++) {
             int hashidx = hashtaglist.get(i).getHashidx();
             Hash hash = hashRepository.findByHashidx(hashidx).orElse(null);
-            if(hash!=null){
+            if (hash != null) {
                 String hashname = hash.getHashname();
                 hashnamelist.add(hashname);
             }
         }
         return hashnamelist;
     }
-    
+
     @Override
     public boolean getLikeystatus(int userpid, int articleidx) {
         Likey likey = likeyRepository.findByLikeyfromAndLikeyto(userpid, articleidx).orElse(null);
-        if(likey==null){
+        if (likey == null) {
             return false;
         }
         return true;

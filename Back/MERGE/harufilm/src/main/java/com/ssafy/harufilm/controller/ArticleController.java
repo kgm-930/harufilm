@@ -31,7 +31,6 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-
     @PostMapping("/create")
     public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) {
 
@@ -76,7 +75,7 @@ public class ArticleController {
         List<ArticleDetailResponseDto> list = new ArrayList<>();
         try {
             articles = articleService.getArticle(articleShowRequestDto);
-            for(int i = 0; i < articles.size(); i++){
+            for (int i = 0; i < articles.size(); i++) {
                 ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
                 temp.setArticle(articles.get(i));
                 temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
@@ -96,7 +95,7 @@ public class ArticleController {
         List<ArticleDetailResponseDto> list = new ArrayList<>();
         try {
             articles = articleService.getFollowedArticleList(articleRequestDto.getUserpid());
-            for(int i = 0; i < articles.size(); i++){
+            for (int i = 0; i < articles.size(); i++) {
                 ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
                 temp.setArticle(articles.get(i));
                 temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
@@ -107,33 +106,34 @@ public class ArticleController {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Interanl Server Error, 글 목록 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(articles);
+        return ResponseEntity.status(200).body(list);
     }
 
     @PostMapping("/getarticle")
-    public ResponseEntity<?> getArticle(@RequestBody ArticleDetailRequestDto articleDetailRequestDto){
-    Article article;
-    int likey;
-    List<String> hash = new ArrayList<>();
-        try{
-        article = articleService.findByArticleidx(articleDetailRequestDto.getArticleidx());
-        likey = articleService.getLikey(articleDetailRequestDto.getArticleidx());
-        hash = articleService.getHash(articleDetailRequestDto.getArticleidx());
-    }catch(Exception e){
-    return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-    "Interanl Server Error, 글 불러오기 실패"));
-    }
-    return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey, hash));
+    public ResponseEntity<?> getArticle(@RequestBody ArticleDetailRequestDto articleDetailRequestDto) {
+        Article article;
+        int likey;
+        List<String> hash = new ArrayList<>();
+        try {
+            article = articleService.findByArticleidx(articleDetailRequestDto.getArticleidx());
+            likey = articleService.getLikey(articleDetailRequestDto.getArticleidx());
+            hash = articleService.getHash(articleDetailRequestDto.getArticleidx());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+                    "Interanl Server Error, 글 불러오기 실패"));
+        }
+        return ResponseEntity.status(200).body(ArticleDetailResponseDto.of(article, likey, hash));
     }
 
     @PostMapping("/likey")
-    public ResponseEntity<?> getArticle(@RequestBody ArticleLikeyStatusRequestDto articleLikeyStatusRequestDto){
+    public ResponseEntity<?> getArticle(@RequestBody ArticleLikeyStatusRequestDto articleLikeyStatusRequestDto) {
         boolean likeystatus;
-        try{
-            likeystatus = articleService.getLikeystatus(articleLikeyStatusRequestDto.getUserpid(), articleLikeyStatusRequestDto.getArticleidx());
-        }catch(Exception e){
-            return ResponseEntity.status(500).body(ErrorResponseBody.of(500,false,"좋아요 여부 가져오기 실패"));
+        try {
+            likeystatus = articleService.getLikeystatus(articleLikeyStatusRequestDto.getUserpid(),
+                    articleLikeyStatusRequestDto.getArticleidx());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false, "좋아요 여부 가져오기 실패"));
         }
         return ResponseEntity.status(200).body(MessageBody.of(likeystatus, "좋아요 여부 출력"));
-    } 
+    }
 }
