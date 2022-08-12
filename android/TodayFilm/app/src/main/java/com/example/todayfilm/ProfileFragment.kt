@@ -24,6 +24,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     var isFollow = false
     var search_userpid = ""
     var userpid = ""
+    var followedNumber = 0
+    var followNumber = 0
 
 
         
@@ -65,6 +67,18 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         // 사용자 게시글 조회
         getArticle()
 
+        getFollowNumber()
+
+        getFollowing()
+
+        Log.d("팔로우넘버",followNumber.toString())
+        Log.d("팔로잉넘버",followedNumber.toString())
+
+
+
+
+
+
         setOnClickListener()
     }
 
@@ -97,6 +111,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 } else {
                     searchProfile(false)
                     // 팔로우 중인지 확인 후 서버로 팔로우 / 언팔로우 요청 보내기
+                    getFollowNumber()
+
+                    getFollowing()
 
                 }
             }
@@ -256,5 +273,44 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             }
         })
 
+    }
+
+    private fun getFollowNumber() {
+
+        val getFollow = GetProfile()
+        getFollow.userpid = search_userpid
+        val callFollowUser = NetWorkClient.GetNetwork.followed(getFollow)
+
+        callFollowUser.enqueue(object : Callback<FollowList>{
+            override fun onResponse(call: Call<FollowList>, response: Response<FollowList>) {
+                followNumber = response.body()?.list!!.size
+                binding.profileFollower.text = followNumber.toString()
+
+            }
+
+            override fun onFailure(call: Call<FollowList>, t: Throwable) {
+
+            }
+        })
+
+
+
+    }
+
+    private fun getFollowing(){
+        val getFollow = GetProfile()
+        getFollow.userpid = search_userpid
+        val callFollowingUser = NetWorkClient.GetNetwork.following(getFollow)
+        callFollowingUser.enqueue(object : Callback<FollowList>{
+            override fun onResponse(call: Call<FollowList>, response: Response<FollowList>) {
+                followedNumber = response.body()?.list!!.size
+                binding.profileFollowing.text = followedNumber.toString()
+
+            }
+
+            override fun onFailure(call: Call<FollowList>, t: Throwable) {
+
+            }
+        })
     }
 }
