@@ -24,9 +24,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     var search_userpid = ""
     var userpid = ""
 
-
-        
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,11 +36,15 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setOnClickListener()
+    }
+
     override fun onResume() {
         super.onResume()
 
         search_userpid = arguments?.getString("search_userpid").toString()
-
 
         if (userpid == search_userpid) {
             isMyProfile = true
@@ -57,8 +58,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             // 다른 사용자 프로필
             binding.profileToSettings.visibility = View.INVISIBLE
             searchProfile(true)
-
         }
+
         // 사용자 정보 조회
         getProfile()
         // 사용자 게시글 조회
@@ -67,14 +68,11 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         setOnClickListener()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setOnClickListener()
-    }
-
     private fun setOnClickListener() {
         binding.profileToSettings.setOnClickListener(this)
         binding.profileBtn.setOnClickListener(this)
+        binding.profileFollowing.setOnClickListener(this)
+        binding.profileFollower.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -91,13 +89,19 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     val intent = Intent(activity, ChangeProfileActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
-
-
                 } else {
                     searchProfile(false)
                     // 팔로우 중인지 확인 후 서버로 팔로우 / 언팔로우 요청 보내기
 
                 }
+            }
+
+            R.id.profile_following -> {
+                (activity as MainActivity).changeFragment(2, "following", search_userpid)
+            }
+
+            R.id.profile_follower -> {
+                (activity as MainActivity).changeFragment(2, "follower", search_userpid)
             }
         }
     }
