@@ -28,7 +28,7 @@ public class LikeyServiceImpl implements LikeyService{
 
     @Override
     public void likeyDelete(LikeyRequestDto likeyRequestDto) {
-        Likey likey = likeyRepository.findByLikeyfromAndLikeyto(likeyRequestDto.getLikeyfrom(),likeyRequestDto.getLikeyfrom()).orElse(null);
+        Likey likey = likeyRepository.findByLikeyfromAndLikeyto(likeyRequestDto.getLikeyfrom(),likeyRequestDto.getLikeyto()).orElse(null);
         if(likey!=null){
             likeyRepository.delete(likey);
         }
