@@ -17,17 +17,22 @@ interface NetWorkInterface {
         @Body user: User
     ): Call<LoginData>
 
-    @POST("api/account/signout")
-    fun singout(
+    @POST("api/account/signdown")
+    fun signdown(
         @Body deleteUser: DeleteAccountRequest
     ): Call<DeleteAccountResponse>
+
+    @POST("api/account/signout")
+    fun signout(
+        @Body logoutUser: LogoutRequest
+    ): Call<LogoutResponse>
 
     @POST("api/account/changepw")
     fun changepw(
         @Body changePw: ChangePwRequest
     ): Call<ChangePwResponse>
 
-    @GET("api/account/findpw")
+    @POST("api/account/findpw")
     fun findpw(
         @Body findPw: FindPwRequest
     ): Call<FindPwResponse>
@@ -57,7 +62,8 @@ interface NetWorkInterface {
         @Part videodata: List<MultipartBody.Part?>,
         @Part("userpid") userpid: RequestBody,
         @Part("articlethumbnail") articlethumbnail: RequestBody,
-        @Part("articleshare") articleshare: RequestBody
+        @Part("articleshare") articleshare: RequestBody,
+        @Part("hashlist") hashlist: RequestBody
     ): Call<FindPwResponse>
 
     @POST("api/article/sharecontrol")
@@ -77,8 +83,13 @@ interface NetWorkInterface {
 
     @POST("api/search/user")
     fun searchuser(
-        @Body search: SearchUserRequest
+        @Body search: SearchRequest
     ): Call<SearchUserResponse>
+
+    @POST("api/search/hash")
+    fun searcharticle(
+        @Body search: SearchRequest
+    ): Call<List<ArticleResponse>>
 
     @POST("api/subscribe/delete")
     fun deletefollow(

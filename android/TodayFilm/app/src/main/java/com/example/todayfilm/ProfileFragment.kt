@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import com.example.todayfilm.data.*
 import com.example.todayfilm.databinding.FragmentProfileBinding
@@ -125,8 +124,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         binding.profileArticle.adapter = articleAdapter
 
         articleAdapter.setItemClickListener(object: ProfileArticleAdapter.ItemClickListener {
-            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String) {
-                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey)
+            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String) {
+                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hashstring)
             }
         })
 

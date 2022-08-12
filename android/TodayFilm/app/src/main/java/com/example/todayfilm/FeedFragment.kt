@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.todayfilm.data.*
 import com.example.todayfilm.databinding.FragmentFeedBinding
 import com.example.todayfilm.retrofit.NetWorkClient
@@ -58,7 +59,8 @@ class FeedFragment : Fragment(),View.OnClickListener {
             }
 
             override fun onFailure(call: Call<List<ArticleResponse>>, t: Throwable) {
-                Log.d("사용자 게시글 조회 실패", t.message.toString())
+                Toast.makeText(requireActivity(), "피드 조회에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                Log.d("피드 조회 실패", t.message.toString())
             }
         })
     }
@@ -80,9 +82,8 @@ class FeedFragment : Fragment(),View.OnClickListener {
         binding.feedArticle.adapter = articleAdapter
 
         articleAdapter.setItemClickListener(object: ArticleAdapter.ItemClickListener {
-            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String) {
-                Log.d("확인 피드", likey)
-                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey)
+            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String) {
+                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hashstring)
             }
         })
 

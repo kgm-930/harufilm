@@ -43,7 +43,9 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
     var articlecreatedate: String? = null
     var articleidx: String? = null
     var likey: String? = null
+    var hashstring: String? = null
     var userpid: String? = null
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +58,8 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         articlecreatedate = arguments?.getString("articlecreatedate")
         article_userpid = arguments?.getString("article_userpid")
         likey = arguments?.getString("likey")
+        hashstring = arguments?.getString("hashstring")
         userpid = MyPreference.read(requireActivity(), "userpid")
-
-        Log.d("확인", likey.toString())
 
         binding.filmLikey.text = likey
 
@@ -76,6 +77,7 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         bundle.putString("articlecreatedate", articlecreatedate)
         bundle.putString("article_userpid", article_userpid)
         frameFragment.arguments = bundle
+        binding.filmHashtags.text = hashstring
 
 
         // 작성자 정보 조회
@@ -107,7 +109,6 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         }
 
         childFragmentManager.beginTransaction().add(R.id.fragment_content_film, frameFragment).commit()
-
         likecheckFun(true)
 
 
@@ -142,6 +143,8 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
 
 
     setOnClickListener()
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
     }
 
     private fun setOnClickListener() {
@@ -158,7 +161,8 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
             }
 
             R.id.film_play_btn -> {
-                val sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+                binding.filmPlayBtn.isClickable = false
+
                 sharedViewModel.setIsPlay(true)
             }
             R.id.film_like_btn ->{
