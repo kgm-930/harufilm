@@ -175,7 +175,8 @@ public class ArticleServiceImpl implements ArticleService {
 
         if (article != null) {
 
-            String path = "/var/opt/upload/article/" + article.getUserpid() + "/" + article.getArticlecreatedate();
+            String path = "/var/opt/upload/article/" + article.getUserpid() + "/" +
+                    article.getArticlecreatedate();
             File folder = new File(path);
 
             if (folder.exists()) {
@@ -188,8 +189,11 @@ public class ArticleServiceImpl implements ArticleService {
             }
             // 해당 날짜 폴더 삭제
 
-            hashtagRepository.deleteAllByArticleidx(article.getArticleidx()); // 해시태그리스트에서 삭제
-
+            try {
+                hashtagRepository.deleteAllByArticleidx(article.getArticleidx()); // 해시태그리스트에서 삭제
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
             articleRepository.deleteById(articleidx);
             // 테이블 삭제
         }
@@ -325,37 +329,25 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean getTodayarticle(int userpid) {
+    public int getTodayarticle(int userpid) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         Date time = new Date();
 
         String now = format.format(time);
 
-        // userpid폴더가 있는지 검사한다.
-        String path = "/var/opt/upload/article/" + userpid;
-        File folder = new File(path);
+        Article todayarticle = null;
 
-        if (!folder.exists()) {
-            try {
-                return false;
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
+        try {
+            todayarticle = articleRepository.findByArticlecreatedateAndUserpid(now, userpid);
+        } catch (Exception e) {
+            todayarticle = null;
         }
-
-        // 해당userpid폴더에 오늘날짜가 있는지 검사한다.
-        path = "/var/opt/upload/article/" + userpid + "/" + now;
-        folder = new File(path);
-
-        if (!folder.exists()) {
-            try {
-                return false;
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-        }
+        if (todayarticle == null)
+            return -1;
+        else
+            return todayarticle.getArticleidx();
         // TODO Auto-generated method stub
-        return true;
+
     }
 }

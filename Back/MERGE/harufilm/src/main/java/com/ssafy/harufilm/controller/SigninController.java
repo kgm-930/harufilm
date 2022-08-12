@@ -62,6 +62,8 @@ public class SigninController {
 
         userService.setuserfcmtoken(user.getUserpid(), signinRequestDto.getUserfcmtoken());
 
+        int todayarticleidx = articleService.getTodayarticle(user.getUserpid());
+
         List<String> messagelist = new ArrayList<String>();
         messagelist.add("방가방가~ :3");
         messagelist.add("추희원 그는 신인가?");
@@ -72,7 +74,7 @@ public class SigninController {
 
         FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(), "로그인 완료! ^0^", messagelist.get(idx));
         return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token,
-                articleService.getTodayarticle(user.getUserpid())));
+                todayarticleidx));
 
     }
 }

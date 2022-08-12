@@ -22,4 +22,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     @Query("select a from Article a where a.articleidx in (select ht.articleidx from Hashtag ht where ht.hashidx in (select hashidx from Hash h where h.hashname like %:keyword%))")
     List<Article> findByHashnameItContainsKeyword(String keyword);
+
+    Article findByArticlecreatedateAndUserpid(String articlecreatedate, int userpid);
 }

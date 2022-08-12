@@ -30,6 +30,6 @@ public interface ArticleService {
 
     boolean getLikeystatus(int userpid, int articleidx);
 
-    boolean getTodayarticle(int userpid);
+    int getTodayarticle(int userpid);
 
 }
