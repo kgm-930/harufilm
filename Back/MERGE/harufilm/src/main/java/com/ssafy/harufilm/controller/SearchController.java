@@ -1,5 +1,6 @@
 package com.ssafy.harufilm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.harufilm.common.ErrorResponseBody;
 import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.account.UserSearchResponseDto;
+import com.ssafy.harufilm.dto.article.ArticleDetailResponseDto;
 import com.ssafy.harufilm.dto.article.ArticleSearchResponseDto;
 import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
@@ -45,13 +48,22 @@ public class SearchController {
 
     @PostMapping("/hash")
     public ResponseEntity<?> searchArticleBysearchHashByKeyword(@RequestBody KeywordDto keyword){
-        List<Article> articlelist;
-        try{
-            articlelist = articleService.getarticlelistbykeyword(keyword.getKeyword());
-        }catch(Exception e){
-            return ResponseEntity.status(200).body(MessageBody.of(true, "글 불러오기 성공"));
-    
+        List<Article> articles;
+        List<ArticleDetailResponseDto> list = new ArrayList<>();
+        try {
+            articles = articleService.getarticlelistbykeyword(keyword.getKeyword());
+
+            for (int i = 0; i < articles.size(); i++) {
+                ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
+                temp.setArticle(articles.get(i));
+                temp.setLikey(articleService.getLikey(articles.get(i).getArticleidx()));
+                temp.setHash(articleService.getHash(articles.get(i).getArticleidx()));
+                list.add(temp);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
+                    "Interanl Server Error, 글 목록 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(ArticleSearchResponseDto.of(articlelist));
+        return ResponseEntity.status(200).body(list);
     }
 }
