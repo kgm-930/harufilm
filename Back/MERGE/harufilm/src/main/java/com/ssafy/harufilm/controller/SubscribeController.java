@@ -38,7 +38,7 @@ public class SubscribeController {
     public ResponseEntity<?> setsub(@RequestBody SubscribeRequestDto subscribeRequestDto) {
         try {
             subscribeService.subscribeSave(subscribeRequestDto);
-            FcmController.FCMMessaging(userService.getuserfcmtoken(subscribeRequestDto.getSubto()), "팔로워가 늘었어요!", userService.getuserbyPid(subscribeRequestDto.getSubfrom()).getUsername() + "님이 팔로우를 하셨습니다");
+            FcmController.FCMMessaging(userService.getuserbyPid(subscribeRequestDto.getSubfrom()).getUsername(), "팔로워가 늘었어요!", userService.getuserfcmtoken(subscribeRequestDto.getSubto()) + "님이 팔로우를 하셨습니다");
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 팔로우 실패"));
