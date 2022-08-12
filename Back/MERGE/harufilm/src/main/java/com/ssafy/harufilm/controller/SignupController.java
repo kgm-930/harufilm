@@ -55,7 +55,6 @@ public class SignupController {
             // TODO: handle exception
         }
 
-        FcmController.FCMMessaging("a","a","a");
         return ResponseEntity.status(200).body(MessageBody.of(true, "계정 생성이 완료되었습니다."));
     }
 }

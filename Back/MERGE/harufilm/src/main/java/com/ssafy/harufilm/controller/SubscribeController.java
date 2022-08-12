@@ -3,6 +3,8 @@ package com.ssafy.harufilm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssafy.harufilm.fcm.FcmController;
+import com.ssafy.harufilm.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,10 +31,14 @@ public class SubscribeController {
     @Autowired
     private SubscribeService subscribeService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
     public ResponseEntity<?> setsub(@RequestBody SubscribeRequestDto subscribeRequestDto){
         try{
             subscribeService.subscribeSave(subscribeRequestDto);
+            FcmController.FCMMessaging(userService.getuserfcmtoken(subscribeRequestDto.getSubto()), "팔로워가 늘었어요!", userService.getuserbyPid(subscribeRequestDto.getSubfrom()).getUsername() + "님이 팔로우를 하셨습니다");
         }catch(Exception e){
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
             "Interanl Server Error, 팔로우 실패"));
