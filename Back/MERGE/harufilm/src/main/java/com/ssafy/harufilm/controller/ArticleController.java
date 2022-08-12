@@ -36,11 +36,15 @@ public class ArticleController {
     public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) {
 
         try {
+            String imgstring = articleRequestDto.getImgdata().get(0).getOriginalFilename();
+            String videostring = articleRequestDto.getVideodata().get(0).getOriginalFilename();
 
-            boolean check = articleService.articleSave(articleRequestDto);
-            if (!check)
+            if (imgstring.equals("") || videostring.equals(""))
                 return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
-                        "이미지 or 비디오 파일이 부족해용 T^T"));
+                        "이미지 or 비디오 파일이 없습니다. T^T"));
+
+            articleService.articleSave(articleRequestDto);
+
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 글 저장 실패"));

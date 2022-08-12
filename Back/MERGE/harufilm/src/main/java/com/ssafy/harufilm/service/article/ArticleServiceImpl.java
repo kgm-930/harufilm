@@ -54,7 +54,7 @@ public class ArticleServiceImpl implements ArticleService {
     LikeyRepository likeyRepository;
 
     @Override
-    public boolean articleSave(ArticleRequestDto articleRequestDto) throws IllegalStateException, IOException {
+    public Article articleSave(ArticleRequestDto articleRequestDto) throws IllegalStateException, IOException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         Date time = new Date();
@@ -91,9 +91,6 @@ public class ArticleServiceImpl implements ArticleService {
         // 이미지 저장
         try {
             List<MultipartFile> imgfile = articleRequestDto.getImgdata();
-
-            List<MultipartFile> videofile = articleRequestDto.getVideodata();
-
             for (int i = 0; i < imgfile.size(); ++i) {
 
                 MultipartFile originfile = imgfile.get(i);
@@ -106,6 +103,14 @@ public class ArticleServiceImpl implements ArticleService {
 
                 originfile.transferTo(UpdateFile);
             }
+        } catch (Exception e) {
+            System.out.println("no Data");
+            // TODO: handle exception
+        }
+
+        // 비디오 저장
+        try {
+            List<MultipartFile> videofile = articleRequestDto.getVideodata();
 
             for (int i = 0; i < videofile.size(); ++i) {
 
@@ -122,7 +127,7 @@ public class ArticleServiceImpl implements ArticleService {
             }
 
         } catch (Exception e) {
-            return false;
+            System.out.println("no Data");
             // TODO: handle exception
         }
 
@@ -161,7 +166,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .build();
             hashtagRepository.save(ht);
         }
-        return true;
+        return savedArticle;
     }
 
     @Override
