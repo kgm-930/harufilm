@@ -20,6 +20,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     Optional<Article> findByArticleidx(int articleidx); // 글 하나의 정보 반환
 
-    @Query("select a from Article a where a.articleidx = (select ht.articleidx from Hashtag ht where ht.hashidx = (select hashidx from Hash h where h.hashname like '%:keyword%'))")
+    @Query("select a from Article a where a.articleidx in (select ht.articleidx from Hashtag ht where ht.hashidx = (select hashidx from Hash h where h.hashname like '%:keyword%'))")
     List<Article> findByHashnameItContainsKeyword(String keyword);
 }
