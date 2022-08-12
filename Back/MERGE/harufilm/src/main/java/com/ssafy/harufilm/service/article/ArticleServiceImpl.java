@@ -239,25 +239,37 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> getFollowedArticleList(int userpid) {
 
-        // 내가 구독한 유저들 저장
-        List<Subscribe> sublist = subscribeRepository.findBySubfrom(userpid);
-
-        List<Article> articlelist = new ArrayList<Article>();
-
-        for (int i = 0; i < sublist.size(); ++i) {
-
-            List<Article> list = articleRepository.findAllByUserpid(sublist.get(i).getSubto());
-            articlelist.addAll(list);
-        }
+        List<Article> list = articleRepository.articleList(userpid);
 
         // 비공개 요소 삭제
-        for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
+        for (Iterator<Article> it = list.iterator(); it.hasNext();) {
             Article value = it.next();
             if (value.getArticleshare() == 2)
                 it.remove();
         }
 
-        return articlelist;
+        return list;
+
+        // // 내가 구독한 유저들 저장
+        // List<Subscribe> sublist = subscribeRepository.findBySubfrom(userpid);
+
+        // List<Article> articlelist = new ArrayList<Article>();
+
+        // for (int i = 0; i < sublist.size(); ++i) {
+
+        // List<Article> list =
+        // articleRepository.findAllByUserpid(sublist.get(i).getSubto());
+        // articlelist.addAll(list);
+        // }
+
+        // // 비공개 요소 삭제
+        // for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
+        // Article value = it.next();
+        // if (value.getArticleshare() == 2)
+        // it.remove();
+        // }
+
+        // return articlelist;
     }
 
     @Override
