@@ -3,6 +3,7 @@ package com.example.todayfilm
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -22,8 +23,8 @@ open class FCMService : FirebaseMessagingService() {
 
         var check: Boolean = true
 
-        val title: String? = remoteMessage.data["title"]
-        val message: String? = remoteMessage.data["message"]
+        val title: String? = remoteMessage.getNotification()?.getTitle()
+        val message: String? = remoteMessage.getNotification()?.getBody()
 
         if (!PreferenceManager.getDefaultSharedPreferences(
                 applicationContext
