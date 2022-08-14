@@ -36,7 +36,13 @@ public class LikeyController {
     public ResponseEntity<?> setlikey(@RequestBody LikeyRequestDto likeyRequestDto) {
         try {
             likeyService.likeySave(likeyRequestDto);
-            FcmController.FCMMessaging(userService.getuserfcmtoken(articleService.findByArticleidx(likeyRequestDto.getLikeyto()).getUserpid()), "좋아요를 받았어요!", userService.getuserbyPid(likeyRequestDto.getLikeyfrom()).getUsername() + "님이 좋아요를 하셨습니다♡");
+
+            String toUser = userService.getuserfcmtoken(articleService.findByArticleidx(likeyRequestDto.getLikeyto()).getUserpid());
+            String fromUser = userService.getuserbyPid(likeyRequestDto.getLikeyfrom()).getUsername();
+
+            if (toUser != null) {
+                FcmController.FCMMessaging(toUser, "좋아요를 받았어요!", fromUser + "님이 좋아요를 하셨습니다♡");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 좋아요 실패"));
