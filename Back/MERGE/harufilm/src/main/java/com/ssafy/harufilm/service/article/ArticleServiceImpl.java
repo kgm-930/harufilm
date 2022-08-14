@@ -21,6 +21,7 @@ import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
 import com.ssafy.harufilm.dto.hash.HashRequestDto;
+import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.entity.Hash;
 import com.ssafy.harufilm.entity.Hashtag;
@@ -220,21 +221,16 @@ public class ArticleServiceImpl implements ArticleService {
             }
 
             // userpid 유저가 search_pid 유저를 구독 안했을 경우 1번 요소도 삭제
-            try {
-                Subscribe subscribe = subscribeRepository.findBySubfromAndSubto(articleShowRequestDto.getUserpid(),
-                        articleShowRequestDto.getSearch_userpid());
-                // System.out.println(subscribe.getSubfrom());
-            } catch (Exception e) {
-
-                // 구독 공개 요소 삭제
+            Subscribe subscribe = subscribeRepository.findBySubfromAndSubto(articleShowRequestDto.getUserpid(),
+                    articleShowRequestDto.getSearch_userpid());
+            if (subscribe == null) {
                 for (Iterator<Article> it = list.iterator(); it.hasNext();) {
                     Article value = it.next();
                     if (value.getArticleshare() == 1)
                         it.remove();
                 }
-                System.out.println("구독하지 않음");
-            }
 
+            }
         }
 
         return list;
@@ -277,8 +273,28 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getarticlelistbykeyword(String keyword) {
-        List<Article> articlelist = articleRepository.findByHashnameItContainsKeyword(keyword);
+    public List<Article> getarticlelistbykeyword(KeywordDto keyword) {
+        List<Article> articlelist = articleRepository.findByHashnameItContainsKeyword(keyword.getKeyword());
+
+        // 비공개 요소 삭제
+        for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
+            Article value = it.next();
+            if (value.getArticleshare() == 2)
+                it.remove();
+        }
+
+        // userpid 유저가 search_pid 유저를 구독 안했을 경우 1번 요소도 삭제
+        for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
+            Article value = it.next();
+            if (value.getArticleshare() == 1) {
+                Subscribe subscribe = subscribeRepository.findBySubfromAndSubto(keyword.getUserpid(),
+                        value.getUserpid());
+                if (subscribe == null)
+                    it.remove();
+            }
+
+        }
+
         return articlelist;
     }
 

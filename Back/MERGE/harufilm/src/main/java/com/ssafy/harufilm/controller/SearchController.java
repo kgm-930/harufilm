@@ -24,34 +24,33 @@ import com.ssafy.harufilm.service.user.UserService;
 @RestController
 @RequestMapping("/api/search")
 public class SearchController {
-    //해당 키워드를 포함한 userid의 사용자 목록(userid, username, userimg),
-    //해당 키워드를 포함한 hashname의 게시글 목록(userid, userimg, articleidx, articlethumbnail)
+    // 해당 키워드를 포함한 userid의 사용자 목록(userid, username, userimg),
+    // 해당 키워드를 포함한 hashname의 게시글 목록(userid, userimg, articleidx, articlethumbnail)
 
     @Autowired
     UserService userService;
-
 
     @Autowired
     ArticleService articleService;
 
     @PostMapping("/user")
-    public ResponseEntity<?> searchUserByKeyword(@RequestBody KeywordDto keyword){
+    public ResponseEntity<?> searchUserByKeyword(@RequestBody KeywordDto keyword) {
         List<SmallProfileResponseDto> userlist;
-        try{
+        try {
             userlist = userService.getuserlistbykeyword(keyword.getKeyword());
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(200).body(MessageBody.of(true, "글 불러오기 성공"));
-    
+
         }
         return ResponseEntity.status(200).body(UserSearchResponseDto.of(userlist));
     }
 
     @PostMapping("/hash")
-    public ResponseEntity<?> searchArticleBysearchHashByKeyword(@RequestBody KeywordDto keyword){
+    public ResponseEntity<?> searchArticleBysearchHashByKeyword(@RequestBody KeywordDto keyword) {
         List<Article> articles;
         List<ArticleDetailResponseDto> list = new ArrayList<>();
         try {
-            articles = articleService.getarticlelistbykeyword(keyword.getKeyword());
+            articles = articleService.getarticlelistbykeyword(keyword);
 
             for (int i = 0; i < articles.size(); i++) {
                 ArticleDetailResponseDto temp = new ArticleDetailResponseDto();

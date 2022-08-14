@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class KeywordDto {
     String keyword;
+    int userpid;
 }

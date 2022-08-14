@@ -6,6 +6,7 @@ import java.util.List;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
+import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
 
 public interface ArticleService {
@@ -20,7 +21,7 @@ public interface ArticleService {
 
     Article findByArticleidx(int articleidx);
 
-    List<Article> getarticlelistbykeyword(String keyword);
+    List<Article> getarticlelistbykeyword(KeywordDto keyword);
 
     void SetShare(ArticleShareRequestDto articleShareRequestDto);
 
