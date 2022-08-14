@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     @Autowired
     private SubscribeRepository subscribeRepository;
 
@@ -130,21 +129,21 @@ public class UserServiceImpl implements UserService {
         List<User> userlist = userRepository.findByUsernameOrUseridContaining(keyword, keyword);
         List<SmallProfileResponseDto> usersplist = new ArrayList<>();
 
-        for(int i = 0; i < userlist.size(); i++){
+        for (int i = 0; i < userlist.size(); i++) {
             SmallProfileResponseDto spDto = new SmallProfileResponseDto();
             spDto.setUserid(userlist.get(i).getUserid());
             spDto.setUsername(userlist.get(i).getUsername());
             spDto.setUserimg(userlist.get(i).getUserimg());
             spDto.setUserpid(userlist.get(i).getUserpid());
             usersplist.add(spDto);
-        }        
+        }
         return usersplist;
     }
 
     @Override
     public void modifypassword(String userid, String enuserpassword) {
         User user = userRepository.findByUserid(userid).orElse(null);
-        if(user!=null){
+        if (user != null) {
             user.setUserpassword(enuserpassword);
             userRepository.save(user);
         }
@@ -154,102 +153,113 @@ public class UserServiceImpl implements UserService {
     public void signdown(User user) {
         // TODO Auto-generated method stub
 
-        //1. 프로필 파일 삭제
+        // 1. 프로필 파일 삭제
         String imgpath = "/var/opt/upload/profile/";
         String curimg = user.getUserimg();
-        if(!curimg.equals("baseimg.png"))
-        {
+        if (!curimg.equals("baseimg.png")) {
             File curfile = new File(imgpath + curimg);
-                try {
-                    curfile.delete();
-                } catch (Exception e) {
-                }
+            try {
+                curfile.delete();
+            } catch (Exception e) {
+            }
         }
-        //2. 게시글 파일 삭제
+        // 2. 게시글 파일 삭제
         String path = "/var/opt/upload/article/" + user.getUserpid();
         File folder = new File(path);
 
         if (folder.exists()) {
             try {
                 FileUtils.cleanDirectory(folder);
-                if(folder.isDirectory())folder.delete();
+                if (folder.isDirectory())
+                    folder.delete();
             } catch (Exception e) {
                 e.getStackTrace();
             }
         }
 
-        //3. 구독기록 삭제
-        List<Subscribe> subfromlist = subscribeRepository.findBySubfrom(user.getUserpid());
+        // 3. 구독기록 삭제
+        try {
 
-        List<Subscribe> subtolist = subscribeRepository.findBySubto(user.getUserpid());
+            List<Subscribe> subfromlist = subscribeRepository.findBySubfrom(user.getUserpid());
 
-        for(int i=0;i<subfromlist.size();++i)
-        {
-            int subidx = subfromlist.get(i).getSubidx();
-            subscribeRepository.deleteById(subidx);
+            List<Subscribe> subtolist = subscribeRepository.findBySubto(user.getUserpid());
+
+            for (int i = 0; i < subfromlist.size(); ++i) {
+                int subidx = subfromlist.get(i).getSubidx();
+                subscribeRepository.deleteById(subidx);
+            }
+            for (int i = 0; i < subtolist.size(); ++i) {
+                int subidx = subtolist.get(i).getSubidx();
+                subscribeRepository.deleteById(subidx);
+            }
+        } catch (Exception e) {
+            System.out.println("구독자 없음");
+            // TODO: handle exception
         }
-        for(int i=0;i<subtolist.size();++i)
-        {
-            int subidx = subtolist.get(i).getSubidx();
-            subscribeRepository.deleteById(subidx);
-        }
+        try {
+            // 4. 좋아요 기록 삭제
+            List<Likey> likeyfromlist = likeyRepository.findByLikeyfrom(user.getUserpid()); // 내가 좋아요한 기록 삭제
 
-        //4. 좋아요 기록 삭제
-        List<Likey> likeyfromlist = likeyRepository.findByLikeyfrom(user.getUserpid()); //내가 좋아요한 기록 삭제
-        
-        for(int i=0;i<likeyfromlist.size();++i)
-        {
-            int likeyidx = likeyfromlist.get(i).getLikeyidx();
-            likeyRepository.deleteById(likeyidx);
-        }
-
-       List<Article> articlelist = articleRepository.findAllByUserpid(user.getUserpid());
-
-
-       for(int i=0;i<articlelist.size();++i)
-       {
-            int articleidx = articlelist.get(i).getArticleidx();
-
-            // 내 게시글에 대한 좋아요 기록 삭제
-            List<Likey> likeytolist = likeyRepository.findByLikeyto(articleidx);
-            for(int j=0;j<likeytolist.size();++j)
-            {
-                int likeyidx = likeytolist.get(j).getLikeyidx();
+            for (int i = 0; i < likeyfromlist.size(); ++i) {
+                int likeyidx = likeyfromlist.get(i).getLikeyidx();
                 likeyRepository.deleteById(likeyidx);
             }
 
-            //5. 해시태그 삭제
-            //[articleidx] -> Hashtag -> [hashidx] -> Hash 접근
-            List<Hashtag> hashtaglist = hashtagRepository.findByArticleidx(articleidx);
-            for(int htag=0;htag<hashtaglist.size();++htag)
-            {
-                int hashtagidx = hashtaglist.get(htag).getHashtagidx();
-                int hashidx = hashtaglist.get(htag).getHashidx();
+        } catch (
 
-                hashRepository.deleteById(hashidx);
-                hashtagRepository.deleteById(hashtagidx);
+        Exception e) {
+            System.out.println("좋아요 없음");
+            // TODO: handle exception
+        }
+
+        try {
+            List<Article> articlelist = articleRepository.findAllByUserpid(user.getUserpid());
+
+            for (int i = 0; i < articlelist.size(); ++i) {
+                int articleidx = articlelist.get(i).getArticleidx();
+
+                // 내 게시글에 대한 좋아요 기록 삭제
+                List<Likey> likeytolist = likeyRepository.findByLikeyto(articleidx);
+                for (int j = 0; j < likeytolist.size(); ++j) {
+                    int likeyidx = likeytolist.get(j).getLikeyidx();
+                    likeyRepository.deleteById(likeyidx);
+                }
+
+                // 5. 해시태그 삭제
+                // [articleidx] -> Hashtag -> [hashidx] -> Hash 접근
+                List<Hashtag> hashtaglist = hashtagRepository.findByArticleidx(articleidx);
+                for (int htag = 0; htag < hashtaglist.size(); ++htag) {
+                    int hashtagidx = hashtaglist.get(htag).getHashtagidx();
+                    int hashidx = hashtaglist.get(htag).getHashidx();
+
+                    hashRepository.deleteById(hashidx);
+                    hashtagRepository.deleteById(hashtagidx);
+                }
+
+                // 6. 게시글 삭제
+                articleRepository.deleteById(articleidx);
+
             }
+        } catch (
 
-            //6. 게시글 삭제
-            articleRepository.deleteById(articleidx);
+        Exception e) {
+            System.out.println("게시글 없음");
+            // TODO: handle exception
+        }
 
-       }
+        // 7. 유저 삭제
+        userRepository.deleteById(user.getUserpid());
 
-
-       //7. 유저 삭제
-       userRepository.deleteById(user.getUserpid());
-
-        
     }
 
     @Override
-    public void setuserfcmtoken(int userpid,String userfcmtoken) {
-        
+    public void setuserfcmtoken(int userpid, String userfcmtoken) {
+
         User user = userRepository.findByUserpid(userpid);
         user.setUserfcmtoken(userfcmtoken);
         userRepository.save(user);
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -265,6 +275,6 @@ public class UserServiceImpl implements UserService {
         user.setUserfcmtoken(null);
         userRepository.save(user);
         // TODO Auto-generated method stub
-        
+
     }
 }
