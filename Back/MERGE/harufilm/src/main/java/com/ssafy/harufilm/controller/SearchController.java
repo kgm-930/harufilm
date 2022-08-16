@@ -15,7 +15,6 @@ import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.account.UserSearchResponseDto;
 import com.ssafy.harufilm.dto.article.ArticleDetailResponseDto;
-import com.ssafy.harufilm.dto.article.ArticleSearchResponseDto;
 import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.service.article.ArticleService;

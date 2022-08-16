@@ -1,6 +1,5 @@
 package com.ssafy.harufilm.controller;
 
-import com.ssafy.harufilm.fcm.FcmController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,8 +13,6 @@ import com.ssafy.harufilm.common.MessageBody;
 import com.ssafy.harufilm.dto.account.SignupRequestDto;
 import com.ssafy.harufilm.entity.User;
 import com.ssafy.harufilm.service.user.UserService;
-
-import static com.ssafy.harufilm.fcm.FcmController.*;
 
 @RestController
 @RequestMapping("/api/account")

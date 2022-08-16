@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.harufilm.dto.hash.HashRequestDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

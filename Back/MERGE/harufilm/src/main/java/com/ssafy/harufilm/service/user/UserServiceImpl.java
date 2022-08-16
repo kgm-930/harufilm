@@ -7,12 +7,10 @@ import java.util.List;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend.Attr;
 import com.ssafy.harufilm.dto.account.SignupRequestDto;
 import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
 import com.ssafy.harufilm.dto.profile.ModifyRequestDto;

@@ -9,10 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.apache.tomcat.util.json.JSONParser;
-import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
-import com.ssafy.harufilm.dto.hash.HashRequestDto;
 import com.ssafy.harufilm.dto.search.KeywordDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.entity.Hash;
@@ -250,26 +246,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         return list;
 
-        // // 내가 구독한 유저들 저장
-        // List<Subscribe> sublist = subscribeRepository.findBySubfrom(userpid);
-
-        // List<Article> articlelist = new ArrayList<Article>();
-
-        // for (int i = 0; i < sublist.size(); ++i) {
-
-        // List<Article> list =
-        // articleRepository.findAllByUserpid(sublist.get(i).getSubto());
-        // articlelist.addAll(list);
-        // }
-
-        // // 비공개 요소 삭제
-        // for (Iterator<Article> it = articlelist.iterator(); it.hasNext();) {
-        // Article value = it.next();
-        // if (value.getArticleshare() == 2)
-        // it.remove();
-        // }
-
-        // return articlelist;
     }
 
     @Override

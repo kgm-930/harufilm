@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,11 +64,10 @@ public class SigninController {
         int todayarticleidx = articleService.getTodayarticle(user.getUserpid());
 
         List<String> messagelist = new ArrayList<String>();
-        messagelist.add("방가방가~ :3");
-        messagelist.add("추희원 그는 신인가?");
-        messagelist.add("햄버거 먹고싶다. 치킨 먹고싶다.");
-        messagelist.add("랄로 유튜브 구독 좋아요 부탁드릴게요");
-        messagelist.add("응애 나 애기 개발자 개발 해.줘");
+        messagelist.add("방가방가~ ✧*｡٩(ˊᗜˋ*)و✧*｡");
+        messagelist.add("이랏샤이마세!!! (＞Д＜)ゝ");
+        messagelist.add("HELLO~ (。◕ ∀ ◕｡)");
+        messagelist.add("혼저옵서◝(⁰▿⁰)◜");
         int idx = (int) (Math.random() * (messagelist.size() - 1));
 
         FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(), "로그인 완료! ^0^", messagelist.get(idx));
