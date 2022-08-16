@@ -3,6 +3,11 @@ package com.ssafy.harufilm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssafy.harufilm.dto.account.SmallProfileResponseDto;
+import com.ssafy.harufilm.entity.User;
+import com.ssafy.harufilm.fcm.FcmController;
+import com.ssafy.harufilm.service.subscribe.SubscribeService;
+import com.ssafy.harufilm.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,8 +34,14 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    SubscribeService subscribeService;
+
+    @Autowired
+    UserService userService;
+
     @PostMapping("/create")
-    public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) {
+    public ResponseEntity<?> setArticle(@Validated ArticleRequestDto articleRequestDto) throws Exception {
 
         try {
             String imgstring = articleRequestDto.getImgdata().get(0).getOriginalFilename();
@@ -46,6 +57,18 @@ public class ArticleController {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 글 저장 실패"));
         }
+
+        // 글 작성 유저
+        User articleUser = userService.getuserbyPid(articleRequestDto.getUserpid());
+        // 글 작성 유저의 팔로워들
+        List<SmallProfileResponseDto> followerList = subscribeService.followerList(articleRequestDto.getUserpid());
+
+        for (int i = 0; i < followerList.size(); i++) {
+            User follower = userService.getuserbyPid(followerList.get(i).getUserpid());
+
+            FcmController.FCMMessaging(follower.getUserfcmtoken(), "팔로우 유저 새 글 알림", articleUser.getUsername() + "님이 새 글을 작성하셨습니다");
+        }
+
         return ResponseEntity.status(200).body(MessageBody.of(true, "글 저장 성공"));
     }
 
