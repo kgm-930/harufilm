@@ -4,6 +4,7 @@ import com.ssafy.harufilm.fcm.FcmController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +69,8 @@ public class SigninController {
         messagelist.add("이랏샤이마세!!! (＞Д＜)ゝ");
         messagelist.add("HELLO~ (。◕ ∀ ◕｡)");
         messagelist.add("혼저옵서◝(⁰▿⁰)◜");
-        int idx = (int) (Math.random() * (messagelist.size() - 1));
+        Random random = new Random();
+        int idx = random.nextInt(messagelist.size() - 1);
 
         FcmController.FCMMessaging(signinRequestDto.getUserfcmtoken(), "로그인 완료! ^0^", messagelist.get(idx));
         return ResponseEntity.status(200).body(SigninResponseDto.of("로그인 완료", user.getUserpid(), token,
