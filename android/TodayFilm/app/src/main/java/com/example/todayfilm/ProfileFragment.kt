@@ -132,8 +132,8 @@ class ProfileFragment : Fragment(), View.OnClickListener, SensorEventListener {
         binding.profileArticle.adapter = articleAdapter
 
         articleAdapter.setItemClickListener(object: ProfileArticleAdapter.ItemClickListener {
-            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String) {
-                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hashstring)
+            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hash: ArrayList<String>) {
+                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hash)
             }
         })
 
@@ -221,14 +221,9 @@ class ProfileFragment : Fragment(), View.OnClickListener, SensorEventListener {
 
                 if (parent == "complete") {
                     val todayarticle = datas[0]
-                    var hashstring = ""
-
-                    for (hashtag in todayarticle.hash) {
-                        hashstring += "#$hashtag "
-                    }
 
                     MyPreference.write(requireActivity(), "todayarticleidx", todayarticle.article.articleidx)
-                    (activity as MainActivity).changeFragment(3, todayarticle.article.articleidx, todayarticle.article.articlecreatedate, todayarticle.article.userpid, todayarticle.likey, hashstring)
+                    (activity as MainActivity).changeFragment(3, todayarticle.article.articleidx, todayarticle.article.articlecreatedate, todayarticle.article.userpid, todayarticle.likey, todayarticle.hash as ArrayList)
                 }
 
                 initArticleRecycler(datas)
@@ -350,13 +345,8 @@ class ProfileFragment : Fragment(), View.OnClickListener, SensorEventListener {
         if (accel > 30 && isShake && userpid == search_userpid && datas.isNotEmpty()) {
             val random = Random.nextInt(datas.size)
             val randomdata = datas[random]
-            var hashstring = ""
 
-            for (hashtag in randomdata.hash) {
-                hashstring += "#$hashtag "
-            }
-
-            (activity as MainActivity).changeFragment(3, randomdata.article.articleidx, randomdata.article.articlecreatedate, randomdata.article.userpid, randomdata.likey, hashstring)
+            (activity as MainActivity).changeFragment(3, randomdata.article.articleidx, randomdata.article.articlecreatedate, randomdata.article.userpid, randomdata.likey, randomdata.hash as ArrayList)
         }
     }
 

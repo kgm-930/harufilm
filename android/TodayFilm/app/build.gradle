@@ -109,4 +109,7 @@ dependencies {
 
     // 로딩 이미지를 위한 Android-SpinKit 라이브러리
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    // Flexbox Layout 라이브러리
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

@@ -40,12 +40,6 @@ class ProfileArticleAdapter(private val context: Context) : RecyclerView.Adapter
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: ArticleResponse) {
-            var hashstring = ""
-
-            for (hashtag in item.hash) {
-                hashstring += "#$hashtag "
-            }
-
             val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
             val temp = LocalDate.parse(item.article.articlecreatedate, formatter)
             val changed = temp.format(DateTimeFormatter.ofPattern("yyyy/MM/dd (E)"))
@@ -55,13 +49,13 @@ class ProfileArticleAdapter(private val context: Context) : RecyclerView.Adapter
             Glide.with(itemView).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${item.article.userpid}/${item.article.articlecreatedate}/${item.article.articlethumbnail}.jpg").into(articlethumbnail)
 
             itemView.setOnClickListener {
-                itemClickListener.onClick(it, item.article.articleidx, item.article.articlecreatedate, item.article.userpid, item.likey, hashstring)
+                itemClickListener.onClick(it, item.article.articleidx, item.article.articlecreatedate, item.article.userpid, item.likey, item.hash as ArrayList)
             }
         }
     }
 
     interface ItemClickListener {
-        fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String)
+        fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hash: ArrayList<String>)
     }
 
     private lateinit var itemClickListener: ItemClickListener

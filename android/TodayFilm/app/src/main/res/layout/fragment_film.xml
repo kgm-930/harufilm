@@ -111,14 +111,12 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/film_hashtags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:paddingHorizontal="40dp"
-            android:textColor="@color/blue_500"
-            android:textSize="15sp" />
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="10dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
