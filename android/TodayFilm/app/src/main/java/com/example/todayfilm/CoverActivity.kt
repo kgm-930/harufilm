@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.webkit.WebView
 import com.example.todayfilm.databinding.ActivityCoverBinding
 
 class CoverActivity : AppCompatActivity() {
@@ -16,11 +17,15 @@ class CoverActivity : AppCompatActivity() {
         val binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val webView : WebView = findViewById(R.id.webView)
+        webView.getSettings().setJavaScriptEnabled(true)
+        webView.loadUrl("file:///android_asset/html_cover.html")
+
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, IntroActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
-        }, 2000)
+        }, 3000)
     }
 }
