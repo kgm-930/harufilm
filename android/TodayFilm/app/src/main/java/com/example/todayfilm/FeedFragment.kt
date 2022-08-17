@@ -84,8 +84,8 @@ class FeedFragment : Fragment(),View.OnClickListener {
         binding.feedArticle.adapter = articleAdapter
 
         articleAdapter.setItemClickListener(object: ArticleAdapter.ItemClickListener {
-            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String) {
-                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hashstring)
+            override fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hash: ArrayList<String>) {
+                (activity as MainActivity).changeFragment(3, articleidx, articlecreatedate, article_userpid, likey, hash)
             }
 
             override fun onClick(view: View, userpid: String) {

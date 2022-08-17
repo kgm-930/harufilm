@@ -27,6 +27,10 @@ import com.bumptech.glide.Glide
 import com.example.todayfilm.data.*
 import com.example.todayfilm.databinding.FragmentFilmBinding
 import com.example.todayfilm.retrofit.NetWorkClient
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import kotlinx.android.synthetic.main.fragment_film.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,7 +45,7 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
     private var articlecreatedate: String? = null
     private var articleidx: String? = null
     private var likey: String? = null
-    private var hashstring: String? = null
+    private var hashtags: ArrayList<String>? = null
     private var userpid: String? = null
     private lateinit var sharedViewModel: SharedViewModel
     private val duration = Toast.LENGTH_SHORT
@@ -57,12 +61,34 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         articlecreatedate = arguments?.getString("articlecreatedate")
         article_userpid = arguments?.getString("article_userpid")
         likey = arguments?.getString("likey")
-        hashstring = arguments?.getString("hashstring")
+        hashtags = arguments?.getStringArrayList("hash")
         userpid = MyPreference.read(requireActivity(), "userpid")
+
+        initHashtagRecycler()
 
         binding.filmLikey.text = likey
 
         return binding.root
+    }
+
+    private fun initHashtagRecycler() {
+        val hashtagAdapter = HashtagAdapter(requireActivity())
+        binding.filmHashtags.adapter = hashtagAdapter
+
+        hashtagAdapter.setItemClickListener(object: HashtagAdapter.ItemClickListener {
+            override fun onClick(view: View, hashtag: String) {
+                (activity as MainActivity).changeFragment(1, hashtag)
+            }
+        })
+
+        hashtagAdapter.datas = hashtags as MutableList<String>
+
+        val flexLayoutManager = FlexboxLayoutManager(requireActivity())
+        flexLayoutManager.flexWrap = FlexWrap.WRAP
+        flexLayoutManager.flexDirection = FlexDirection.ROW
+        flexLayoutManager.justifyContent = JustifyContent.FLEX_START
+
+        binding.filmHashtags.layoutManager = flexLayoutManager
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +102,6 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         bundle.putString("articlecreatedate", articlecreatedate)
         bundle.putString("article_userpid", article_userpid)
         frameFragment.arguments = bundle
-        binding.filmHashtags.text = hashstring
 
         // 작성자 정보 조회
         val profile = GetProfile()

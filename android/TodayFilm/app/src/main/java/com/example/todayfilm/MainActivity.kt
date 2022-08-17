@@ -190,9 +190,12 @@ class MainActivity : AppCompatActivity() {
         transaction.commitAllowingStateLoss()
     }
 
-    fun changeFragment(index: Int, data: String?=null, data1: String?=null, data2: String?=null, data3: String?=null, data4: String?=null) {
+    fun changeFragment(index: Int, data: String?=null, data1: String?=null, data2: String?=null, data3: String?=null, data4: ArrayList<String>?=null) {
         when (index) {
             1 -> {
+                if (data != null) {
+                    MyPreference.write(this, "keyword", data)
+                }
                 moveFragment(SearchFragment())
             }
 
@@ -215,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                     bundle.putString("articlecreatedate", data1)
                     bundle.putString("article_userpid", data2)
                     bundle.putString("likey", data3)
-                    bundle.putString("hashstring", data4)
+                    bundle.putStringArrayList("hash", data4)
                     fragment.arguments = bundle
 
                     supportFragmentManager
@@ -264,11 +267,7 @@ class MainActivity : AppCompatActivity() {
                 val result: ArticleResponse? = response.body()
 
                 if (result != null) {
-                    var hashstring = ""
-                    for (hashtag in result.hash) {
-                        hashstring += "#$hashtag "
-                    }
-                    changeFragment(3, result.article.articleidx, result.article.articlecreatedate, result.article.userpid, result.likey, hashstring)
+                    changeFragment(3, result.article.articleidx, result.article.articlecreatedate, result.article.userpid, result.likey, result.hash as ArrayList)
                 } else {
                     Toast.makeText(this@MainActivity, "게시글 조회에 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }

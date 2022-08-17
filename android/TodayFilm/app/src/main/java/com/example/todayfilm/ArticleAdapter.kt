@@ -60,12 +60,6 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Articl
                 }
             })
 
-            var hashstring = ""
-
-            for (hashtag in item.hash) {
-                hashstring += "#$hashtag "
-            }
-
             Glide.with(itemView).load("http://i7c207.p.ssafy.io:8080/harufilm/upload/article/${item.article.userpid}/${item.article.articlecreatedate}/${item.article.articlethumbnail}.jpg").into(articlethumbnail)
 
             user.setOnClickListener {
@@ -73,13 +67,13 @@ class ArticleAdapter(private val context: Context) : RecyclerView.Adapter<Articl
             }
 
             articlethumbnail.setOnClickListener {
-                itemClickListener.onClick(it, item.article.articleidx, item.article.articlecreatedate, item.article.userpid, item.likey, hashstring)
+                itemClickListener.onClick(it, item.article.articleidx, item.article.articlecreatedate, item.article.userpid, item.likey, item.hash as ArrayList)
             }
         }
     }
 
     interface ItemClickListener {
-        fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hashstring: String)
+        fun onClick(view: View, articleidx: String, articlecreatedate: String, article_userpid: String, likey: String, hash: ArrayList<String>)
 
         fun onClick(view: View, userpid: String)
     }
