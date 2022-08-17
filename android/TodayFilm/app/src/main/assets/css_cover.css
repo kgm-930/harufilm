@@ -1,5 +1,4 @@
 body {
-  background: no-repeat url("night_cut3.png");
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -8,10 +7,14 @@ body {
   align-items: center;
 }
 
+.back{
+background: no-repeat url("loading.png");
+background-size:cover;
+background-position: center;
+}
+
 .night {
   position: relative;
-  width: 100%;
-  height: 100%;
   -webkit-transform: rotateZ(45deg);
           transform: rotateZ(45deg);
 }
