@@ -63,6 +63,7 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         likey = arguments?.getString("likey")
         hashtags = arguments?.getStringArrayList("hash")
         userpid = MyPreference.read(requireActivity(), "userpid")
+        Log.d("해시해시",hashstring.toString())
 
         initHashtagRecycler()
 
@@ -102,6 +103,8 @@ class FilmFragment : Fragment(), View.OnClickListener, PopupMenu.OnMenuItemClick
         bundle.putString("articlecreatedate", articlecreatedate)
         bundle.putString("article_userpid", article_userpid)
         frameFragment.arguments = bundle
+
+
 
         // 작성자 정보 조회
         val profile = GetProfile()
