@@ -37,7 +37,7 @@ class HashtagAdapter(private val context: Context) : RecyclerView.Adapter<Hashta
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: String) {
-            hashtag.text = "#$item "
+            hashtag.text = "#$item"
 
             itemView.setOnClickListener {
                 itemClickListener.onClick(it, item)

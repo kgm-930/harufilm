@@ -4,5 +4,6 @@
     android:id="@+id/recycler_hashtag"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="5dp"
     android:textColor="@color/blue_500"
     android:textSize="15sp" />
