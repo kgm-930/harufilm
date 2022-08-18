@@ -24,4 +24,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     List<Article> findByHashnameItContainsKeyword(String keyword);
 
     Article findByArticlecreatedateAndUserpid(String articlecreatedate, int userpid);
+
+    Article findTopByOrderByArticleidxDesc();
 }

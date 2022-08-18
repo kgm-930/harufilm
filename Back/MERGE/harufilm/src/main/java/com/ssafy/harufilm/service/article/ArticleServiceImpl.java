@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -237,14 +239,92 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<Article> list = articleRepository.articleList(userpid);
 
+        //구독한 사람이 없을 경우
+        if(list.size() ==0)
+        {
+            //1. 모든 게시글 가져오기
+            List<Article> articles = articleRepository.findAll();
+
+            //1-1. 비공개 요소 and 내 게시글 삭제
+            for (Iterator<Article> it = articles.iterator(); it.hasNext();) {
+                Article value = it.next();
+                 if (value.getArticleshare() == 2 || value.getUserpid() == userpid)
+                    it.remove();
+             }
+
+            class INFO implements Comparable{
+                public int articleidx;
+                public Long likeynum;
+
+                public Long getLikeynum() {
+                    return this.likeynum;
+                }
+                @Override
+                public int compareTo(Object o) {
+                    INFO e = (INFO) o;
+                    if(e.likeynum > this.likeynum) return 1;
+                   else if(e.likeynum == this.likeynum)
+                   {
+                    if(e.articleidx < this.articleidx) return 1;
+                    else return -1;
+                   }
+                   else return -1;
+                    // TODO Auto-generated method stub
+                  }
+            }
+
+            //2. List에 정리
+            List<INFO> articlelist = new ArrayList<INFO>();
+            for(int i=0;i<articles.size();++i)
+            {
+                INFO info = new INFO();
+                info.articleidx = articles.get(i).getArticleidx();
+                info.likeynum = likeyRepository.articleLikeyCount(info.articleidx);
+                articlelist.add(info);
+            }
+
+            //3. 정렬
+            Collections.sort(articlelist);
+
+            //4. 10개의 게시글만 보내기
+            List<Article> resultlist = new ArrayList<Article>();
+
+            if(articlelist.size() <= 10)
+            {
+                for(int i=articlelist.size()-1;i>=0;--i)
+                {
+                    Article article = articleRepository.findById(articlelist.get(i).articleidx).orElse(null);
+                    if(article != null)resultlist.add(article);
+                }
+
+            }
+            else {
+                for(int i=9;i>=0;--i)
+                {
+                    Article article = articleRepository.findById(articlelist.get(i).articleidx).orElse(null);
+                    if(article != null)resultlist.add(article);
+                }
+            }
+            for(int i=0;i<articlelist.size();++i)
+            {
+                System.out.println(articlelist.get(i).articleidx + " " + articlelist.get(i).likeynum);
+            }
+            
+            return resultlist;
+            
+        }
+        else {
+
         // 비공개 요소 삭제
         for (Iterator<Article> it = list.iterator(); it.hasNext();) {
             Article value = it.next();
             if (value.getArticleshare() == 2)
                 it.remove();
         }
-
         return list;
+        }
+
+
 
     }
 
