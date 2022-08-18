@@ -19,6 +19,8 @@ public interface ArticleService {
 
     List<Article> getFollowedArticleList(int userpid);
 
+   List<Article> recommendArticleList(int userpid);
+
     Article findByArticleidx(int articleidx);
 
     List<Article> getarticlelistbykeyword(KeywordDto keyword);

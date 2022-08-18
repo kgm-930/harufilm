@@ -24,6 +24,7 @@ import com.ssafy.harufilm.dto.article.ArticleLikeyStatusRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShareRequestDto;
 import com.ssafy.harufilm.dto.article.ArticleShowRequestDto;
+import com.ssafy.harufilm.dto.article.ArticleShowSubResponseDto;
 import com.ssafy.harufilm.entity.Article;
 import com.ssafy.harufilm.service.article.ArticleService;
 
@@ -121,8 +122,17 @@ public class ArticleController {
     public ResponseEntity<?> list(@RequestBody ArticleRequestDto articleRequestDto) {
         List<Article> articles;
         List<ArticleDetailResponseDto> list = new ArrayList<>();
+        Boolean check = false;
         try {
+
             articles = articleService.getFollowedArticleList(articleRequestDto.getUserpid());
+            if(articles.size() == 0)
+            {
+                articles = articleService.recommendArticleList(articleRequestDto.getUserpid());
+                check = true;
+            }
+            // System.out.println(articles.size());
+            
             for (int i = 0; i < articles.size(); i++) {
                 ArticleDetailResponseDto temp = new ArticleDetailResponseDto();
                 temp.setArticle(articles.get(i));
@@ -134,7 +144,7 @@ public class ArticleController {
             return ResponseEntity.status(500).body(ErrorResponseBody.of(500, false,
                     "Internal Server Error, 글 목록 불러오기 실패"));
         }
-        return ResponseEntity.status(200).body(list);
+        return ResponseEntity.status(200).body(ArticleShowSubResponseDto.of(list, check));
     }
 
     @PostMapping("/getarticle")
