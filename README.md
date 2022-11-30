@@ -109,7 +109,7 @@
 
 ## 7. 관련 문서
 
-- [요구사항 명세서](assets/%EC%82%AC%EC%9A%A9%EC%9E%90%20%ED%9D%90%EB%A6%84%EB%8F%84.pdf)
+- [요구사항 명세서](assets/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.pdf)
 - [사용자 흐름도](assets/%EC%82%AC%EC%9A%A9%EC%9E%90%20%ED%9D%90%EB%A6%84%EB%8F%84.pdf)
 - [시연 시나리오](exec/%EC%8B%9C%EC%97%B0%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf)
 - [Android 포팅 매뉴얼](exec/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C%20APK%20%EB%B9%8C%EB%93%9C%20%EA%B3%BC%EC%A0%95.pdf)
