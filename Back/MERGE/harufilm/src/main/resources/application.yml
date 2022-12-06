@@ -13,10 +13,6 @@ project:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i7c207.p.ssafy.io:3306/c207DB?serverTimezone=Asia/Seoul
-    username: c207
-    password: '!Q2w#E4r'
   servlet:
     multipart:
       max-file-size: 100MB
